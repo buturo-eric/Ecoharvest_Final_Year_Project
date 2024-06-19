@@ -3,6 +3,7 @@ package com.example.Ecoharvest_System.Admin.Model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "users")
@@ -13,6 +14,7 @@ public class UsersModel {
     private String name;
     private String email;
     private String password;
+    private LocalDate creationDate;
 
     // Using Enum for role
     @Enumerated(EnumType.STRING)  // This annotation ensures the enum name is stored as a string in the database
@@ -31,6 +33,12 @@ public class UsersModel {
         this.email = email;
         this.password = password;
         this.role = role;
+    }
+
+
+    @PrePersist
+    public void prePersist() {
+        this.creationDate = LocalDate.now(); // Set creation date before persisting
     }
 
     public int getId() {
@@ -71,5 +79,13 @@ public class UsersModel {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public LocalDate getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(LocalDate creationDate) {
+        this.creationDate = creationDate;
     }
 }

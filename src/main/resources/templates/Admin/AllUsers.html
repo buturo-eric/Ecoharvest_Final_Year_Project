@@ -403,7 +403,7 @@
                                         <span class="block-email" th:text="${user.email}">Email</span>
                                     </td>
                                     <td class="desc" th:text="${user.role}">Role</td>
-                                    <td>Dynamic Date Here</td>
+                                    <td th:text="${#temporals.format(user.creationDate, 'dd-MM-yyyy')}">Dynamic Date Here</td>
                                     <td>
                                         <span class="status--process">Status</span>
                                     </td>
