@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
@@ -74,5 +75,25 @@ public class UsersController {
         return "Admin/AllUsers"; // The name of the Thymeleaf template
     }
 
+    // Delete User
+    @GetMapping("/deleteUser/{id}")
+    public String deleteUser(@PathVariable("id") Integer id) {
+        usersService.deleteUsersModel(id);
+        return "redirect:/allUsers"; // Assuming you have a mapping to show all users
+    }
+
+    // Redirect to Edit Form
+    @GetMapping("/editUser/{id}")
+    public String editUserForm(@PathVariable("id") Integer id, Model model) {
+        UsersModel user = usersService.listById(id);
+        model.addAttribute("user", user);
+        return "Admin/editUser"; // Name of the HTML file for editing users
+    }
+
+    @PostMapping("/updateUser")
+    public String updateUser(@ModelAttribute("user") UsersModel user) {
+        usersService.updateUsersModel(user, user.getId());
+        return "redirect:/allUsers"; // Redirect to the listing page
+    }
 
 }

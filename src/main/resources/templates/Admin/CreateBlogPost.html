@@ -14,8 +14,6 @@
     <link href="css/nucleo-icons.css" rel="stylesheet" />
     <link href="css/nucleo-svg.css" rel="stylesheet" />
     <link href="css/theme.css" rel="stylesheet" />
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <!-- Font Awesome Icons -->
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
     <link href="css/nucleo-svg.css" rel="stylesheet" />
@@ -79,7 +77,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link  active" th:href="@{/allUsers}">
+                <a class="nav-link  " th:href="@{/allUsers}">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                         <svg width="12px" height="12px" viewBox="0 0 43 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <title>credit-card</title>
@@ -330,108 +328,84 @@
 
         <!-- This is the body -->
 
-        <!-- DATA TABLE-->
-        <section class="p-t-20">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h3 class="title-5 m-b-35">data table</h3>
-                        <div class="table-data__tool">
-                            <div class="table-data__tool-left">
-<!--                                <div class="rs-select2&#45;&#45;light rs-select2&#45;&#45;md">-->
-<!--                                    <select class="js-select2" name="property">-->
-<!--                                        <option selected="selected">All Properties</option>-->
-<!--                                        <option value="">Option 1</option>-->
-<!--                                        <option value="">Option 2</option>-->
-<!--                                    </select>-->
-<!--                                    <div class="dropDownSelect2"></div>-->
-<!--                                </div>-->
-                                <div class="rs-select2--light rs-select2--sm">
-                                    <select class="js-select2" name="time">
-                                        <option selected="selected">Today</option>
-                                        <option value="">3 Days</option>
-                                        <option value="">1 Week</option>
-                                    </select>
-                                    <div class="dropDownSelect2"></div>
+        <div class="container-fluid py-4">
+            <div class="card">
+                <div class="card-header pb-0">
+                    <h6>Create New Blog Post</h6>
+                </div>
+                <div class="card-body pt-0">
+                    <form th:action="@{/createBlog}" method="POST">
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="title" name="Title" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="content" class="form-label">Content</label>
+                            <textarea class="form-control" id="content" rows="3" name="Content" required></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Tags</label>
+                            <div class="row">
+                                <!-- Sustainable Farming Guidelines Column -->
+                                <div class="col-md-6">
+                                    <h5>Sustainable Farming Guidelines</h5>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="Eco-friendly Practices" id="ecoFriendly" name="Tags">
+                                        <label class="form-check-label" for="ecoFriendly">
+                                            Eco-friendly Practices
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="Renewable Energy" id="renewableEnergy" name="Tags">
+                                        <label class="form-check-label" for="renewableEnergy">
+                                            Renewable Energy
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="Water Conservation" id="waterConservation" name="Tags">
+                                        <label class="form-check-label" for="waterConservation">
+                                            Water Conservation
+                                        </label>
+                                    </div>
                                 </div>
-                                <button class="au-btn-filter">
-                                    <i class="zmdi zmdi-filter-list"></i>filters</button>
-                            </div>
-                            <div class="table-data__tool-right">
-                                <button class="au-btn au-btn-icon au-btn--green au-btn--small" onclick="location.href='/addUser'">
-                                    <i class="zmdi zmdi-plus"></i>add user
-                                </button>
-                                <div class="rs-select2--dark rs-select2--sm rs-select2--dark2">
-                                    <select class="js-select2" name="type" id="roleFilter">
-                                        <option value="">All Roles</option>
-                                        <option value="ADMIN">Admin</option>
-                                        <option value="USER">User</option>
-                                    </select>
-                                    <div class="dropDownSelect2"></div>
+
+                                <!-- Waste Management System Column -->
+                                <div class="col-md-6">
+                                    <h5>Waste Management System</h5>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="Recycling Initiatives" id="recyclingInitiatives" name="Tags">
+                                        <label class="form-check-label" for="recyclingInitiatives">
+                                            Recycling Initiatives
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="Waste Reduction Techniques" id="wasteReduction" name="Tags">
+                                        <label class="form-check-label" for="wasteReduction">
+                                            Waste Reduction Techniques
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="Composting" id="composting" name="Tags">
+                                        <label class="form-check-label" for="composting">
+                                            Composting
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="table-responsive table-responsive-data2">
-                            <table class="table table-data2">
-                                <thead>
-                                <tr>
-                                    <th>
-                                        <label class="au-checkbox">
-                                            <input type="checkbox">
-                                            <span class="au-checkmark"></span>
-                                        </label>
-                                    </th>
-                                    <th>name</th>
-                                    <th>email</th>
-                                    <th>Role</th>
-                                    <th>date</th>
-                                    <th>action</th>
-                                    <th></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr th:each="user : ${users}" class="tr-shadow" th:data-role="${user.role}">
-                                    <td>
-                                        <label class="au-checkbox">
-                                            <input type="checkbox">
-                                            <span class="au-checkmark"></span>
-                                        </label>
-                                    </td>
-                                    <td th:text="${user.name}">Name</td>
-                                    <td>
-                                        <span class="block-email" th:text="${user.email}">Email</span>
-                                    </td>
-                                    <td class="desc" th:text="${user.role}">Role</td>
-                                    <td th:text="${#temporals.format(user.creationDate, 'dd-MM-yyyy')}">Dynamic Date Here</td>
-                                    <td>
-                                        <div class="table-data-feature">
-<!--                                            <button class="item" data-toggle="tooltip" data-placement="top" title="Send">-->
-<!--                                                <ion-icon name="send-outline"></ion-icon>-->
-<!--                                            </button>-->
-                                            <button class="item" data-toggle="tooltip" data-placement="top" title="Edit"
-                                                    th:onclick="'window.location.href=\'/editUser/' + ${user.id} + '\''">
-                                                <ion-icon name="create-outline"></ion-icon>
-                                            </button>
-                                            <button class="item" data-toggle="tooltip" data-placement="top" title="Delete"
-                                                    th:onclick="'if(confirm(\'Are you sure you want to delete this user?\')){window.location.href=\'/deleteUser/' + ${user.id} + '\';}'">
-                                                <ion-icon name="trash-outline"></ion-icon>
-                                            </button>
-                                            <button class="item" data-toggle="tooltip" data-placement="top" title="More">
-                                                <ion-icon name="ellipsis-horizontal-outline"></ion-icon>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr class="spacer"></tr>
-                                </tbody>
-                            </table>
+
+                        <div class="form-group">
+                            <label for="featuredImage">Featured Image URL:</label>
+                            <input type="text" class="form-control" id="featuredImage" name="featuredImage" oninput="updateImagePreview()" required>
+                            <img id="imagePreview" src="" alt="Image Preview" style="max-width: 200px; max-height: 200px;"/>
                         </div>
-                    </div>
+
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
                 </div>
             </div>
-        </section>
-        <!-- END DATA TABLE-->
-
+        </div>
 
         <footer class="footer pt-3  ">
             <div class="container-fluid">
@@ -617,7 +591,7 @@
             tension: 0.4,
             borderWidth: 0,
             pointRadius: 0,
-            borderColor: "#cb0c9f",
+            borderColor: "#3E8914",
             borderWidth: 3,
             backgroundColor: gradientStroke1,
             fill: true,
@@ -697,6 +671,13 @@
     });
 </script>
 <script>
+    function updateImagePreview() {
+        var imageUrl = document.getElementById('featuredImage').value;
+        var imagePreview = document.getElementById('imagePreview');
+        imagePreview.src = imageUrl;
+    }
+</script>
+<script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {
       var options = {
@@ -705,25 +686,9 @@
       Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
     }
 </script>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        var roleFilter = document.getElementById('roleFilter');
 
-        roleFilter.addEventListener('change', function() {
-            var selectedRole = this.value;
-            var rows = document.querySelectorAll('tr[data-role]');
-
-            rows.forEach(row => {
-                if (selectedRole === "" || row.getAttribute('data-role') === selectedRole) {
-                    row.style.display = ''; // show row
-                } else {
-                    row.style.display = 'none'; // hide row
-                }
-            });
-        });
-    });
-</script>
-
+<!-- Github buttons -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
 <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
 <script src="js/soft-ui-dashboard.min.js?v=1.0.7"></script>
 </body>
