@@ -353,7 +353,8 @@
                                 <span th:each="tag : ${post.tags}" th:text="${tag} + ', '">Sustainable Farming</span>
                             </td>
                             <td th:text="${post.content}">Post Content</td>
-                            <td th:text="${#dates.format(post.createdAt, 'dd-MM-yyyy')}">Date</td>
+<!--                            <td th:text="${#dates.format(post.createdAt, 'dd-MM-yyyy')}">Date</td>-->
+                            <td th:text="${#temporals.format(post.createdAt, 'dd-MM-yyyy')}"></td>
                             <td>
                                 <button class="btn p-0 mx-3" title="Edit" th:onclick="|window.location.href='/editBlog/' + ${post.id}|">
                                     <i class="fas fa-user-edit text-secondary"></i>

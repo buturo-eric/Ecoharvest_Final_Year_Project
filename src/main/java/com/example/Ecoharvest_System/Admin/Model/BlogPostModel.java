@@ -1,6 +1,8 @@
 package com.example.Ecoharvest_System.Admin.Model;
 
 import jakarta.persistence.*;
+
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -19,8 +21,7 @@ public class BlogPostModel {
     private String content;
 
     @Column(name = "created_at", updatable = false, nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdAt = new Date();  // Initialize with current date
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     @Column(name = "featured_image", length = 255)
     private String featuredImage;
@@ -56,11 +57,11 @@ public class BlogPostModel {
         this.content = content;
     }
 
-    public Date getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 

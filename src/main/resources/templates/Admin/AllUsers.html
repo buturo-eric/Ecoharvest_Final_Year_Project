@@ -338,19 +338,12 @@
                         <h3 class="title-5 m-b-35">data table</h3>
                         <div class="table-data__tool">
                             <div class="table-data__tool-left">
-<!--                                <div class="rs-select2&#45;&#45;light rs-select2&#45;&#45;md">-->
-<!--                                    <select class="js-select2" name="property">-->
-<!--                                        <option selected="selected">All Properties</option>-->
-<!--                                        <option value="">Option 1</option>-->
-<!--                                        <option value="">Option 2</option>-->
-<!--                                    </select>-->
-<!--                                    <div class="dropDownSelect2"></div>-->
-<!--                                </div>-->
                                 <div class="rs-select2--light rs-select2--sm">
-                                    <select class="js-select2" name="time">
-                                        <option selected="selected">Today</option>
-                                        <option value="">3 Days</option>
-                                        <option value="">1 Week</option>
+                                    <select class="js-select2" name="time" onchange="submitFilterForm()">
+                                        <option value="today" selected="selected">Today</option>
+                                        <option value="3days">3 Days</option>
+                                        <option value="1week">1 Week</option>
+                                        <option value="1month">1 Month</option>
                                     </select>
                                     <div class="dropDownSelect2"></div>
                                 </div>
@@ -722,6 +715,19 @@
             });
         });
     });
+</script>
+<script>
+    function submitFilterForm() {
+    const selectedTime = document.querySelector('[name="time"]').value;
+    fetch(`/allUsers?time=${selectedTime}`)
+        .then(response => response.text())
+        .then(html => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            document.querySelector('.table-responsive-data2').innerHTML =
+                doc.querySelector('.table-responsive-data2').innerHTML;
+        });
+}
 </script>
 
 <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->

@@ -5,6 +5,7 @@ import com.example.Ecoharvest_System.Admin.Repository.UsersRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -61,5 +62,33 @@ public class UsersService {
     public UsersModel userLogin(UsersModel usersModel){
         return usersRepo.findUsersModelByEmailAndPassword(usersModel.getEmail(), usersModel.getPassword());
     }
+
+    public long countTodayUsers() {
+        LocalDate today = LocalDate.now();
+        return usersRepo.countByCreationDate(today);
+    }
+
+    public long countPreviousDayUsers() {
+        LocalDate previousDay = LocalDate.now().minusDays(1);
+        return usersRepo.countByCreationDate(previousDay);
+    }
+
+    public double calculateUserPercentageChange(long currentCount, long previousCount) {
+        if (previousCount == 0) {
+            return currentCount > 0 ? 100.0 : 0.0; // New entries or no change
+        }
+        return ((double) (currentCount - previousCount) / previousCount) * 100;
+    }
+
+    public List<UsersModel> getUsersToday() {
+        LocalDate today = LocalDate.now();
+        return usersRepo.findByCreationDate(today);
+    }
+
+    public List<UsersModel> getUsersFromLastDays(int days) {
+        LocalDate startDate = LocalDate.now().minusDays(days);
+        return usersRepo.findByCreationDateBetween(startDate, LocalDate.now());
+    }
+
 }
 

@@ -1,15 +1,13 @@
 package com.example.Ecoharvest_System.Admin.Controllers;
 
 import com.example.Ecoharvest_System.Admin.Model.UsersModel;
+import com.example.Ecoharvest_System.Admin.Service.BlogPostService;
 import com.example.Ecoharvest_System.Admin.Service.UsersService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 
@@ -19,10 +17,32 @@ public class UsersController {
     @Autowired
     private UsersService usersService;
 
+    @Autowired
+    private BlogPostService blogPostService;
+
     @GetMapping("/adminDashboard")
-    public String adminDashboard() {
+    public String adminDashboard(Model model) {
+        // Get today's counts
+        long todayPostsCount = blogPostService.countTodayPosts();
+        long todayUsersCount = usersService.countTodayUsers();
+
+        // Get previous day's counts
+        long previousDayPostsCount = blogPostService.countPreviousDayPosts();
+        long previousDayUsersCount = usersService.countPreviousDayUsers();
+
+        // Calculate percentage changes
+        double postsPercentageChange = blogPostService.calculatePostPercentageChange(todayPostsCount, previousDayPostsCount);
+        double usersPercentageChange = usersService.calculateUserPercentageChange(todayUsersCount, previousDayUsersCount);
+
+        // Add counts and percentage changes to the model
+        model.addAttribute("todayPostsCount", todayPostsCount);
+        model.addAttribute("todayUsersCount", todayUsersCount);
+        model.addAttribute("postsPercentageChange", String.format("%.2f%%", postsPercentageChange)); // Correct format for displaying percentage
+        model.addAttribute("usersPercentageChange", String.format("%.2f%%", usersPercentageChange)); // Correct format for displaying percentage
+
         return "Admin/dashboard";
     }
+
 
     @GetMapping("/addUser")
     public String showAddUserForm(Model model) {
@@ -33,7 +53,7 @@ public class UsersController {
     @PostMapping("/addUser")
     public String addUser(UsersModel usersModel) {
         usersService.addUsersModel(usersModel);
-        return "redirect:/"; // Redirect to the home page or any other page after submission
+        return "redirect:/allUsers"; // Redirect to the home page or any other page after submission
     }
 
     @PostMapping("/loginUser")
@@ -69,11 +89,32 @@ public class UsersController {
     }
 
     @GetMapping("/allUsers")
-    public String allUsers(Model model) {
-        List<UsersModel> users = usersService.getAll(); // Assuming you have a method to get all users
+    public String allUsers(@RequestParam(value = "time", required = false) String time, Model model) {
+        List<UsersModel> users;
+        if (time == null) {
+            time = "today";  // Default to today if no input is provided
+        }
+
+        switch (time) {
+            case "3days":
+                users = usersService.getUsersFromLastDays(3);
+                break;
+            case "1week":
+                users = usersService.getUsersFromLastDays(7);
+                break;
+            case "1month":
+                users = usersService.getUsersFromLastDays(28);
+                break;
+            case "today":
+            default:
+                users = usersService.getUsersToday();
+                break;
+        }
         model.addAttribute("users", users);
         return "Admin/AllUsers"; // The name of the Thymeleaf template
     }
+
+
 
     // Delete User
     @GetMapping("/deleteUser/{id}")
