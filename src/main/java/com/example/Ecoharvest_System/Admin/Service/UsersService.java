@@ -89,6 +89,9 @@ public class UsersService {
         LocalDate startDate = LocalDate.now().minusDays(days);
         return usersRepo.findByCreationDateBetween(startDate, LocalDate.now());
     }
+    public long countAllUsers() {
+        return usersRepo.count();
+    }
 
 }
 

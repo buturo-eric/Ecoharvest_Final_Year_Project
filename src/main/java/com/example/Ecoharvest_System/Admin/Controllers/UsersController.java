@@ -1,5 +1,6 @@
 package com.example.Ecoharvest_System.Admin.Controllers;
 
+import com.example.Ecoharvest_System.Admin.Model.BlogPostModel;
 import com.example.Ecoharvest_System.Admin.Model.UsersModel;
 import com.example.Ecoharvest_System.Admin.Service.BlogPostService;
 import com.example.Ecoharvest_System.Admin.Service.UsersService;
@@ -9,7 +10,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.HashMap;
 import java.util.List;
+import java.time.format.DateTimeFormatter;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 public class UsersController {
@@ -34,14 +40,37 @@ public class UsersController {
         double postsPercentageChange = blogPostService.calculatePostPercentageChange(todayPostsCount, previousDayPostsCount);
         double usersPercentageChange = usersService.calculateUserPercentageChange(todayUsersCount, previousDayUsersCount);
 
-        // Add counts and percentage changes to the model
+        // Fetch all blog posts and format the createdAt dates
+        List<BlogPostModel> blogPosts = blogPostService.findAll();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        List<Map<String, Object>> blogPostData = blogPosts.stream().map(post -> {
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", post.getId());
+            map.put("title", post.getTitle());
+            map.put("featuredImage", post.getFeaturedImage());
+            map.put("tags", post.getTags());
+            map.put("createdAt", post.getCreatedAt().format(formatter));
+            return map;
+        }).collect(Collectors.toList());
+
+        // Get total counts
+        long totalPostsCount = blogPostService.countAllPosts();
+        long totalUsersCount = usersService.countAllUsers();
+
+        // Add counts, percentage changes, total counts, and blog posts to the model
         model.addAttribute("todayPostsCount", todayPostsCount);
         model.addAttribute("todayUsersCount", todayUsersCount);
-        model.addAttribute("postsPercentageChange", String.format("%.2f%%", postsPercentageChange)); // Correct format for displaying percentage
-        model.addAttribute("usersPercentageChange", String.format("%.2f%%", usersPercentageChange)); // Correct format for displaying percentage
+        model.addAttribute("postsPercentageChange", String.format("%.2f%%", postsPercentageChange));
+        model.addAttribute("usersPercentageChange", String.format("%.2f%%", usersPercentageChange));
+        model.addAttribute("blogPosts", blogPostData);
+        model.addAttribute("totalPostsCount", totalPostsCount);
+        model.addAttribute("totalUsersCount", totalUsersCount);
 
         return "Admin/dashboard";
     }
+
+
 
 
     @GetMapping("/addUser")
@@ -85,7 +114,7 @@ public class UsersController {
     public String logout(HttpSession session, RedirectAttributes redirectAttributes){
         session.invalidate();
         redirectAttributes.addFlashAttribute("logged_out", "Logged out successfully");
-        return "redirect:/home";
+        return "redirect:/login";
     }
 
     @GetMapping("/allUsers")

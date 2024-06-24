@@ -23,11 +23,6 @@ public class BlogPostController {
         return "Admin/blogDashboard"; // This should match the path and name of your Thymeleaf template
     }
 
-    @GetMapping
-    public String getAllBlogPosts(Model model) {
-        model.addAttribute("blogPosts", blogPostService.findAll());
-        return "Admin/blogDashboard";  // Path to the Thymeleaf template listing blog posts
-    }
 
     @GetMapping("/createBlog")
     public String showCreateForm(Model model) {

@@ -53,5 +53,9 @@ public class BlogPostService {
         return ((double) (currentCount - previousCount) / previousCount) * 100;
     }
 
+    public long countAllPosts() {
+        return blogPostRepository.count();
+    }
+
 }
 
