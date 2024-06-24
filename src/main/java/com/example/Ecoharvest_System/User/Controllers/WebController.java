@@ -1,28 +1,20 @@
 package com.example.Ecoharvest_System.User.Controllers;
 
-import com.example.Ecoharvest_System.Admin.Model.BlogPostModel;
 import com.example.Ecoharvest_System.Admin.Model.UsersModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.ui.Model;
 
-import java.util.List;
-
 @Controller
 public class WebController {
     @GetMapping("/")
     public String home() {
-        return "index";
+        return "User/index";
     }
 
     @GetMapping("/userDashboard")
     public String userDashboard() {
         return "User/dashboard";
-    }
-
-    @GetMapping("/userBlogs")
-    public String userBlogs() {
-        return "User/UserBlogs"; // This should match the path and name of your Thymeleaf template
     }
 
     @GetMapping("/login")
@@ -31,7 +23,6 @@ public class WebController {
         return "User/login";
     }
 
-    //Signup page
     @GetMapping("/signup")
     public String signup(Model model){
         model.addAttribute("UsersModel", new UsersModel());
