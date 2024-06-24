@@ -31,6 +31,7 @@ public class WebController {
         return "User/login";
     }
 
+    //SIgnup
     @GetMapping("/signup")
     public String signup(Model model){
         model.addAttribute("UsersModel", new UsersModel());
