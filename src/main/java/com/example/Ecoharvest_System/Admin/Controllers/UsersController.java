@@ -105,6 +105,9 @@ public class UsersController {
             case "1month":
                 users = usersService.getUsersFromLastDays(28);
                 break;
+            case "3month":
+                users = usersService.getUsersFromLastDays(90);
+                break;
             case "today":
             default:
                 users = usersService.getUsersToday();
