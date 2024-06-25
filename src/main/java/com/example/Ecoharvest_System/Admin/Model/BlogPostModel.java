@@ -3,8 +3,6 @@ package com.example.Ecoharvest_System.Admin.Model;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.Date;
-
 @Entity
 @Table(name = "blog_posts")
 
