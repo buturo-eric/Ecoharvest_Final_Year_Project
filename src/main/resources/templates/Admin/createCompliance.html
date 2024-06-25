@@ -14,6 +14,8 @@
     <link href="css/nucleo-icons.css" rel="stylesheet" />
     <link href="css/nucleo-svg.css" rel="stylesheet" />
     <link href="css/theme.css" rel="stylesheet" />
+    <link href="/css/soft-ui-dashboard.css?v=1.0.7" rel="stylesheet" />
+    <script src="/js/core/bootstrap.min.js"></script>
     <!-- Font Awesome Icons -->
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
     <link href="css/nucleo-svg.css" rel="stylesheet" />
@@ -118,7 +120,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" th:href="@{/createCompliance}">
+                <a class="nav-link active" th:href="@{/createCompliance}">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                         <svg width="12px" height="12px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <title>box-3d-50</title>
@@ -345,85 +347,47 @@
         </div>
     </nav>
     <!-- End Navbar -->
+    <!-- This is the body -->
     <div class="container-fluid py-4">
+        <!-- Add this block inside the <div class="container-fluid py-4"> of your main content -->
 
-        <!-- This is the body -->
-
-        <div class="container-fluid py-4">
-            <div class="card">
-                <div class="card-header pb-0">
-                    <h6>Create New Blog Post</h6>
-                </div>
-                <div class="card-body pt-0">
-                    <form th:action="@{/createBlog}" method="POST">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header pb-0">
+                        <h6>Create Compliance</h6>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/compliance/save}" th:object="${compliance}" method="post" enctype="multipart/form-data">
                         <div class="mb-3">
-                            <label for="title" class="form-label">Title</label>
-                            <input type="text" class="form-control" id="title" name="Title" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="content" class="form-label">Content</label>
-                            <textarea class="form-control" id="content" rows="3" name="Content" required></textarea>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Tags</label>
-                            <div class="row">
-                                <!-- Sustainable Farming Guidelines Column -->
-                                <div class="col-md-6">
-                                    <h5>Sustainable Farming Guidelines</h5>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="Eco-friendly Practices" id="ecoFriendly" name="Tags">
-                                        <label class="form-check-label" for="ecoFriendly">
-                                            Eco-friendly Practices
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="Renewable Energy" id="renewableEnergy" name="Tags">
-                                        <label class="form-check-label" for="renewableEnergy">
-                                            Renewable Energy
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="Water Conservation" id="waterConservation" name="Tags">
-                                        <label class="form-check-label" for="waterConservation">
-                                            Water Conservation
-                                        </label>
-                                    </div>
-                                </div>
-
-                                <!-- Waste Management System Column -->
-                                <div class="col-md-6">
-                                    <h5>Waste Management System</h5>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="Recycling Initiatives" id="recyclingInitiatives" name="Tags">
-                                        <label class="form-check-label" for="recyclingInitiatives">
-                                            Recycling Initiatives
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="Waste Reduction Techniques" id="wasteReduction" name="Tags">
-                                        <label class="form-check-label" for="wasteReduction">
-                                            Waste Reduction Techniques
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="Composting" id="composting" name="Tags">
-                                        <label class="form-check-label" for="composting">
-                                            Composting
-                                        </label>
-                                    </div>
-                                </div>
+                                <label for="complianceName" class="form-label">Compliance Name</label>
+                                <input type="text" class="form-control" id="complianceName" th:field="*{complianceName}" required>
                             </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="featuredImage">Featured Image URL:</label>
-                            <input type="text" class="form-control" id="featuredImage" name="featuredImage" oninput="updateImagePreview()" required>
-                            <img id="imagePreview" src="" alt="Image Preview" style="max-width: 200px; max-height: 200px;"/>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </form>
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Description</label>
+                                <textarea class="form-control" id="description" th:field="*{description}" required></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="startDate" class="form-label">Start Date</label>
+                                <input type="date" class="form-control" id="startDate" th:field="*{startDate}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="endDate" class="form-label">End Date</label>
+                                <input type="date" class="form-control" id="endDate" th:field="*{endDate}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="complianceDocument" class="form-label">Compliance Document</label>
+                                <input type="file" class="form-control" id="complianceDocument" name="documentFile">
+                            </div>
+                            <div class="mb-3">
+                                <label for="featuredImage" class="form-label">Image URL</label>
+                                <input type="text" class="form-control" id="featuredImage" th:field="*{featuredImage}">
+                                <!-- Image preview element -->
+                                <img id="imagePreview" src="" alt="Image Preview" style="max-width: 300px; margin-top: 10px;">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Save Compliance</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -521,6 +485,24 @@
 <script src="js/plugins/perfect-scrollbar.min.js"></script>
 <script src="js/plugins/smooth-scrollbar.min.js"></script>
 <script src="js/plugins/chartjs.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var featuredImageInput = document.getElementById('featuredImage');
+        var imagePreview = document.getElementById('imagePreview');
+
+        featuredImageInput.addEventListener('input', function() {
+            var imageUrl = featuredImageInput.value;
+            imagePreview.src = imageUrl;
+            if (imageUrl) {
+                imagePreview.style.display = 'block'; // Show the image element
+            } else {
+                imagePreview.style.display = 'none'; // Hide if no image URL
+            }
+        });
+    });
+</script>
+
+<!-- JavaScript to update image preview -->
 <script>
     var ctx = document.getElementById("chart-bars").getContext("2d");
 
@@ -692,13 +674,6 @@
     });
 </script>
 <script>
-    function updateImagePreview() {
-        var imageUrl = document.getElementById('featuredImage').value;
-        var imagePreview = document.getElementById('imagePreview');
-        imagePreview.src = imageUrl;
-    }
-</script>
-<script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {
       var options = {
@@ -707,9 +682,6 @@
       Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
     }
 </script>
-
-<!-- Github buttons -->
-<script async defer src="https://buttons.github.io/buttons.js"></script>
 <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
 <script src="js/soft-ui-dashboard.min.js?v=1.0.7"></script>
 </body>

@@ -2,6 +2,7 @@ package com.example.Ecoharvest_System.User.Model;
 
 import jakarta.persistence.*;
 import java.util.Date;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "compliance")
@@ -21,16 +22,17 @@ public class ComplianceModel {
     @Column(nullable = false)
     private String description;
 
-    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date startDate;
 
-    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
 
     @Column
-    private String complianceDocument; // URL or path to the document
+    private String complianceDocument;
 
     // Getters and setters
+
 
     public Long getId() {
         return id;
