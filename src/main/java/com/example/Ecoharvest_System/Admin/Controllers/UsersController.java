@@ -26,8 +26,56 @@ public class UsersController {
     @Autowired
     private BlogPostService blogPostService;
 
+//    @GetMapping("/adminDashboard")
+//    public String adminDashboard(Model model) {
+//        // Get today's counts
+//        long todayPostsCount = blogPostService.countTodayPosts();
+//        long todayUsersCount = usersService.countTodayUsers();
+//
+//        // Get previous day's counts
+//        long previousDayPostsCount = blogPostService.countPreviousDayPosts();
+//        long previousDayUsersCount = usersService.countPreviousDayUsers();
+//
+//        // Calculate percentage changes
+//        double postsPercentageChange = blogPostService.calculatePostPercentageChange(todayPostsCount, previousDayPostsCount);
+//        double usersPercentageChange = usersService.calculateUserPercentageChange(todayUsersCount, previousDayUsersCount);
+//
+//        // Fetch all blog posts and format the createdAt dates
+//        List<BlogPostModel> blogPosts = blogPostService.findAll();
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+//
+//        List<Map<String, Object>> blogPostData = blogPosts.stream().map(post -> {
+//            Map<String, Object> map = new HashMap<>();
+//            map.put("id", post.getId());
+//            map.put("title", post.getTitle());
+//            map.put("featuredImage", post.getFeaturedImage());
+//            map.put("tags", post.getTags());
+//            map.put("createdAt", post.getCreatedAt().format(formatter));
+//            return map;
+//        }).collect(Collectors.toList());
+//
+//        // Get total counts
+//        long totalPostsCount = blogPostService.countAllPosts();
+//        long totalUsersCount = usersService.countAllUsers();
+//
+//        // Add counts, percentage changes, total counts, and blog posts to the model
+//        model.addAttribute("todayPostsCount", todayPostsCount);
+//        model.addAttribute("todayUsersCount", todayUsersCount);
+//        model.addAttribute("postsPercentageChange", String.format("%.2f%%", postsPercentageChange));
+//        model.addAttribute("usersPercentageChange", String.format("%.2f%%", usersPercentageChange));
+//        model.addAttribute("blogPosts", blogPostData);
+//        model.addAttribute("totalPostsCount", totalPostsCount);
+//        model.addAttribute("totalUsersCount", totalUsersCount);
+//
+//        return "Admin/dashboard";
+//    }
+
     @GetMapping("/adminDashboard")
-    public String adminDashboard(Model model) {
+    public String adminDashboard(Model model, HttpSession session) {
+        UsersModel loggedInUser = (UsersModel) session.getAttribute("loggedInUser");
+        if (loggedInUser == null || loggedInUser.getRole() != UsersModel.Role.ADMIN) {
+            return "redirect:/login";
+        }
         // Get today's counts
         long todayPostsCount = blogPostService.countTodayPosts();
         long todayUsersCount = usersService.countTodayUsers();
@@ -70,9 +118,6 @@ public class UsersController {
         return "Admin/dashboard";
     }
 
-
-
-
     @GetMapping("/addUser")
     public String showAddUserForm(Model model) {
         model.addAttribute("user", new UsersModel());
@@ -93,26 +138,30 @@ public class UsersController {
             switch (loginUser.getRole()) {
                 case ADMIN:
                     model.addAttribute("success", "Admin Logged in");
-                    session.setAttribute("userModel", loginUser); // storing the whole user object might be more useful
+                    session.setAttribute("loggedInUser", loginUser); // Corrected attribute name
+                    System.out.println("Admin logged in");
                     return "redirect:/adminDashboard";
                 case USER:
                     model.addAttribute("success", "User Logged in");
-                    session.setAttribute("userModel", loginUser); // storing the whole user object
+                    session.setAttribute("loggedInUser", loginUser); // Corrected attribute name
+                    System.out.println("User logged in");
                     return "redirect:/userDashboard";
                 case Compliance:
                     model.addAttribute("success", "Compliance Logged in");
-                    session.setAttribute("userModel", loginUser); // storing the whole user object
+                    session.setAttribute("loggedInUser", loginUser); // Corrected attribute name
+                    System.out.println("Compliance logged in");
                     return "redirect:/ComplianceDashboard";
                 default:
                     model.addAttribute("error", "Role doesn't Exist");
+                    System.out.println("Role doesn't exist");
                     return "redirect:/login";
             }
         } else {
             model.addAttribute("error", "Invalid email or password");
+            System.out.println("Invalid email or password");
             return "redirect:/login";
         }
     }
-
 
     @GetMapping("/logout")
     public String logout(HttpSession session, RedirectAttributes redirectAttributes){
@@ -150,8 +199,6 @@ public class UsersController {
         return "Admin/AllUsers"; // The name of the Thymeleaf template
     }
 
-
-
     // Delete User
     @GetMapping("/deleteUser/{id}")
     public String deleteUser(@PathVariable("id") Integer id) {
@@ -172,5 +219,4 @@ public class UsersController {
         usersService.updateUsersModel(user, user.getId());
         return "redirect:/allUsers"; // Redirect to the listing page
     }
-
 }

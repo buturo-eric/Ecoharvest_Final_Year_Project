@@ -60,7 +60,13 @@ public class UsersService {
     }
 
     public UsersModel userLogin(UsersModel usersModel){
-        return usersRepo.findUsersModelByEmailAndPassword(usersModel.getEmail(), usersModel.getPassword());
+        UsersModel user = usersRepo.findUsersModelByEmailAndPassword(usersModel.getEmail(), usersModel.getPassword());
+        if(user != null) {
+            System.out.println("User found: " + user.getEmail());
+        } else {
+            System.out.println("User not found with email: " + usersModel.getEmail());
+        }
+        return user;
     }
 
     public long countTodayUsers() {

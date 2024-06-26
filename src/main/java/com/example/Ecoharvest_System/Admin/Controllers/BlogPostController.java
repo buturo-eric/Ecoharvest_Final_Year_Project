@@ -23,7 +23,6 @@ public class BlogPostController {
         return "Admin/blogDashboard"; // This should match the path and name of your Thymeleaf template
     }
 
-
     @GetMapping("/createBlog")
     public String showCreateForm(Model model) {
         model.addAttribute("blogPost", new BlogPostModel());

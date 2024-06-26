@@ -17,6 +17,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.Ecoharvest_System.Admin.Model.UsersModel;
+import jakarta.servlet.http.HttpSession;
+
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -28,8 +32,20 @@ public class ComplianceController {
     @Autowired
     private ComplianceService complianceService;
 
+//    @GetMapping("/ComplianceDashboard")
+//    public String ComplianceDashboard(Model model) {
+//        List<ComplianceModel> compliances = complianceService.findAllCompliances();
+//        model.addAttribute("compliances", compliances);
+//        return "User/ComplianceDashboard";
+//    }
+
+    // Compliance Dashboard
     @GetMapping("/ComplianceDashboard")
-    public String ComplianceDashboard(Model model) {
+    public String complianceDashboard(Model model, HttpSession session) {
+        UsersModel loggedInUser = (UsersModel) session.getAttribute("loggedInUser");
+        if (loggedInUser == null || loggedInUser.getRole() != UsersModel.Role.Compliance) {
+            return "redirect:/login";
+        }
         List<ComplianceModel> compliances = complianceService.findAllCompliances();
         model.addAttribute("compliances", compliances);
         return "User/ComplianceDashboard";

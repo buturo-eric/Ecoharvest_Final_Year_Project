@@ -14,5 +14,4 @@ public class UserBlogsService {
     public List<BlogPostModel> findAllPosts() {
         return blogPostRepository.findAll();
     }
-
 }
