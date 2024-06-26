@@ -26,12 +26,59 @@ public class UsersController {
     @Autowired
     private BlogPostService blogPostService;
 
+//    @GetMapping("/adminDashboard")
+//    public String adminDashboard(Model model) {
+//        // Get today's counts
+//        long todayPostsCount = blogPostService.countTodayPosts();
+//        long todayUsersCount = usersService.countTodayUsers();
+//
+//        // Get previous day's counts
+//        long previousDayPostsCount = blogPostService.countPreviousDayPosts();
+//        long previousDayUsersCount = usersService.countPreviousDayUsers();
+//
+//        // Calculate percentage changes
+//        double postsPercentageChange = blogPostService.calculatePostPercentageChange(todayPostsCount, previousDayPostsCount);
+//        double usersPercentageChange = usersService.calculateUserPercentageChange(todayUsersCount, previousDayUsersCount);
+//
+//        // Fetch all blog posts and format the createdAt dates
+//        List<BlogPostModel> blogPosts = blogPostService.findAll();
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+//
+//        List<Map<String, Object>> blogPostData = blogPosts.stream().map(post -> {
+//            Map<String, Object> map = new HashMap<>();
+//            map.put("id", post.getId());
+//            map.put("title", post.getTitle());
+//            map.put("featuredImage", post.getFeaturedImage());
+//            map.put("tags", post.getTags());
+//            map.put("createdAt", post.getCreatedAt().format(formatter));
+//            return map;
+//        }).collect(Collectors.toList());
+//
+//        // Get total counts
+//        long totalPostsCount = blogPostService.countAllPosts();
+//        long totalUsersCount = usersService.countAllUsers();
+//
+//        // Add counts, percentage changes, total counts, and blog posts to the model
+//        model.addAttribute("todayPostsCount", todayPostsCount);
+//        model.addAttribute("todayUsersCount", todayUsersCount);
+//        model.addAttribute("postsPercentageChange", String.format("%.2f%%", postsPercentageChange));
+//        model.addAttribute("usersPercentageChange", String.format("%.2f%%", usersPercentageChange));
+//        model.addAttribute("blogPosts", blogPostData);
+//        model.addAttribute("totalPostsCount", totalPostsCount);
+//        model.addAttribute("totalUsersCount", totalUsersCount);
+//
+//        return "Admin/dashboard";
+//    }
+
     @GetMapping("/adminDashboard")
     public String adminDashboard(Model model, HttpSession session) {
         UsersModel loggedInUser = (UsersModel) session.getAttribute("loggedInUser");
         if (loggedInUser == null || loggedInUser.getRole() != UsersModel.Role.ADMIN) {
             return "redirect:/login";
         }
+
+        model.addAttribute("userName", loggedInUser.getName());
+
         // Get today's counts
         long todayPostsCount = blogPostService.countTodayPosts();
         long todayUsersCount = usersService.countTodayUsers();

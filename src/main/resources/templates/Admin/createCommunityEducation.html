@@ -359,6 +359,8 @@
             <div class="mb-3">
               <label for="imageUrl" class="form-label">Image URL</label>
               <input type="text" class="form-control" id="imageUrl" th:field="*{imageUrl}" required>
+              <!-- Image preview element -->
+              <img id="imagePreview" src="" alt="Image Preview" style="max-width: 300px; margin-top: 10px;">
             </div>
             <div class="mb-3">
               <label for="name" class="form-label">Name</label>
@@ -475,6 +477,24 @@
 <script src="js/plugins/perfect-scrollbar.min.js"></script>
 <script src="js/plugins/smooth-scrollbar.min.js"></script>
 <script src="js/plugins/chartjs.min.js"></script>
+
+<!-- JavaScript to update image preview -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      var featuredImageInput = document.getElementById('featuredImage');
+      var imagePreview = document.getElementById('imagePreview');
+
+      featuredImageInput.addEventListener('input', function() {
+          var imageUrl = featuredImageInput.value;
+          imagePreview.src = imageUrl;
+          if (imageUrl) {
+              imagePreview.style.display = 'block'; // Show the image element
+          } else {
+              imagePreview.style.display = 'none'; // Hide if no image URL
+          }
+      });
+  });
+</script>
 <script>
     var ctx = document.getElementById("chart-bars").getContext("2d");
 
@@ -644,13 +664,6 @@
         },
       },
     });
-</script>
-<script>
-    function updateImagePreview() {
-        var imageUrl = document.getElementById('featuredImage').value;
-        var imagePreview = document.getElementById('imagePreview');
-        imagePreview.src = imageUrl;
-    }
 </script>
 <script>
     var win = navigator.platform.indexOf('Win') > -1;

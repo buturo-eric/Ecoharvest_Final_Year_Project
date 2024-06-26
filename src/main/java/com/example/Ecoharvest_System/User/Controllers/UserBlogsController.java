@@ -51,6 +51,9 @@ public class UserBlogsController {
         if (loggedInUser == null || loggedInUser.getRole() != UsersModel.Role.USER) {
             return "redirect:/login";
         }
+
+        model.addAttribute("userName", loggedInUser.getName());
+
         // Fetch all blog posts and format the createdAt dates
         List<BlogPostModel> blogPosts = blogPostService.findAll();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
