@@ -3,6 +3,7 @@ package com.example.Ecoharvest_System.User.Controllers;
 import com.example.Ecoharvest_System.User.Model.ComplianceModel;
 import com.example.Ecoharvest_System.User.Service.ComplianceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,9 +47,9 @@ public class ComplianceController {
 
         if (!file.isEmpty()) {
             try {
-                // This service method should save the file and return the URL or file path
-                String docUrl = complianceService.saveDocument(file);
-                compliance.setComplianceDocument(docUrl);  // Set the file URL/path
+                // Convert the file to byte array and set it to the model
+                byte[] docBytes = complianceService.convertDocument(file);
+                compliance.setComplianceDocument(docBytes);
             } catch (IOException e) {
                 redirectAttributes.addFlashAttribute("message", "File upload failed: " + e.getMessage());
                 return "redirect:/createCompliance";
@@ -58,12 +59,15 @@ public class ComplianceController {
         try {
             complianceService.createCompliance(compliance);
             redirectAttributes.addFlashAttribute("message", "Compliance successfully created!");
+        } catch (DataIntegrityViolationException e) {
+            redirectAttributes.addFlashAttribute("message", "Error saving compliance: Document size too large.");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("message", "Error saving compliance: " + e.getMessage());
         }
 
         return "redirect:/createCompliance";  // Redirect to prevent duplicate submissions
     }
+
 
     // Edit compliance form
     @GetMapping("/editCompliance/{id}")
@@ -92,7 +96,4 @@ public class ComplianceController {
         }
         return "redirect:/compliances";
     }
-
-
 }
-

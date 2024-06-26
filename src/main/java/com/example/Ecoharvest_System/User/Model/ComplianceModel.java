@@ -3,7 +3,6 @@ package com.example.Ecoharvest_System.User.Model;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 
-
 @Entity
 @Table(name = "compliance")
 public class ComplianceModel {
@@ -26,11 +25,11 @@ public class ComplianceModel {
 
     private LocalDate endDate;
 
-    @Column
-    private String complianceDocument;
+    @Lob  // Large Object for storing large data
+    @Column(columnDefinition = "LONGBLOB")
+    private byte[] complianceDocument;
 
     // Getters and setters
-
 
     public Long getId() {
         return id;
@@ -80,11 +79,11 @@ public class ComplianceModel {
         this.endDate = endDate;
     }
 
-    public String getComplianceDocument() {
+    public byte[] getComplianceDocument() {
         return complianceDocument;
     }
 
-    public void setComplianceDocument(String complianceDocument) {
+    public void setComplianceDocument(byte[] complianceDocument) {
         this.complianceDocument = complianceDocument;
     }
 }

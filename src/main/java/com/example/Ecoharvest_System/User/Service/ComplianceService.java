@@ -7,12 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.List;
 
 @Service
 public class ComplianceService {
@@ -20,33 +16,14 @@ public class ComplianceService {
     @Autowired
     private ComplianceRepository complianceRepository;
 
-    // Path where the files will be stored
-    private static final String DOCUMENTS_FOLDER = "path/to/your/documents/folder/";
-
     @Transactional
     public ComplianceModel createCompliance(ComplianceModel compliance) {
         return complianceRepository.save(compliance);
     }
 
-    // Method to save the document and return the path or URL
-    public String saveDocument(MultipartFile file) throws IOException {
-        if (!file.isEmpty()) {
-            // Ensure the directory exists
-            File directory = new File(DOCUMENTS_FOLDER);
-            if (!directory.exists()) {
-                directory.mkdirs();
-            }
-
-            // Construct the file path
-            String originalFilename = file.getOriginalFilename();
-            Path filePath = Paths.get(DOCUMENTS_FOLDER, originalFilename);
-            // Save the file
-            Files.copy(file.getInputStream(), filePath);
-
-            // Return the path or URL to the file
-            return filePath.toString();
-        }
-        return null; // Return null or throw an exception if no file was provided
+    // Method to convert and save the document as a byte array
+    public byte[] convertDocument(MultipartFile file) throws IOException {
+        return file.getBytes();
     }
 
     @Transactional(readOnly = true)
