@@ -48,7 +48,7 @@ public class TaskController {
             try {
                 // Convert the file to byte array and set it to the model
                 byte[] docBytes = taskService.convertDocument(file);
-                task.setTaskDocument(new String(docBytes)); // Assuming taskDocument is a String field for simplicity
+                task.setTaskDocument(docBytes); // Assuming taskDocument is a byte[] field
             } catch (IOException e) {
                 redirectAttributes.addFlashAttribute("message", "File upload failed: " + e.getMessage());
                 return "redirect:/createTask/" + task.getCompliance().getId();
@@ -62,7 +62,7 @@ public class TaskController {
             redirectAttributes.addFlashAttribute("message", "Error saving task: " + e.getMessage());
         }
 
-        return "redirect:/createTask";  // Redirect to prevent duplicate submissions
+        return "redirect:/tasksList";  // Redirect to prevent duplicate submissions
     }
 
     @GetMapping("/editTask/{id}")
@@ -74,17 +74,21 @@ public class TaskController {
     @PostMapping("/updateTask")
     public String updateTask(
             @ModelAttribute("task") TaskModel task,
-            @RequestParam("taskDocumentFile") MultipartFile file, // This should match the file input name in the form
+            @RequestParam("taskDocumentFile") MultipartFile file,
             RedirectAttributes redirectAttributes) {
 
         if (!file.isEmpty()) {
             try {
-                // Convert the file to byte array and set it to the model
                 byte[] docBytes = taskService.convertDocument(file);
-                task.setTaskDocument(new String(docBytes)); // Assuming taskDocument is a String field for simplicity
+                task.setTaskDocument(docBytes);
             } catch (IOException e) {
                 redirectAttributes.addFlashAttribute("message", "File upload failed: " + e.getMessage());
                 return "redirect:/editTask/" + task.getId();
+            }
+        } else {
+            TaskModel existingTask = taskService.getTaskById(task.getId());
+            if (existingTask != null) {
+                task.setTaskDocument(existingTask.getTaskDocument());
             }
         }
 
@@ -95,7 +99,7 @@ public class TaskController {
             redirectAttributes.addFlashAttribute("message", "Error updating task: " + e.getMessage());
         }
 
-        return "redirect:/tasksList";  // Redirect to prevent duplicate submissions
+        return "redirect:/tasksList";
     }
 
     @GetMapping("/deleteTask/{id}")

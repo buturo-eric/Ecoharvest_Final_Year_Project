@@ -25,8 +25,9 @@ public class TaskModel {
     @Column(name = "task_by") // Changed from 'by' to 'task_by'
     private String task_by; // This could be the ID or name of the person responsible for the task
 
-    @Column
-    private String taskDocument; // URL or path to the document
+    @Lob  // Large Object for storing large data
+    @Column(columnDefinition = "LONGBLOB")
+    private byte[] taskDocument;
 
     @Column
     private String occurrence;
@@ -77,11 +78,11 @@ public class TaskModel {
         this.task_by = task_by;
     }
 
-    public String getTaskDocument() {
+    public byte[] getTaskDocument() {
         return taskDocument;
     }
 
-    public void setTaskDocument(String taskDocument) {
+    public void setTaskDocument(byte[] taskDocument) {
         this.taskDocument = taskDocument;
     }
 

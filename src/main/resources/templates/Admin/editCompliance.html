@@ -351,29 +351,29 @@
     <div class="container-fluid py-4">
         <div class="container">
             <h2>Edit Compliance</h2>
-            <form th:action="@{/compliance/update}" th:object="${compliance}" method="post" enctype="multipart/form-data">
-                <input type="hidden" th:field="*{id}"/>
+            <form th:action="@{/compliance/update}" method="post" enctype="multipart/form-data">
+                <input type="hidden" th:value="${compliance.id}" name="id"/>
                 <div class="mb-3">
                     <label for="complianceName" class="form-label">Compliance Name</label>
-                    <input type="text" class="form-control" id="complianceName" th:field="*{complianceName}" required>
+                    <input type="text" class="form-control" id="complianceName" name="complianceName" th:value="${compliance.complianceName}" required>
                 </div>
                 <div class="mb-3">
                     <label for="description" class="form-label">Description</label>
-                    <textarea class="form-control" id="description" th:field="*{description}" required></textarea>
+                    <textarea class="form-control" id="description" name="description" required th:text="${compliance.description}"></textarea>
                 </div>
                 <div class="mb-3">
                     <label for="startDate" class="form-label">Start Date</label>
-                    <input type="date" class="form-control" id="startDate" th:field="*{startDate}" required>
+                    <input type="date" class="form-control" id="startDate" name="startDate" th:value="${compliance.startDate}" required>
                 </div>
                 <div class="mb-3">
                     <label for="endDate" class="form-label">End Date</label>
-                    <input type="date" class="form-control" id="endDate" th:field="*{endDate}" required>
+                    <input type="date" class="form-control" id="endDate" name="endDate" th:value="${compliance.endDate}" required>
                 </div>
                 <div class="mb-3">
                     <label for="featuredImage" class="form-label">Image URL</label>
-                    <input type="text" class="form-control" id="featuredImage" th:field="*{featuredImage}">
+                    <input type="text" class="form-control" id="featuredImage" name="featuredImage" th:value="${compliance.featuredImage}">
                     <!-- Image preview element -->
-                    <img id="imagePreview" src="" alt="Image Preview" style="max-width: 300px; margin-top: 10px;">
+                    <img id="imagePreview" th:src="@{${compliance.featuredImage}}" alt="Image Preview" style="max-width: 300px; margin-top: 10px;">
                 </div>
                 <div class="mb-3">
                     <label for="complianceDocument" class="form-label">Compliance Document</label>
@@ -382,6 +382,7 @@
                 <button type="submit" class="btn btn-success">Update Compliance</button>
             </form>
         </div>
+
 
         <footer class="footer pt-3  ">
             <div class="container-fluid">

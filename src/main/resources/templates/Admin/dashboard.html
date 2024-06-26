@@ -73,6 +73,9 @@
     background-color: #f8f9fa;
     border-top: 1px solid #ddd;
 }
+.col-6 {
+    margin-bottom: 35px
+}
 
 </style>
 <body class="g-sidenav-show  bg-gray-100">
@@ -460,7 +463,7 @@
 
       <!-- Displaying blog posts in card design -->
       <div class="row">
-        <div class="col" th:each="blogPost : ${blogPosts}">
+        <div class="col-6" th:each="blogPost : ${blogPosts}">
           <div class="card">
             <img th:src="${blogPost.featuredImage}" alt="Blog Post Image">
             <div class="card-body">

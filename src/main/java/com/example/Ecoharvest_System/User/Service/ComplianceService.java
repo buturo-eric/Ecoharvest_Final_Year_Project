@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ComplianceService {
@@ -43,5 +44,23 @@ public class ComplianceService {
 
     public ComplianceModel getComplianceById(Long id) {
         return complianceRepository.findById(id).orElseThrow(() -> new RuntimeException("Compliance not found"));
+    }
+    @Transactional
+    public ComplianceModel updateCompliance(ComplianceModel compliance) {
+        Optional<ComplianceModel> existingComplianceOpt = complianceRepository.findById(compliance.getId());
+        if (existingComplianceOpt.isPresent()) {
+            ComplianceModel existingCompliance = existingComplianceOpt.get();
+            existingCompliance.setComplianceName(compliance.getComplianceName());
+            existingCompliance.setDescription(compliance.getDescription());
+            existingCompliance.setStartDate(compliance.getStartDate());
+            existingCompliance.setEndDate(compliance.getEndDate());
+            existingCompliance.setFeaturedImage(compliance.getFeaturedImage());
+            if (compliance.getComplianceDocument() != null) {
+                existingCompliance.setComplianceDocument(compliance.getComplianceDocument());
+            }
+            return complianceRepository.save(existingCompliance);
+        } else {
+            throw new RuntimeException("Compliance not found with id: " + compliance.getId());
+        }
     }
 }

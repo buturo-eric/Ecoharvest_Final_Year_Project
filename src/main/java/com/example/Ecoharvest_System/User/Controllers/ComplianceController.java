@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 import java.util.List;
 
 import java.io.IOException;
@@ -89,11 +91,41 @@ public class ComplianceController {
 
     // Save edited compliance
     @PostMapping("/compliance/update")
-    public String updateCompliance(@ModelAttribute("compliance") ComplianceModel compliance, RedirectAttributes redirectAttributes) {
-        complianceService.createCompliance(compliance);  // Reusing the creation logic for updates
-        redirectAttributes.addFlashAttribute("message", "Compliance updated successfully!");
-        return "redirect:/complianceList";
+    public String updateCompliance(@RequestParam("id") Long id,
+                                   @RequestParam("complianceName") String complianceName,
+                                   @RequestParam("description") String description,
+                                   @RequestParam("startDate") String startDate,
+                                   @RequestParam("endDate") String endDate,
+                                   @RequestParam("featuredImage") String featuredImage,
+                                   @RequestParam("complianceDocument") MultipartFile file,
+                                   RedirectAttributes redirectAttributes) {
+        try {
+            ComplianceModel compliance = complianceService.findById(id);
+            if (compliance == null) {
+                redirectAttributes.addFlashAttribute("message", "Compliance not found.");
+                return "redirect:/compliances";
+            }
+
+            compliance.setComplianceName(complianceName);
+            compliance.setDescription(description);
+            compliance.setStartDate(LocalDate.parse(startDate));
+            compliance.setEndDate(LocalDate.parse(endDate));
+            compliance.setFeaturedImage(featuredImage);
+
+            // Handle file conversion and update the compliance document if a file is provided
+            if (!file.isEmpty()) {
+                byte[] docBytes = complianceService.convertDocument(file);
+                compliance.setComplianceDocument(docBytes);
+            }
+
+            complianceService.updateCompliance(compliance);
+            redirectAttributes.addFlashAttribute("message", "Compliance updated successfully!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("message", "Error updating compliance: " + e.getMessage());
+        }
+        return "redirect:/compliances";
     }
+
 
     // Delete compliance
     @GetMapping("/deleteCompliance/{id}")
