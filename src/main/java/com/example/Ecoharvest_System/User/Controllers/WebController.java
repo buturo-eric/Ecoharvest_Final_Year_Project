@@ -42,10 +42,6 @@ public class WebController {
         return "User/signup";
     }
 
-    @GetMapping("/communityEducation")
-    public String communityEducation() {
-        return "User/CommunityEducation";
-    }
 
     @PostMapping("/createUser")
     public String createUser(UsersModel usersModel) {

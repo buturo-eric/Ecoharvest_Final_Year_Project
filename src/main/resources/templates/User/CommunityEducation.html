@@ -8,7 +8,7 @@
     <title>
         ECOHARVEST
     </title>
-    <!--     Fonts and icons     -->
+    <!-- Fonts and icons -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
     <!-- Nucleo Icons -->
     <link href="css/nucleo-icons.css" rel="stylesheet" />
@@ -18,160 +18,78 @@
     <link href="css/nucleo-svg.css" rel="stylesheet" />
     <!-- CSS Files -->
     <link id="pagestyle" href="css/soft-ui-dashboard.css?v=1.0.7" rel="stylesheet" />
+    <!-- FullCalendar CSS -->
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css' rel='stylesheet' />
     <style>
         :root {
-          --bs-primary: #3E8914; /* Primary color */
-          --bs-info: #3E8914; /* Adjusting info to match theme */
-          --bs-success: #3E8914; /* Ensuring success is also in theme */
-          --bs-gradient-primary: linear-gradient(195deg, #3E8914, #295612); /* Gradient adjustments */
+            --bs-primary: #3E8914;
+            --bs-info: #3E8914;
+            --bs-success: #3E8914;
+            --bs-gradient-primary: linear-gradient(195deg, #3E8914, #295612);
         }
 
         .bg-gradient-primary {
-          background: var(--bs-gradient-primary);
+            background: var(--bs-gradient-primary);
         }
 
         .text-primary {
-          color: #3E8914 !important; /* Overriding primary text color */
+            color: #3E8914 !important;
         }
 
         .btn-primary {
-          background-color: #3E8914;
-          border-color: #295612; /* Darker shade for border if needed */
+            background-color: #3E8914;
+            border-color: #295612;
         }
 
         .navbar {
-          background-color: #2f7309 !important;
+            background-color: #2f7309 !important;
         }
 
         .navbar-vertical .navbar-nav>.nav-item .nav-link.active {
-        color: #000000;
-        background-color: #b4d612;
-    }
-    .navbar-vertical .navbar-nav .nav-link {
-        padding-left: 1rem;
-        padding-right: 1rem;
-        font-weight: 500;
-        color: #ffffff;
-    }
+            color: #000000;
+            background-color: #b4d612;
+        }
+
+        .navbar-vertical .navbar-nav .nav-link {
+            padding-left: 1rem;
+            padding-right: 1rem;
+            font-weight: 500;
+            color: #ffffff;
+        }
+
         .card {
-          border-left: 5px solid #3E8914; /* Just an example to show border-color usage */
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+
+        .move-left {
+            margin-left: 20px;
         }
     </style>
-    <!-- Nepcha Analytics (nepcha.com) -->
-    <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
+    <!-- Nepcha Analytics -->
     <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
-    <style>
-        body, html {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-}
-
-.header h1 {
-    background: #ccc;
-    color: white;
-    padding: 20px;
-    text-align: center;
-}
-
-.monthly-campaign .campaign-banner {
-    position: relative;
-    text-align: center;
-    color: white;
-}
-
-.monthly-campaign .campaign-banner img {
-    width: 100%;
-    height: auto;
-}
-
-.text-overlay {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100%;
-}
-
-.live-now, .upcoming-webinars {
-    padding: 20px;
-}
-
-.webinar {
-    display: flex;
-    margin-bottom: 20px;
-}
-
-.webinar1 {
-    display: flex;
-    margin-bottom: 20px;
-}
-
-
-.webinar img {
-    width: 150px;
-    height: 100px;
-    margin-right: 20px;
-}
-
-.webinar-list {
-    display: flex;
-    overflow-x: scroll;  /* Allows horizontal scrolling if webinars exceed screen width */
-    padding-bottom: 20px; /* Gives some space at the bottom */
-}
-
-.webinar-info {
-    flex-grow: 1;
-    display: flex;
-}
-
-        .webinar1 {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
-        .webinar1 img {
-            max-width: 100%;
-            height: auto;
-        }
-        .webinar-info {
-            margin-top: 10px;
-        }
-
-.see-all button {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 20px 0;
-    cursor: pointer;
-}
-
-    </style>
 </head>
 
-<body class="g-sidenav-show  bg-gray-100">
-<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 " id="sidenav-main">
+<body class="g-sidenav-show bg-gray-100">
+<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3" id="sidenav-main">
     <div class="sidenav-header">
         <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
-        <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/soft-ui-dashboard/pages/dashboard.html " target="_blank">
+        <a class="navbar-brand m-0" href="https://demos.creative-tim.com/soft-ui-dashboard/pages/dashboard.html" target="_blank">
             <img src="img/logo-ct-dark.png" class="navbar-brand-img h-100" alt="main_logo">
             <span class="ms-1 font-weight-bold">ECOHARVEST</span>
         </a>
     </div>
     <hr class="horizontal dark mt-0">
-    <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
+    <div class="collapse navbar-collapse w-auto" id="sidenav-collapse-main">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link " th:href="@{/userDashboard}">
+                <a class="nav-link" th:href="@{/userDashboard}">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                            <title>shop </title>
+                        <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/1999/xlink">
+                            <title>shop</title>
                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                 <g transform="translate(-1716.000000, -439.000000)" fill="#FFFFFF" fill-rule="nonzero">
                                     <g transform="translate(1716.000000, 291.000000)">
@@ -190,7 +108,7 @@
             <li class="nav-item">
                 <a class="nav-link" th:href="@{/userBlogs}">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <svg width="12px" height="12px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <svg width="12px" height="12px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/1999/xlink">
                             <title>office</title>
                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                 <g transform="translate(-1869.000000, -293.000000)" fill="#FFFFFF" fill-rule="nonzero">
@@ -210,7 +128,7 @@
             <li class="nav-item">
                 <a class="nav-link active" th:href="@{/communityEducation}">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <svg width="12px" height="12px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <svg width="12px" height="12px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/1999/xlink">
                             <title>office</title>
                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                 <g transform="translate(-1869.000000, -293.000000)" fill="#FFFFFF" fill-rule="nonzero">
@@ -233,7 +151,7 @@
             <li class="nav-item">
                 <a class="nav-link  " href="../pages/profile.html">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <svg width="12px" height="12px" viewBox="0 0 46 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <svg width="12px" height="12px" viewBox="0 0 46 42" version="1.1" xmlns="http://www.w3.org/1999/xlink">
                             <title>customer-support</title>
                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                 <g transform="translate(-1717.000000, -291.000000)" fill="#FFFFFF" fill-rule="nonzero">
@@ -254,7 +172,7 @@
             <li class="nav-item">
                 <a class="nav-link  " href="../pages/sign-in.html">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <svg width="12px" height="12px" viewBox="0 0 40 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <svg width="12px" height="12px" viewBox="0 0 40 44" version="1.1" xmlns="http://www.w3.org/1999/xlink">
                             <title>document</title>
                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                 <g transform="translate(-1870.000000, -591.000000)" fill="#FFFFFF" fill-rule="nonzero">
@@ -274,7 +192,7 @@
             <li class="nav-item">
                 <a class="nav-link  " href="../pages/sign-up.html">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <svg width="12px" height="20px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <svg width="12px" height="20px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/1999/xlink">
                             <title>spaceship</title>
                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                 <g transform="translate(-1720.000000, -592.000000)" fill="#FFFFFF" fill-rule="nonzero">
@@ -303,9 +221,9 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
                     <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li>
-                    <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Dashboard</li>
+                    <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Community Education</li>
                 </ol>
-                <h6 class="font-weight-bolder mb-0">User Dashboard</h6>
+                <h6 class="font-weight-bolder mb-0">Community Education</h6>
             </nav>
             <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
                 <div class="ms-md-auto pe-md-3 d-flex align-items-center">
@@ -380,7 +298,7 @@
                                 <a class="dropdown-item border-radius-md" href="javascript:;">
                                     <div class="d-flex py-1">
                                         <div class="avatar avatar-sm bg-gradient-secondary  me-3  my-auto">
-                                            <svg width="12px" height="12px" viewBox="0 0 43 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                            <svg width="12px" height="12px" viewBox="0 0 43 36" version="1.1" xmlns="http://www.w3.org/1999/xlink">
                                                 <title>credit-card</title>
                                                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                                     <g transform="translate(-2169.000000, -745.000000)" fill="#FFFFFF" fill-rule="nonzero">
@@ -417,95 +335,101 @@
     <!-- This is the body -->
     <div class="container-fluid py-4">
         <!-- Community Dashboard Content Starts Here -->
-        <div class="monthly-campaign">
-            <div class="campaign-banner">
-                <img src="img/campaign.jpg" alt="Monthly Campaign">
-            </div>
-        </div>
-        <div class="live-now">
-            <h2>Live now</h2> <span>.</span>
-            <div class="webinar1">
-                <img src="img/live_webinar.jpg" alt="Live Webinar">
-                <div class="webinar-info">
-                    <h3>Green Harvest: Cultivating Carbon-Neutral Farming</h3>
-                    <p>Join us for a groundbreaking webinar revealing cutting-edge strategies to slash carbon emissions in agriculture.</p>
-                    <p><strong>17.2k viewers</strong></p>
-                </div>
-            </div>
-        </div>
-        <div class="upcoming-webinars">
-            <h2>Upcoming webinars</h2>
-            <div class="webinar-list">
-                <div class="webinar">
-                    <img src="img/webinar1.jpg" alt="Webinar 1">
-                    <div class="webinar-info">
-                        <p>April 25th, 2024</p>
-                        <p>Taoran Kitty</p>
+        <div class="row">
+            <div class="col-12">
+
+                <!-- Today's Meetings -->
+                <div class="card mb-4">
+                    <div class="card-header pb-0">
+                        <h4>Today's Meetings</h4>
+                    </div>
+                    <div class="card-body px-0 pt-0 pb-2">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-6 col-sm-12" th:each="entry : ${todayEntries}">
+                                <div class="card move-left">
+                                    <img th:src="@{${entry.imageUrl}}" class="card-img-top" alt="...">
+                                    <div class="card-body">
+                                        <h4 class="card-title">Today's Meeting</h4>
+                                        <h5 class="card-title" th:text="${entry.name}">Name</h5>
+                                        <p class="card-text" th:text="${entry.description}">Description</p>
+                                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                                        <p class="card-text" th:text="${entry.date}">date</p>
+                                        <a th:href="@{${entry.link}}" class="btn btn-primary">Go to meeting</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="webinar">
-                    <img src="img/webinar2.jpg" alt="Webinar 2">
-                    <div class="webinar-info">
-                        <p>April 15th, 2024</p>
-                        <p>Taoran Kitty</p>
+
+                <!-- Upcoming Meetings -->
+                <div class="card mb-4">
+                    <div class="card-header pb-0">
+                        <h4>Upcoming Meetings</h4>
+                    </div>
+                    <div class="card-body px-0 pt-0 pb-2">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-6 col-sm-12" th:each="entry : ${otherEntries}">
+                                <div class="card move-left">
+                                    <img th:src="@{${entry.imageUrl}}" class="card-img-top" alt="...">
+                                    <div class="card-body">
+                                        <h5 class="card-title" th:text="${entry.name}">Name</h5>
+                                        <p class="card-text" th:text="${entry.description}">Description</p>
+                                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                                        <p class="card-text" th:text="${entry.date}">date</p>
+                                        <a th:href="@{${entry.link}}" class="btn btn-primary">Go to meeting</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="webinar">
-                    <img src="img/webinar3.jpg" alt="Webinar 3">
-                    <div class="webinar-info">
-                        <p>April 28th, 2024</p>
-                        <p>Taoran Kitty</p>
-                    </div>
-                </div>
-            </div>
-            <div class="see-all">
-                <button>See All</button>
             </div>
         </div>
         <!-- Community Dashboard Content Ends Here -->
     </div>
 
 
-        <footer class="footer pt-3  ">
-            <div class="container-fluid">
-                <div class="row align-items-center justify-content-lg-between">
-                    <div class="col-lg-6 mb-lg-0 mb-4">
-                        <div class="copyright text-center text-sm text-muted text-lg-start">
-                            © <script>
+    <footer class="footer pt-3">
+        <div class="container-fluid">
+            <div class="row align-items-center justify-content-lg-between">
+                <div class="col-lg-6 mb-lg-0 mb-4">
+                    <div class="copyright text-center text-sm text-muted text-lg-start">
+                        © <script>
                             document.write(new Date().getFullYear())
                         </script>,
-                            made with <i class="fa fa-heart"></i> by
-                            <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">Creative Tim</a>
-                            for a better web.
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <ul class="nav nav-footer justify-content-center justify-content-lg-end">
-                            <li class="nav-item">
-                                <a href="https://www.creative-tim.com" class="nav-link text-muted" target="_blank">Creative Tim</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="https://www.creative-tim.com/presentation" class="nav-link text-muted" target="_blank">About Us</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="https://www.creative-tim.com/blog" class="nav-link text-muted" target="_blank">Blog</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="https://www.creative-tim.com/license" class="nav-link pe-0 text-muted" target="_blank">License</a>
-                            </li>
-                        </ul>
+                        made with <i class="fa fa-heart"></i> by
+                        <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">Creative Tim</a>
+                        for a better web.
                     </div>
                 </div>
+                <div class="col-lg-6">
+                    <ul class="nav nav-footer justify-content-center justify-content-lg-end">
+                        <li class="nav-item">
+                            <a href="https://www.creative-tim.com" class="nav-link text-muted" target="_blank">Creative Tim</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="https://www.creative-tim.com/presentation" class="nav-link text-muted" target="_blank">About Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="https://www.creative-tim.com/blog" class="nav-link text-muted" target="_blank">Blog</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="https://www.creative-tim.com/license" class="nav-link pe-0 text-muted" target="_blank">License</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </footer>
+        </div>
+    </footer>
     </div>
 </main>
 <div class="fixed-plugin">
     <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
         <i class="fa fa-cog py-2"> </i>
     </a>
-    <div class="card shadow-lg ">
-        <div class="card-header pb-0 pt-3 ">
+    <div class="card shadow-lg">
+        <div class="card-header pb-0 pt-3">
             <div class="float-start">
                 <h5 class="mt-3 mb-0">Ecoharvest Configurator</h5>
                 <p>See our dashboard options.</p>
@@ -553,217 +477,17 @@
         </div>
     </div>
 </div>
-<!--   Core JS Files   -->
+<!-- Core JS Files -->
 <script src="js/core/popper.min.js"></script>
 <script src="js/core/bootstrap.min.js"></script>
 <script src="js/plugins/perfect-scrollbar.min.js"></script>
 <script src="js/plugins/smooth-scrollbar.min.js"></script>
 <script src="js/plugins/chartjs.min.js"></script>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-      fetch('https://yourapi.com/blogs') // Your API endpoint that returns blog data
-          .then(response => response.json())
-          .then(blogs => {
-              const blogContainer = document.getElementById('blogPosts');
-              blogs.forEach(blog => {
-                  const blogElement = `
-                      <a href="/blog/${blog.id}" class="list-group-item list-group-item-action flex-column align-items-start">
-                          <div class="d-flex w-100 justify-content-between">
-                              <h5 class="mb-1">${blog.title}</h5>
-                              <small>${new Date(blog.date).toLocaleDateString()}</small>
-                          </div>
-                          <p class="mb-1">${blog.summary}</p>
-                          <small>Read more...</small>
-                      </a>
-                  `;
-                  blogContainer.innerHTML += blogElement;
-              });
-          })
-          .catch(error => console.error('Error loading blogs:', error));
-  });
+<!-- FullCalendar JS -->
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js'></script>
+<!-- Initialize FullCalendar -->
 
-</script>
-<script>
-    var ctx = document.getElementById("chart-bars").getContext("2d");
-
-    new Chart(ctx, {
-      type: "bar",
-      data: {
-        labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-        datasets: [{
-          label: "Sales",
-          tension: 0.4,
-          borderWidth: 0,
-          borderRadius: 4,
-          borderSkipped: false,
-          backgroundColor: "#fff",
-          data: [450, 200, 100, 220, 500, 100, 400, 230, 500],
-          maxBarThickness: 6
-        }, ],
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            display: false,
-          }
-        },
-        interaction: {
-          intersect: false,
-          mode: 'index',
-        },
-        scales: {
-          y: {
-            grid: {
-              drawBorder: false,
-              display: false,
-              drawOnChartArea: false,
-              drawTicks: false,
-            },
-            ticks: {
-              suggestedMin: 0,
-              suggestedMax: 500,
-              beginAtZero: true,
-              padding: 15,
-              font: {
-                size: 14,
-                family: "Open Sans",
-                style: 'normal',
-                lineHeight: 2
-              },
-              color: "#fff"
-            },
-          },
-          x: {
-            grid: {
-              drawBorder: false,
-              display: false,
-              drawOnChartArea: false,
-              drawTicks: false
-            },
-            ticks: {
-              display: false
-            },
-          },
-        },
-      },
-    });
-
-
-    var ctx2 = document.getElementById("chart-line").getContext("2d");
-
-    var gradientStroke1 = ctx2.createLinearGradient(0, 230, 0, 50);
-
-    gradientStroke1.addColorStop(1, 'rgba(203,12,159,0.2)');
-    gradientStroke1.addColorStop(0.2, 'rgba(72,72,176,0.0)');
-    gradientStroke1.addColorStop(0, 'rgba(203,12,159,0)'); //purple colors
-
-    var gradientStroke2 = ctx2.createLinearGradient(0, 230, 0, 50);
-
-    gradientStroke2.addColorStop(1, 'rgba(20,23,39,0.2)');
-    gradientStroke2.addColorStop(0.2, 'rgba(72,72,176,0.0)');
-    gradientStroke2.addColorStop(0, 'rgba(20,23,39,0)'); //purple colors
-
-    new Chart(ctx2, {
-      type: "line",
-      data: {
-        labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-        datasets: [{
-            label: "Mobile apps",
-            tension: 0.4,
-            borderWidth: 0,
-            pointRadius: 0,
-            borderColor: "#3E8914",
-            borderWidth: 3,
-            backgroundColor: gradientStroke1,
-            fill: true,
-            data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
-            maxBarThickness: 6
-
-          },
-          {
-            label: "Websites",
-            tension: 0.4,
-            borderWidth: 0,
-            pointRadius: 0,
-            borderColor: "#3A416F",
-            borderWidth: 3,
-            backgroundColor: gradientStroke2,
-            fill: true,
-            data: [30, 90, 40, 140, 290, 290, 340, 230, 400],
-            maxBarThickness: 6
-          },
-        ],
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            display: false,
-          }
-        },
-        interaction: {
-          intersect: false,
-          mode: 'index',
-        },
-        scales: {
-          y: {
-            grid: {
-              drawBorder: false,
-              display: true,
-              drawOnChartArea: true,
-              drawTicks: false,
-              borderDash: [5, 5]
-            },
-            ticks: {
-              display: true,
-              padding: 10,
-              color: '#b2b9bf',
-              font: {
-                size: 11,
-                family: "Open Sans",
-                style: 'normal',
-                lineHeight: 2
-              },
-            }
-          },
-          x: {
-            grid: {
-              drawBorder: false,
-              display: false,
-              drawOnChartArea: false,
-              drawTicks: false,
-              borderDash: [5, 5]
-            },
-            ticks: {
-              display: true,
-              color: '#b2b9bf',
-              padding: 20,
-              font: {
-                size: 11,
-                family: "Open Sans",
-                style: 'normal',
-                lineHeight: 2
-              },
-            }
-          },
-        },
-      },
-    });
-</script>
-<script>
-    var win = navigator.platform.indexOf('Win') > -1;
-    if (win && document.querySelector('#sidenav-scrollbar')) {
-      var options = {
-        damping: '0.5'
-      }
-      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
-    }
-</script>
-<!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
+<!-- Control Center for Soft Dashboard -->
 <script src="js/soft-ui-dashboard.min.js?v=1.0.7"></script>
 </body>
-
 </html>
