@@ -97,7 +97,7 @@ public class CommunityEducationController {
     public String editCommunityEducationForm(@PathVariable Long id, Model model) {
         CommunityEducationModel communityEducation = communityEducationService.getCommunityEducationById(id);
         model.addAttribute("communityEducation", communityEducation);
-        return "User/editCommunityEducation";
+        return "Admin/editCommunityEducation";
     }
 
     @PostMapping("/communityEducation/update")
