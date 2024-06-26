@@ -19,7 +19,7 @@ public class UsersModel {
     private Role role;
 
     public enum Role {
-        ADMIN, USER
+        ADMIN, USER, Compliance
     }
 
     public UsersModel() {

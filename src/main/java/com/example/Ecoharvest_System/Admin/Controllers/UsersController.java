@@ -99,6 +99,10 @@ public class UsersController {
                     model.addAttribute("success", "User Logged in");
                     session.setAttribute("userModel", loginUser); // storing the whole user object
                     return "redirect:/userDashboard";
+                case Compliance:
+                    model.addAttribute("success", "Compliance Logged in");
+                    session.setAttribute("userModel", loginUser); // storing the whole user object
+                    return "redirect:/ComplianceDashboard";
                 default:
                     model.addAttribute("error", "Role doesn't Exist");
                     return "redirect:/login";

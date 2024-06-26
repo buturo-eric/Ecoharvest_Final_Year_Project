@@ -4,6 +4,9 @@ import com.example.Ecoharvest_System.User.Model.ComplianceModel;
 import com.example.Ecoharvest_System.User.Service.ComplianceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +25,13 @@ public class ComplianceController {
 
     @Autowired
     private ComplianceService complianceService;
+
+    @GetMapping("/ComplianceDashboard")
+    public String ComplianceDashboard(Model model) {
+        List<ComplianceModel> compliances = complianceService.findAllCompliances();
+        model.addAttribute("compliances", compliances);
+        return "User/ComplianceDashboard";
+    }
 
     // Get all compliances
     @GetMapping("/compliances")
@@ -96,4 +106,23 @@ public class ComplianceController {
         }
         return "redirect:/compliances";
     }
+
+    @GetMapping("/download/{id}")
+    public ResponseEntity<byte[]> downloadComplianceDocument(@PathVariable Long id) {
+        ComplianceModel compliance = complianceService.findById(id);
+        if (compliance == null || compliance.getComplianceDocument() == null) {
+            // Handle the case where the compliance or document is not found
+            return ResponseEntity.notFound().build();
+        }
+
+        byte[] document = compliance.getComplianceDocument();
+        String fileName = compliance.getComplianceName() + ".pdf"; // Assuming the document is a PDF
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName + "\"")
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(document);
+    }
+
+
 }
