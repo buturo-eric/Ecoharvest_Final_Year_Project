@@ -1,8 +1,8 @@
 package com.example.Ecoharvest_System.User.Model;
 
 import jakarta.persistence.*;
-import java.util.Date;
-import org.springframework.format.annotation.DateTimeFormat;
+import java.time.LocalDate;
+
 
 @Entity
 @Table(name = "compliance")
@@ -22,11 +22,9 @@ public class ComplianceModel {
     @Column(nullable = false)
     private String description;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date startDate;
+    private LocalDate startDate;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date endDate;
+    private LocalDate endDate;
 
     @Column
     private String complianceDocument;
@@ -66,19 +64,19 @@ public class ComplianceModel {
         this.description = description;
     }
 
-    public Date getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 

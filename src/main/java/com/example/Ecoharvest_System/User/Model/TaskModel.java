@@ -1,7 +1,8 @@
 package com.example.Ecoharvest_System.User.Model;
 
 import jakarta.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
+
 
 @Entity
 @Table(name = "task")
@@ -16,7 +17,7 @@ public class TaskModel {
 
     @Temporal(TemporalType.DATE)
     @Column(name = "task_date") // Changed from 'date' to 'task_date'
-    private Date task_date;
+    private LocalDate task_date;
 
     @Column
     private String status;
@@ -52,11 +53,11 @@ public class TaskModel {
         this.taskName = taskName;
     }
 
-    public Date getTask_date() {
+    public LocalDate getTask_date() {
         return task_date;
     }
 
-    public void setTask_date(Date task_date) {
+    public void setTask_date(LocalDate task_date) {
         this.task_date = task_date;
     }
 
