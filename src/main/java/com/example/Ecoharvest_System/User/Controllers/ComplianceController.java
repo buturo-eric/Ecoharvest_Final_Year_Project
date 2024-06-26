@@ -62,7 +62,7 @@ public class ComplianceController {
                 compliance.setComplianceDocument(docBytes);
             } catch (IOException e) {
                 redirectAttributes.addFlashAttribute("message", "File upload failed: " + e.getMessage());
-                return "redirect:/createCompliance";
+                return "redirect:/compliances";
             }
         }
 
@@ -75,7 +75,7 @@ public class ComplianceController {
             redirectAttributes.addFlashAttribute("message", "Error saving compliance: " + e.getMessage());
         }
 
-        return "redirect:/createCompliance";  // Redirect to prevent duplicate submissions
+        return "redirect:/compliances";  // Redirect to prevent duplicate submissions
     }
 
 
@@ -88,11 +88,11 @@ public class ComplianceController {
     }
 
     // Save edited compliance
-    @PostMapping("/updateCompliance")
+    @PostMapping("/compliance/update")
     public String updateCompliance(@ModelAttribute("compliance") ComplianceModel compliance, RedirectAttributes redirectAttributes) {
         complianceService.createCompliance(compliance);  // Reusing the creation logic for updates
         redirectAttributes.addFlashAttribute("message", "Compliance updated successfully!");
-        return "redirect:/compliances";
+        return "redirect:/complianceList";
     }
 
     // Delete compliance

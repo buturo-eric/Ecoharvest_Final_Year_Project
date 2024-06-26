@@ -40,4 +40,8 @@ public class ComplianceService {
     public ComplianceModel findById(Long id) {
         return complianceRepository.findById(id).orElse(null);  // Handling optional
     }
+
+    public ComplianceModel getComplianceById(Long id) {
+        return complianceRepository.findById(id).orElseThrow(() -> new RuntimeException("Compliance not found"));
+    }
 }

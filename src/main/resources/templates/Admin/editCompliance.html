@@ -349,41 +349,38 @@
     <!-- End Navbar -->
     <!-- This is the body -->
     <div class="container-fluid py-4">
-        <div class="card">
-            <div class="card-header pb-0">
-                <h6>Compliance Records</h6>
-                <a th:href="@{/createCompliance}" class="btn btn-primary">Create New Compliance</a>
-            </div>
-            <div class="card-body px-0 pt-0 pb-2">
-                <div class="table-responsive p-0">
-                    <table class="table align-items-center mb-0">
-                        <thead>
-                        <tr>
-                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Featured Image</th>
-                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Compliance Name</th>
-                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Description</th>
-                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Start Date</th>
-                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">End Date</th>
-                            <th class="text-secondary opacity-7">Actions</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="compliance : ${compliances}">
-                            <td><img th:src="${compliance.featuredImage}" class="img-fluid" style="width: 100px; height: auto;" th:if="${compliance.featuredImage != null}" alt="Featured Image"></td>
-                            <td th:text="${compliance.complianceName}">Compliance Name</td>
-                            <td th:text="${compliance.description}">Description</td>
-                            <td th:text="${#temporals.format(compliance.startDate, 'dd-MM-yyyy')}">Start Date</td>
-                            <td th:text="${#temporals.format(compliance.endDate, 'dd-MM-yyyy')}">End Date</td>
-                            <td>
-                                <a th:href="@{'/editCompliance/' + ${compliance.id}}" class="btn btn-primary">Edit</a>
-                                <a th:href="@{'/deleteCompliance/' + ${compliance.id}}" class="btn btn-danger"
-                                   onclick="return confirm('Are you sure you want to delete this Compliance?')">Delete</a>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+        <div class="container">
+            <h2>Edit Compliance</h2>
+            <form th:action="@{/compliance/update}" th:object="${compliance}" method="post" enctype="multipart/form-data">
+                <input type="hidden" th:field="*{id}"/>
+                <div class="mb-3">
+                    <label for="complianceName" class="form-label">Compliance Name</label>
+                    <input type="text" class="form-control" id="complianceName" th:field="*{complianceName}" required>
                 </div>
-            </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea class="form-control" id="description" th:field="*{description}" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="startDate" class="form-label">Start Date</label>
+                    <input type="date" class="form-control" id="startDate" th:field="*{startDate}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="endDate" class="form-label">End Date</label>
+                    <input type="date" class="form-control" id="endDate" th:field="*{endDate}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="featuredImage" class="form-label">Image URL</label>
+                    <input type="text" class="form-control" id="featuredImage" th:field="*{featuredImage}">
+                    <!-- Image preview element -->
+                    <img id="imagePreview" src="" alt="Image Preview" style="max-width: 300px; margin-top: 10px;">
+                </div>
+                <div class="mb-3">
+                    <label for="complianceDocument" class="form-label">Compliance Document</label>
+                    <input type="file" class="form-control" id="complianceDocument" name="complianceDocument">
+                </div>
+                <button type="submit" class="btn btn-success">Update Compliance</button>
+            </form>
         </div>
 
         <footer class="footer pt-3  ">
@@ -479,6 +476,22 @@
 <script src="js/plugins/perfect-scrollbar.min.js"></script>
 <script src="js/plugins/smooth-scrollbar.min.js"></script>
 <script src="js/plugins/chartjs.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var featuredImageInput = document.getElementById('featuredImage');
+        var imagePreview = document.getElementById('imagePreview');
+
+        featuredImageInput.addEventListener('input', function() {
+            var imageUrl = featuredImageInput.value;
+            imagePreview.src = imageUrl;
+            if (imageUrl) {
+                imagePreview.style.display = 'block'; // Show the image element
+            } else {
+                imagePreview.style.display = 'none'; // Hide if no image URL
+            }
+        });
+    });
+</script>
 <script>
     var ctx = document.getElementById("chart-bars").getContext("2d");
 
