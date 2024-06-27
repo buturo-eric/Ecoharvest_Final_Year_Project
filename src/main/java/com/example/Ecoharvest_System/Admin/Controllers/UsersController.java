@@ -77,6 +77,7 @@ public class UsersController {
             return "redirect:/login";
         }
 
+        model.addAttribute("userId", loggedInUser.getId());
         model.addAttribute("userName", loggedInUser.getName());
 
         // Get today's counts

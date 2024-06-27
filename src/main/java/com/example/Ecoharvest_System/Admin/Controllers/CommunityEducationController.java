@@ -26,11 +26,18 @@ public class CommunityEducationController {
     @GetMapping("/communityEducation")
     public String getAllCommunityEducation(Model model) {
         List<CommunityEducationModel> allEntries = communityEducationService.getAllCommunityEducations();
+        LocalDate today = LocalDate.now();
+
         List<CommunityEducationModel> todayEntries = allEntries.stream()
-                .filter(entry -> entry.getDate().equals(LocalDate.now()))
+                .filter(entry -> entry.getDate().equals(today))
                 .collect(Collectors.toList());
-        List<CommunityEducationModel> otherEntries = allEntries.stream()
-                .filter(entry -> !entry.getDate().equals(LocalDate.now()))
+
+        List<CommunityEducationModel> upcomingEntries = allEntries.stream()
+                .filter(entry -> entry.getDate().isAfter(today))
+                .collect(Collectors.toList());
+
+        List<CommunityEducationModel> endedEntries = allEntries.stream()
+                .filter(entry -> entry.getDate().isBefore(today))
                 .collect(Collectors.toList());
 
         // Convert entries to JSON for FullCalendar
@@ -43,7 +50,7 @@ public class CommunityEducationController {
             event.put("description", entry.getDescription());
             events.add(event);
         }
-        for (CommunityEducationModel entry : otherEntries) {
+        for (CommunityEducationModel entry : upcomingEntries) {
             Map<String, Object> event = new HashMap<>();
             event.put("title", "Upcoming Meeting");
             event.put("start", entry.getDate().toString());
@@ -61,11 +68,13 @@ public class CommunityEducationController {
         }
 
         model.addAttribute("todayEntries", todayEntries);
-        model.addAttribute("otherEntries", otherEntries);
+        model.addAttribute("upcomingEntries", upcomingEntries);
+        model.addAttribute("endedEntries", endedEntries);
         model.addAttribute("eventsJson", eventsJson);
 
         return "User/CommunityEducation";
     }
+
 
 
     @GetMapping("/communityEducationList")

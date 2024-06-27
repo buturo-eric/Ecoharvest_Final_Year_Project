@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -63,4 +64,15 @@ public class ComplianceService {
             throw new RuntimeException("Compliance not found with id: " + compliance.getId());
         }
     }
+    @Transactional(readOnly = true)
+    public List<ComplianceModel> findCompliancesStartingToday() {
+        LocalDate today = LocalDate.now();
+        return complianceRepository.findByStartDate(today);
+    }
+    @Transactional(readOnly = true)
+    public List<ComplianceModel> findCompliancesEndingToday() {
+        LocalDate today = LocalDate.now();
+        return complianceRepository.findByEndDate(today);
+    }
+
 }

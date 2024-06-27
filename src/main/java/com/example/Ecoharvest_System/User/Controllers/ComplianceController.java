@@ -2,6 +2,9 @@ package com.example.Ecoharvest_System.User.Controllers;
 
 import com.example.Ecoharvest_System.User.Model.ComplianceModel;
 import com.example.Ecoharvest_System.User.Service.ComplianceService;
+import com.example.Ecoharvest_System.User.Service.TaskService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
@@ -25,31 +28,65 @@ import java.time.LocalDate;
 import java.util.List;
 
 import java.io.IOException;
+import java.util.Map;
 
 @Controller
 public class ComplianceController {
 
     @Autowired
     private ComplianceService complianceService;
-
-//    @GetMapping("/ComplianceDashboard")
-//    public String ComplianceDashboard(Model model) {
-//        List<ComplianceModel> compliances = complianceService.findAllCompliances();
-//        model.addAttribute("compliances", compliances);
-//        return "User/ComplianceDashboard";
-//    }
+    @Autowired
+    private TaskService taskService;
 
     // Compliance Dashboard
     @GetMapping("/ComplianceDashboard")
-    public String complianceDashboard(Model model, HttpSession session) {
+    public String complianceDashboard(Model model, HttpSession session) throws JsonProcessingException {
         UsersModel loggedInUser = (UsersModel) session.getAttribute("loggedInUser");
         if (loggedInUser == null || loggedInUser.getRole() != UsersModel.Role.Compliance) {
             return "redirect:/login";
         }
         model.addAttribute("userName", loggedInUser.getName());
+        model.addAttribute("userId", loggedInUser.getId());
+
         List<ComplianceModel> compliances = complianceService.findAllCompliances();
         model.addAttribute("compliances", compliances);
+
+        List<ComplianceModel> todayCompliances = complianceService.findCompliancesStartingToday();
+        int todayCompliancesCount = todayCompliances.size();
+        model.addAttribute("todayCompliancesCount", todayCompliancesCount);
+
+        List<ComplianceModel> endCompliances = complianceService.findCompliancesEndingToday();
+        int endCompliancesCount = endCompliances.size();
+        model.addAttribute("endCompliancesCount", endCompliancesCount);
+
+        Map<String, Long> taskStatusCounts = taskService.getTaskStatusCounts();
+        ObjectMapper objectMapper = new ObjectMapper();
+        String taskStatusCountsJson = objectMapper.writeValueAsString(taskStatusCounts);
+        model.addAttribute("taskStatusCountsJson", taskStatusCountsJson);
+
+        Map<String, Long> taskOccurrenceCounts = taskService.getTaskOccurrenceCounts();
+        String taskOccurrenceCountsJson = objectMapper.writeValueAsString(taskOccurrenceCounts);
+        model.addAttribute("taskOccurrenceCountsJson", taskOccurrenceCountsJson);
+
+        Map<String, Long> taskCountsByCompliance = taskService.getTaskCountsByCompliance();
+        String taskCountsByComplianceJson = objectMapper.writeValueAsString(taskCountsByCompliance);
+        model.addAttribute("taskCountsByComplianceJson", taskCountsByComplianceJson);
+
         return "User/ComplianceDashboard";
+    }
+
+
+
+
+
+
+    @GetMapping("/Compliances")
+    public String compliances(Model model) {
+
+        List<ComplianceModel> compliances = complianceService.findAllCompliances();
+        model.addAttribute("compliances", compliances);
+
+        return "User/Compliances";
     }
 
     // Get all compliances

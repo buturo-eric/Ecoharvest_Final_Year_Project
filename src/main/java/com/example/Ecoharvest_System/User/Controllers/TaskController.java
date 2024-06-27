@@ -1,9 +1,11 @@
 package com.example.Ecoharvest_System.User.Controllers;
 
+import com.example.Ecoharvest_System.Admin.Model.UsersModel;
 import com.example.Ecoharvest_System.User.Model.ComplianceModel;
 import com.example.Ecoharvest_System.User.Model.TaskModel;
 import com.example.Ecoharvest_System.User.Service.ComplianceService;
 import com.example.Ecoharvest_System.User.Service.TaskService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
@@ -30,13 +32,17 @@ public class TaskController {
     }
 
     @GetMapping("/createTask/{id}")
-    public String createTask(@PathVariable("id") Long complianceId, Model model) {
+    public String createTask(@PathVariable("id") Long complianceId, Model model, HttpSession session) {
         ComplianceModel compliance = complianceService.getComplianceById(complianceId); // Fetch the full compliance
         TaskModel task = new TaskModel();
         task.setCompliance(compliance);
+        UsersModel loggedInUser = (UsersModel) session.getAttribute("loggedInUser");
+        task.setTask_by(loggedInUser.getName()); // Assuming there is a setTaskBy method
         model.addAttribute("task", task);
+        model.addAttribute("userName", loggedInUser.getName());
         return "User/createTask";
     }
+
 
     @PostMapping("/task/save")
     public String saveTask(

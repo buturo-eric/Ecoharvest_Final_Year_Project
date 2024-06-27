@@ -8,7 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class TaskService {
@@ -37,5 +39,28 @@ public class TaskService {
     // Method to convert and save the document as a byte array
     public byte[] convertDocument(MultipartFile file) throws IOException {
         return file.getBytes();
+    }
+    public Map<String, Long> getTaskStatusCounts() {
+        Map<String, Long> statusCounts = new HashMap<>();
+        statusCounts.put("Pending", taskRepository.countByStatus("Pending"));
+        statusCounts.put("InProgress", taskRepository.countByStatus("InProgress"));
+        statusCounts.put("Completed", taskRepository.countByStatus("Completed"));
+        return statusCounts;
+    }
+    public Map<String, Long> getTaskOccurrenceCounts() {
+        Map<String, Long> OccurrenceCounts = new HashMap<>();
+        OccurrenceCounts.put("Daily", taskRepository.countByOccurrence("Daily"));
+        OccurrenceCounts.put("Weekly", taskRepository.countByOccurrence("Weekly"));
+        OccurrenceCounts.put("Monthly", taskRepository.countByOccurrence("Monthly"));
+        OccurrenceCounts.put("Yearly", taskRepository.countByOccurrence("Yearly"));
+        return OccurrenceCounts;
+    }
+    public Map<String, Long> getTaskCountsByCompliance() {
+        List<Object[]> results = taskRepository.countTasksByCompliance();
+        Map<String, Long> complianceTaskCounts = new HashMap<>();
+        for (Object[] result : results) {
+            complianceTaskCounts.put((String) result[0], (Long) result[1]);
+        }
+        return complianceTaskCounts;
     }
 }
