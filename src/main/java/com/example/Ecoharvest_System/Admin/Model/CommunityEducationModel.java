@@ -2,6 +2,7 @@ package com.example.Ecoharvest_System.Admin.Model;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
 @Table(name = "community_education")
@@ -22,6 +23,9 @@ public class CommunityEducationModel {
 
     @Column(nullable = false)
     private LocalDate date;
+
+    @Column(nullable = false)
+    private LocalTime time;
 
     @Column(nullable = false)
     private String description;
@@ -57,6 +61,14 @@ public class CommunityEducationModel {
 
     public void setLink(String link) {
         this.link = link;
+    }
+
+    public LocalTime getTime() {
+        return time;
+    }
+
+    public void setTime(LocalTime time) {
+        this.time = time;
     }
 
     public LocalDate getDate() {

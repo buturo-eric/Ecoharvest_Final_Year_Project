@@ -359,6 +359,7 @@
               <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Link</th>
               <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Description</th>
               <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date</th>
+              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Time</th>
               <th class="text-secondary opacity-7">Actions</th>
             </tr>
             </thead>
@@ -369,6 +370,7 @@
               <td th:text="${communityEducation.link}">link</td>
               <td th:text="${communityEducation.description}">Description</td>
               <td th:text="${#temporals.format(communityEducation.date, 'dd-MM-yyyy')}">Date</td>
+              <td th:text="${communityEducation.time}">Time</td>
               <td>
                 <a th:href="@{'/editCommunityEducation/' + ${communityEducation.id}}" class="btn btn-primary">Edit</a>
                 <a th:href="@{'/deleteCommunityEducation/' + ${communityEducation.id}}" class="btn btn-danger"

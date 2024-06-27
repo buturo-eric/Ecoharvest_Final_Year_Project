@@ -370,7 +370,11 @@
           </div>
           <div>
             <label for="date">Date</label>
-            <input type="date" id="date" th:field="*{date}" required pattern="\d{4}-\d{2}-\d{2}">
+            <input type="date" class="form-control" id="date" th:field="*{date}" required pattern="\d{4}-\d{2}-\d{2}">
+          </div>
+          <div class="mb-3">
+            <label for="time" class="form-label">Time</label>
+            <input type="time" class="form-control" id="time" th:field="*{time}" required>
           </div>
           <div class="mb-3">
             <label for="description" class="form-label">Description</label>
