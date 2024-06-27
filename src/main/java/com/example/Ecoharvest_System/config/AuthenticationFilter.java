@@ -16,7 +16,7 @@ public class AuthenticationFilter extends HttpFilter {
         String uri = request.getRequestURI();
 
         // Skip authentication for login and public pages
-        if (uri.startsWith("/login") || uri.startsWith("/public")) {
+        if (uri.equals("/") || uri.startsWith("/login") || uri.startsWith("/public")) {
             chain.doFilter(request, response);
             return;
         }

@@ -29,7 +29,6 @@ public class WebController {
         return "User/index";
     }
 
-
     @GetMapping("/login")
     public String login(Model model){
         model.addAttribute("UsersModel", new UsersModel());
