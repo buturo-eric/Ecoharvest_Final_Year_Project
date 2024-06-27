@@ -46,6 +46,7 @@ public class ComplianceController {
         if (loggedInUser == null || loggedInUser.getRole() != UsersModel.Role.Compliance) {
             return "redirect:/login";
         }
+        model.addAttribute("userName", loggedInUser.getName());
         List<ComplianceModel> compliances = complianceService.findAllCompliances();
         model.addAttribute("compliances", compliances);
         return "User/ComplianceDashboard";
