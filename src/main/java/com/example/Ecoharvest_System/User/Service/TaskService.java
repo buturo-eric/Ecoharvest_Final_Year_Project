@@ -63,4 +63,11 @@ public class TaskService {
         }
         return complianceTaskCounts;
     }
+    public List<TaskModel> findByComplianceId(Long complianceId) {
+        return taskRepository.findByComplianceId(complianceId);
+    }
+
+    public TaskModel findById(Long id) {
+        return taskRepository.findById(id).orElse(null);
+    }
 }

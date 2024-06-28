@@ -8,6 +8,9 @@ import com.example.Ecoharvest_System.User.Service.TaskService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -118,4 +121,21 @@ public class TaskController {
         }
         return "redirect:/tasksList";
     }
+    @GetMapping("/downloadTask/{id}")
+    public ResponseEntity<byte[]> downloadTaskDocument(@PathVariable Long id) {
+        TaskModel task = taskService.findById(id);
+        if (task == null || task.getTaskDocument() == null) {
+            // Handle the case where the task or document is not found
+            return ResponseEntity.notFound().build();
+        }
+
+        byte[] document = task.getTaskDocument();
+        String fileName = task.getTaskName() + ".pdf"; // Assuming the document is a PDF
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName + "\"")
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(document);
+    }
+
 }

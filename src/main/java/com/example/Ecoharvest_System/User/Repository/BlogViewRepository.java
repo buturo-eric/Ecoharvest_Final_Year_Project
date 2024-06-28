@@ -13,4 +13,6 @@ public interface BlogViewRepository extends JpaRepository<BlogViewModel, Long> {
     List<BlogViewModel> findByBlogId(Long blogId);
 
     boolean existsByUserIdAndBlogId(int userId, Long blogId);
+
+    long countByBlogId(Long blogId);
 }

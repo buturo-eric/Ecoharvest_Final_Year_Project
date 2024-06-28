@@ -4,6 +4,9 @@ import com.example.Ecoharvest_System.Admin.Model.BlogPostModel;
 import com.example.Ecoharvest_System.Admin.Model.UsersModel;
 import com.example.Ecoharvest_System.Admin.Service.BlogPostService;
 import com.example.Ecoharvest_System.Admin.Service.UsersService;
+import com.example.Ecoharvest_System.User.Service.BlogViewService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,49 +29,8 @@ public class UsersController {
     @Autowired
     private BlogPostService blogPostService;
 
-//    @GetMapping("/adminDashboard")
-//    public String adminDashboard(Model model) {
-//        // Get today's counts
-//        long todayPostsCount = blogPostService.countTodayPosts();
-//        long todayUsersCount = usersService.countTodayUsers();
-//
-//        // Get previous day's counts
-//        long previousDayPostsCount = blogPostService.countPreviousDayPosts();
-//        long previousDayUsersCount = usersService.countPreviousDayUsers();
-//
-//        // Calculate percentage changes
-//        double postsPercentageChange = blogPostService.calculatePostPercentageChange(todayPostsCount, previousDayPostsCount);
-//        double usersPercentageChange = usersService.calculateUserPercentageChange(todayUsersCount, previousDayUsersCount);
-//
-//        // Fetch all blog posts and format the createdAt dates
-//        List<BlogPostModel> blogPosts = blogPostService.findAll();
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-//
-//        List<Map<String, Object>> blogPostData = blogPosts.stream().map(post -> {
-//            Map<String, Object> map = new HashMap<>();
-//            map.put("id", post.getId());
-//            map.put("title", post.getTitle());
-//            map.put("featuredImage", post.getFeaturedImage());
-//            map.put("tags", post.getTags());
-//            map.put("createdAt", post.getCreatedAt().format(formatter));
-//            return map;
-//        }).collect(Collectors.toList());
-//
-//        // Get total counts
-//        long totalPostsCount = blogPostService.countAllPosts();
-//        long totalUsersCount = usersService.countAllUsers();
-//
-//        // Add counts, percentage changes, total counts, and blog posts to the model
-//        model.addAttribute("todayPostsCount", todayPostsCount);
-//        model.addAttribute("todayUsersCount", todayUsersCount);
-//        model.addAttribute("postsPercentageChange", String.format("%.2f%%", postsPercentageChange));
-//        model.addAttribute("usersPercentageChange", String.format("%.2f%%", usersPercentageChange));
-//        model.addAttribute("blogPosts", blogPostData);
-//        model.addAttribute("totalPostsCount", totalPostsCount);
-//        model.addAttribute("totalUsersCount", totalUsersCount);
-//
-//        return "Admin/dashboard";
-//    }
+    @Autowired
+    private BlogViewService blogViewService;
 
     @GetMapping("/adminDashboard")
     public String adminDashboard(Model model, HttpSession session) {
@@ -92,20 +54,6 @@ public class UsersController {
         double postsPercentageChange = blogPostService.calculatePostPercentageChange(todayPostsCount, previousDayPostsCount);
         double usersPercentageChange = usersService.calculateUserPercentageChange(todayUsersCount, previousDayUsersCount);
 
-        // Fetch all blog posts and format the createdAt dates
-        List<BlogPostModel> blogPosts = blogPostService.findAll();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
-        List<Map<String, Object>> blogPostData = blogPosts.stream().map(post -> {
-            Map<String, Object> map = new HashMap<>();
-            map.put("id", post.getId());
-            map.put("title", post.getTitle());
-            map.put("featuredImage", post.getFeaturedImage());
-            map.put("tags", post.getTags());
-            map.put("createdAt", post.getCreatedAt().format(formatter));
-            return map;
-        }).collect(Collectors.toList());
-
         // Get total counts
         long totalPostsCount = blogPostService.countAllPosts();
         long totalUsersCount = usersService.countAllUsers();
@@ -115,12 +63,55 @@ public class UsersController {
         model.addAttribute("todayUsersCount", todayUsersCount);
         model.addAttribute("postsPercentageChange", String.format("%.2f%%", postsPercentageChange));
         model.addAttribute("usersPercentageChange", String.format("%.2f%%", usersPercentageChange));
-        model.addAttribute("blogPosts", blogPostData);
         model.addAttribute("totalPostsCount", totalPostsCount);
         model.addAttribute("totalUsersCount", totalUsersCount);
 
+        // Get blog views data
+        List<BlogPostModel> allBlogs = blogPostService.findAll();
+        List<Map<String, Object>> blogViewsData = allBlogs.stream().map(blog -> {
+            Map<String, Object> data = new HashMap<>();
+            data.put("title", blog.getTitle());
+            data.put("views", blogViewService.countViewsByBlogId(blog.getId()));
+            return data;
+        }).collect(Collectors.toList());
+
+        // Serialize blogViewsData to JSON string
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            String blogViewsJson = mapper.writeValueAsString(blogViewsData);
+            model.addAttribute("blogViewsData", blogViewsJson);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            // Handle error
+        }
+
+        // Get tag view statistics
+        Map<String, Long> tagViewCounts = new HashMap<>();
+        for (BlogPostModel blog : allBlogs) {
+            if (blog.getTags() != null) {
+                String[] tags = blog.getTags().split(",");
+                for (String tag : tags) {
+                    tag = tag.trim();
+                    long views = blogViewService.countViewsByBlogId(blog.getId());
+                    tagViewCounts.put(tag, tagViewCounts.getOrDefault(tag, 0L) + views);
+                }
+            }
+        }
+
+        // Serialize tagViewCounts to JSON string
+        try {
+            String tagViewCountsJson = mapper.writeValueAsString(tagViewCounts);
+            model.addAttribute("tagViewCounts", tagViewCountsJson);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            // Handle error
+        }
+
         return "Admin/dashboard";
     }
+
+
+
 
     @GetMapping("/addUser")
     public String showAddUserForm(Model model) {

@@ -1,6 +1,7 @@
 package com.example.Ecoharvest_System.User.Controllers;
 
 import com.example.Ecoharvest_System.User.Model.ComplianceModel;
+import com.example.Ecoharvest_System.User.Model.TaskModel;
 import com.example.Ecoharvest_System.User.Service.ComplianceService;
 import com.example.Ecoharvest_System.User.Service.TaskService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -209,6 +210,18 @@ public class ComplianceController {
                 .contentType(MediaType.APPLICATION_PDF)
                 .body(document);
     }
+    @GetMapping("/ComplianceTasks")
+    public String complianceTasks(Model model) {
+        List<ComplianceModel> compliances = complianceService.findAllCompliances();
+        for (ComplianceModel compliance : compliances) {
+            List<TaskModel> tasks = taskService.findByComplianceId(compliance.getId());
+            compliance.setTasks(tasks); // Assuming you have a setTasks method in ComplianceModel
+        }
+        model.addAttribute("compliances", compliances);
+
+        return "Admin/ComplianceTasks";
+    }
+
 
 
 }

@@ -29,4 +29,7 @@ public class BlogViewService {
         return blogViewRepository.existsByUserIdAndBlogId(userId, blogId);
     }
 
+    public long countViewsByBlogId(Long blogId) {
+        return blogViewRepository.countByBlogId(blogId);
+    }
 }
