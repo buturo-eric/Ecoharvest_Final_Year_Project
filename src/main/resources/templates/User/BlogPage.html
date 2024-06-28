@@ -8,7 +8,7 @@
     <title>
         ECOHARVEST
     </title>
-    <!-- Fonts and icons -->
+    <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
     <!-- Nucleo Icons -->
     <link href="css/nucleo-icons.css" rel="stylesheet" />
@@ -18,78 +18,118 @@
     <link href="css/nucleo-svg.css" rel="stylesheet" />
     <!-- CSS Files -->
     <link id="pagestyle" href="css/soft-ui-dashboard.css?v=1.0.7" rel="stylesheet" />
-    <!-- FullCalendar CSS -->
-    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css' rel='stylesheet' />
     <style>
-        :root {
-            --bs-primary: #3E8914;
-            --bs-info: #3E8914;
-            --bs-success: #3E8914;
-            --bs-gradient-primary: linear-gradient(195deg, #3E8914, #295612);
-        }
+    :root {
+      --bs-primary: #3E8914; /* Primary color */
+      --bs-info: #3E8914; /* Adjusting info to match theme */
+      --bs-success: #3E8914; /* Ensuring success is also in theme */
+      --bs-gradient-primary: linear-gradient(195deg, #3E8914, #295612); /* Gradient adjustments */
+    }
 
-        .bg-gradient-primary {
-            background: var(--bs-gradient-primary);
-        }
+    .bg-gradient-primary {
+      background: var(--bs-gradient-primary);
+    }
 
-        .text-primary {
-            color: #3E8914 !important;
-        }
+    .text-primary {
+      color: #3E8914 !important; /* Overriding primary text color */
+    }
 
-        .btn-primary {
-            background-color: #3E8914;
-            border-color: #295612;
-        }
+    .btn-primary {
+      background-color: #3E8914;
+      border-color: #295612; /* Darker shade for border if needed */
+    }
 
-        .navbar {
-            background-color: #2f7309 !important;
-        }
+    .navbar {
+      background-color: #2f7309 !important;
+    }
 
-        .navbar-vertical .navbar-nav>.nav-item .nav-link.active {
-            color: #000000;
-            background-color: #b4d612;
-        }
-
-        .navbar-vertical .navbar-nav .nav-link {
-            padding-left: 1rem;
-            padding-right: 1rem;
-            font-weight: 500;
-            color: #ffffff;
-        }
-
-        .card {
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s;
-        }
-
-        .move-left {
-            margin-left: 20px;
-        }
-    </style>
-    <!-- Nepcha Analytics -->
+    .navbar-vertical .navbar-nav>.nav-item .nav-link.active {
+    color: #000000;
+    background-color: #b4d612;
+}
+.navbar-vertical .navbar-nav .nav-link {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    font-weight: 500;
+    color: #ffffff;
+}
+    .card {
+      border-left: 5px solid #3E8914; /* Just an example to show border-color usage */
+    }
+  </style>
+    <!-- Nepcha Analytics (nepcha.com) -->
+    <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
     <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
 </head>
+<style>
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
 
-<body class="g-sidenav-show bg-gray-100">
-<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3" id="sidenav-main">
+.row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.col {
+    flex: 1 1 30%;
+    margin: 10px;
+}
+
+.card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.card-body {
+    padding: 15px;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    margin-bottom: 10px;
+}
+
+.card-footer {
+    padding: 10px 15px;
+    background-color: #f8f9fa;
+    border-top: 1px solid #ddd;
+}
+.col-6 {
+    margin-bottom: 35px
+}
+</style>
+<body class="g-sidenav-show  bg-gray-100">
+<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 " id="sidenav-main">
     <div class="sidenav-header">
         <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
-        <a class="navbar-brand m-0" href="https://demos.creative-tim.com/soft-ui-dashboard/pages/dashboard.html" target="_blank">
+        <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/soft-ui-dashboard/pages/dashboard.html " target="_blank">
             <img src="img/logo-ct-dark.png" class="navbar-brand-img h-100" alt="main_logo">
             <span class="ms-1 font-weight-bold">ECOHARVEST</span>
         </a>
     </div>
     <hr class="horizontal dark mt-0">
-    <div class="collapse navbar-collapse w-auto" id="sidenav-collapse-main">
+    <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" th:href="@{/userDashboard}">
+                <a class="nav-link " th:href="@{/userDashboard}">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/1999/xlink">
-                            <title>shop</title>
+                        <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <title>shop </title>
                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                 <g transform="translate(-1716.000000, -439.000000)" fill="#FFFFFF" fill-rule="nonzero">
                                     <g transform="translate(1716.000000, 291.000000)">
@@ -106,7 +146,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link " th:href="@{/blogs}">
+                <a class="nav-link active" th:href="@{/blogs}">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                         <svg width="12px" height="12px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <title>office</title>
@@ -126,9 +166,9 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" th:href="@{/communityEducation}">
+                <a class="nav-link" th:href="@{/communityEducation}">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <svg width="12px" height="12px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/1999/xlink">
+                        <svg width="12px" height="12px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <title>office</title>
                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                 <g transform="translate(-1869.000000, -293.000000)" fill="#FFFFFF" fill-rule="nonzero">
@@ -146,7 +186,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" th:href="@{/calendar}">
+                <a class="nav-link " th:href="@{/calendar}">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                         <svg width="12px" height="12px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <title>office</title>
@@ -207,7 +247,7 @@
                             </g>
                         </svg>
                     </div>
-                    <span class="d-sm-inline d-none">Sign Out</span>
+                    <span class="nav-link-text ms-1">Sign Out</span>
                 </a>
             </li>
         </ul>
@@ -220,9 +260,9 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
                     <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li>
-                    <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Community Education</li>
+                    <li class="breadcrumb-item text-sm text-dark active" aria-current="page">User Dashboard</li>
                 </ol>
-                <h6 class="font-weight-bolder mb-0">Community Education</h6>
+                <h6 class="font-weight-bolder mb-0" th:text="${userName}">User Dashboard</h6>
             </nav>
             <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
                 <div class="ms-md-auto pe-md-3 d-flex align-items-center">
@@ -297,7 +337,7 @@
                                 <a class="dropdown-item border-radius-md" href="javascript:;">
                                     <div class="d-flex py-1">
                                         <div class="avatar avatar-sm bg-gradient-secondary  me-3  my-auto">
-                                            <svg width="12px" height="12px" viewBox="0 0 43 36" version="1.1" xmlns="http://www.w3.org/1999/xlink">
+                                            <svg width="12px" height="12px" viewBox="0 0 43 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                                 <title>credit-card</title>
                                                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                                     <g transform="translate(-2169.000000, -745.000000)" fill="#FFFFFF" fill-rule="nonzero">
@@ -331,31 +371,27 @@
     </nav>
     <!-- End Navbar -->
 
-    <!-- This is the body -->
+
     <div class="container-fluid py-4">
-        <!-- Community Dashboard Content Starts Here -->
         <div class="row">
             <div class="col-12">
-
-                <!-- Today's Meetings -->
+                <!-- Unread Blogs -->
                 <div class="card mb-4">
                     <div class="card-header pb-0">
-                        <h4>Today's Meetings</h4>
+                        <h4>Unread Blogs</h4>
                     </div>
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="row">
-                            <div class="col-lg-4 col-md-6 col-sm-12" th:each="entry : ${todayEntries}">
+                            <div class="col-lg-4 col-md-6 col-sm-12" th:each="blogPost : ${unreadBlogs}">
                                 <div class="card move-left">
-                                    <img th:src="@{${entry.imageUrl}}" class="card-img-top" alt="...">
+                                    <img th:src="${blogPost.featuredImage}" alt="Blog Post Image" class="card-img-top">
                                     <div class="card-body">
-                                        <h4 class="card-title">Today's Meeting</h4>
-                                        <h5 class="card-title" th:text="${entry.name}">Name</h5>
-                                        <p class="card-text" th:text="${entry.description}">Description</p>
-                                        <i class="fa fa-calendar" aria-hidden="true"></i>
-                                        <p class="card-text" th:text="${entry.date}">date</p>
-                                        <i class="fa fa-clock-o" aria-hidden="true"></i>
-                                        <p class="card-text" th:text="${entry.time}">time</p>
-                                        <a th:href="@{${entry.link}}" class="btn btn-primary" target="_blank">Go to meeting</a>
+                                        <h5 class="card-title" th:text="${blogPost.title}"></h5>
+                                        <a th:href="@{/blogPost/{id}(id=${blogPost.id})}" class="btn btn-primary">Read</a>
+                                    </div>
+                                    <div class="card-footer">
+                                        <small class="text-muted" th:text="${blogPost.tags}"></small>
+                                        <p th:text="${blogPost.createdAt}"></p>
                                     </div>
                                 </div>
                             </div>
@@ -363,71 +399,43 @@
                     </div>
                 </div>
 
-                <!-- Upcoming Meetings -->
+                <!-- Read Blogs -->
                 <div class="card mb-4">
                     <div class="card-header pb-0">
-                        <h4>Upcoming Meetings</h4>
+                        <h4>Read Blogs</h4>
                     </div>
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="row">
-                            <div class="col-lg-4 col-md-6 col-sm-12" th:each="entry : ${upcomingEntries}">
+                            <div class="col-lg-4 col-md-6 col-sm-12" th:each="blogPost : ${readBlogs}">
                                 <div class="card move-left">
-                                    <img th:src="@{${entry.imageUrl}}" class="card-img-top" alt="...">
+                                    <img th:src="${blogPost.featuredImage}" alt="Blog Post Image" class="card-img-top">
                                     <div class="card-body">
-                                        <h5 class="card-title" th:text="${entry.name}">Name</h5>
-                                        <p class="card-text" th:text="${entry.description}">Description</p>
-                                        <i class="fa fa-calendar" aria-hidden="true"></i>
-                                        <p class="card-text" th:text="${entry.date}">date</p>
-                                        <i class="fa fa-clock-o" aria-hidden="true"></i>
-                                        <p class="card-text" th:text="${entry.time}">time</p>
-                                        <a th:href="@{${entry.link}}" class="btn btn-primary">Go to meeting</a>
+                                        <h5 class="card-title" th:text="${blogPost.title}"></h5>
+                                        <a th:href="@{/blogPost/{id}(id=${blogPost.id})}" class="btn btn-secondary" disabled>Read</a>
+                                    </div>
+                                    <div class="card-footer">
+                                        <small class="text-muted" th:text="${blogPost.tags}"></small>
+                                        <p th:text="${blogPost.createdAt}"></p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <!-- Ended Meetings -->
-                <div class="card mb-4">
-                    <div class="card-header pb-0">
-                        <h4>Ended Meetings</h4>
-                    </div>
-                    <div class="card-body px-0 pt-0 pb-2">
-                        <div class="row">
-                            <div class="col-lg-4 col-md-6 col-sm-12" th:each="entry : ${endedEntries}">
-                                <div class="card move-left">
-                                    <img th:src="@{${entry.imageUrl}}" class="card-img-top" alt="...">
-                                    <div class="card-body">
-                                        <h5 class="card-title" th:text="${entry.name}">Name</h5>
-                                        <p class="card-text" th:text="${entry.description}">Description</p>
-                                        <i class="fa fa-calendar" aria-hidden="true"></i>
-                                        <p class="card-text" th:text="${entry.date}">date</p>
-                                        <i class="fa fa-clock-o" aria-hidden="true"></i>
-                                        <p class="card-text" th:text="${entry.time}">time</p>
-                                        <a th:href="@{${entry.link}}" class="btn btn-secondary disabled">Meeting Ended</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </div>
-
-        <!-- Community Dashboard Content Ends Here -->
     </div>
 
 
-    <footer class="footer pt-3">
+
+    <footer class="footer pt-3  ">
         <div class="container-fluid">
             <div class="row align-items-center justify-content-lg-between">
                 <div class="col-lg-6 mb-lg-0 mb-4">
                     <div class="copyright text-center text-sm text-muted text-lg-start">
                         © <script>
-                            document.write(new Date().getFullYear())
-                        </script>,
+              document.write(new Date().getFullYear())
+            </script>,
                         made with <i class="fa fa-heart"></i> by
                         <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">Creative Tim</a>
                         for a better web.
@@ -458,8 +466,8 @@
     <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
         <i class="fa fa-cog py-2"> </i>
     </a>
-    <div class="card shadow-lg">
-        <div class="card-header pb-0 pt-3">
+    <div class="card shadow-lg ">
+        <div class="card-header pb-0 pt-3 ">
             <div class="float-start">
                 <h5 class="mt-3 mb-0">Ecoharvest Configurator</h5>
                 <p>See our dashboard options.</p>
@@ -507,17 +515,23 @@
         </div>
     </div>
 </div>
-<!-- Core JS Files -->
+<!--   Core JS Files   -->
 <script src="js/core/popper.min.js"></script>
 <script src="js/core/bootstrap.min.js"></script>
 <script src="js/plugins/perfect-scrollbar.min.js"></script>
 <script src="js/plugins/smooth-scrollbar.min.js"></script>
 <script src="js/plugins/chartjs.min.js"></script>
-<!-- FullCalendar JS -->
-<script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js'></script>
-<!-- Initialize FullCalendar -->
-
-<!-- Control Center for Soft Dashboard -->
+<script>
+  var win = navigator.platform.indexOf('Win') > -1;
+  if (win && document.querySelector('#sidenav-scrollbar')) {
+    var options = {
+      damping: '0.5'
+    }
+    Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+  }
+</script>
+<!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
 <script src="js/soft-ui-dashboard.min.js?v=1.0.7"></script>
 </body>
+
 </html>

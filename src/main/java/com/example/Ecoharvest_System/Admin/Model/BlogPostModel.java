@@ -14,8 +14,8 @@ public class BlogPostModel {
     @Column(nullable = false, length = 255)
     private String title;
 
-    @Lob  // Large Object for storing large data
-    @Column(nullable = false)
+    @Lob
+    @Column(nullable = false, columnDefinition = "LONGTEXT")
     private String content;
 
     @Column(name = "created_at", updatable = false, nullable = false)
