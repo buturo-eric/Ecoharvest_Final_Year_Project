@@ -380,7 +380,7 @@
                             <td th:text="${task.status}">Status</td>
                             <td th:text="${task.occurrence}">Occurrence</td>
                             <td>
-                                <a th:href="@{'/downloadTaskDocument/' + ${task.id}}" class="btn btn-secondary"><i class="fa fa-download" aria-hidden="true"></i></a>
+                                <a th:href="@{/downloadTask/{id}(id=${task.id})}" class="btn btn-secondary"><i class="fa fa-download" aria-hidden="true"></i></a>
                             </td>
                             <td>
                                 <a th:href="@{'/editTask/' + ${task.id}}" class="btn btn-primary">Edit</a>

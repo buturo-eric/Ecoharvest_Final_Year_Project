@@ -8,22 +8,58 @@
   <title>
     ECOHARVEST
   </title>
-  <!--     Fonts and icons     -->
+  <!-- Fonts and icons -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
   <!-- Nucleo Icons -->
   <link href="css/nucleo-icons.css" rel="stylesheet" />
-  <link href="css/theme.css" rel="stylesheet" />
   <link href="css/nucleo-svg.css" rel="stylesheet" />
   <!-- Font Awesome Icons -->
   <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
   <link href="css/nucleo-svg.css" rel="stylesheet" />
   <!-- CSS Files -->
   <link id="pagestyle" href="css/soft-ui-dashboard.css?v=1.0.7" rel="stylesheet" />
+  <style>
+    :root {
+      --bs-primary: #3E8914; /* Primary color */
+      --bs-info: #3E8914; /* Adjusting info to match theme */
+      --bs-success: #3E8914; /* Ensuring success is also in theme */
+      --bs-gradient-primary: linear-gradient(195deg, #3E8914, #295612); /* Gradient adjustments */
+    }
+
+    .bg-gradient-primary {
+      background: var(--bs-gradient-primary);
+    }
+
+    .text-primary {
+      color: #3E8914 !important; /* Overriding primary text color */
+    }
+
+    .btn-primary {
+      background-color: #3E8914;
+      border-color: #295612; /* Darker shade for border if needed */
+    }
+
+    .navbar {
+      background-color: #a1cca5 !important;
+    }
+
+    .navbar-vertical .navbar-nav>.nav-item .nav-link.active {
+    color: #000000;
+    background-color: #b4d612;
+}
+.navbar-vertical .navbar-nav .nav-link {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    font-weight: 500;
+    color: #ffffff;
+}
+    .card {
+      border-left: 5px solid #3E8914; /* Just an example to show border-color usage */
+    }
+  </style>
   <!-- Nepcha Analytics (nepcha.com) -->
   <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
   <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
-  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </head>
 <style>
   .container {
@@ -76,11 +112,27 @@
 .col-6 {
     margin-bottom: 35px
 }
-
-.chart-legend {
-    margin-top: 20px;
-    font-size: 14px;
+.status-pending {
+    background-color: #f0ad4e;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
 }
+
+.status-completed {
+    background-color: #5cb85c;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.status-inprogress {
+    background-color: #5bc0de;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+}
+
 </style>
 <body class="g-sidenav-show  bg-gray-100">
 <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 " id="sidenav-main">
@@ -95,7 +147,7 @@
   <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link  active" th:href="@{/adminDashboard}">
+        <a class="nav-link " th:href="@{/adminDashboard}">
           <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
             <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
               <title>shop </title>
@@ -148,7 +200,7 @@
         <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Compliance Pages</h6>
       </li>
       <li class="nav-item">
-        <a class="nav-link " th:href="@{/ComplianceTasks}">
+        <a class="nav-link active" th:href="@{/ComplianceTasks}">
           <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
             <svg width="12px" height="12px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
               <title>box-3d-50</title>
@@ -309,9 +361,10 @@
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
           <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li>
-          <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Admin Dashboard</li>
+          <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Dashboard</li>
+          <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Compliances</li>
         </ol>
-        <h6 class="font-weight-bolder mb-0" th:text="${userName}">Admin Dashboard</h6>
+        <h6 class="font-weight-bolder mb-0" th:text="${userName}">Compliance Dashboard</h6>
       </nav>
       <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
         <div class="ms-md-auto pe-md-3 d-flex align-items-center">
@@ -420,127 +473,54 @@
   </nav>
   <!-- End Navbar -->
   <div class="container-fluid py-4">
-    <!-- Displaying counts and percentage changes -->
+
+    <!-- Displaying compliance posts in card design -->
     <div class="row">
-      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+      <div class="col-6" th:each="compliance, iterStat : ${compliances}">
         <div class="card">
-          <div class="card-body p-3">
-            <div class="row">
-              <div class="col-8">
-                <div class="numbers">
-                  <p class="text-sm mb-0 text-capitalize font-weight-bold">Today's Blog Posts</p>
-                  <h4 class="font-weight-bolder mb-0">
-                    [[${todayPostsCount}]]
-                  </h4>
-                  <h6>
-                    <span class="text-success text-sm font-weight-bolder" th:text="${postsPercentageChange}"></span>
-                  </h6>
-                </div>
-              </div>
-              <div class="col-4 text-end">
-                <a th:href="@{/blogDashboard}">
-                  <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                    <i class="fa fa-book text-lg opacity-10" aria-hidden="true"></i>
+          <img th:src="${compliance.featuredImage}" alt="Compliance Post Image" class="card-img-top">
+          <div class="card-body">
+            <h5 class="card-title" th:text="${compliance.complianceName}"></h5>
+            <p class="card-text" th:text="${compliance.description}"></p>
+            <div class="d-flex justify-content-between">
+              <a th:href="@{/download/{id}(id=${compliance.id})}" class="btn btn-secondary">Download Compliance Document</a>
+            </div>
+            <!-- Display Tasks -->
+            <div>
+              <h6>Tasks:</h6>
+              <ul>
+                <li th:each="task, taskStat : ${compliance.tasks}">
+                  <div th:class="'status-' + ${task.status.toLowerCase()}">
+                    <strong th:text="${task.taskName}"></strong>
+                    <p th:text="${task.status}"></p>
+                    <small th:text="${task.task_date}"></small>
+                    <p th:text="${task.task_by}"></p>
+                    <p th:text="${task.occurrence}"></p>
+                    <a th:href="@{/downloadTask/{id}(id=${task.id})}" class="btn btn-secondary">Download Task Document</a>
                   </div>
-                </a>
+                  <!-- Divider -->
+                  <div th:if="${!taskStat.last}" class="border-bottom mt-2 mb-2"></div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="d-flex justify-content-between">
+              <div>
+                <small class="text-muted"><i class="fa fa-calendar-o" aria-hidden="true"></i> Start Date</small>
+                <p th:text="${compliance.startDate}"></p>
+              </div>
+              <div>
+                <small class="text-muted"><i class="fa fa-calendar" aria-hidden="true"></i> End Date</small>
+                <p th:text="${compliance.endDate}"></p>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-        <div class="card">
-          <div class="card-body p-3">
-            <div class="row">
-              <div class="col-8">
-                <div class="numbers">
-                  <p class="text-sm mb-0 text-capitalize font-weight-bold">Today's Users</p>
-                  <h4 class="font-weight-bolder mb-0">
-                    [[${todayUsersCount}]]
-                  </h4>
-                  <h6>
-                    <span class="text-success text-sm font-weight-bolder" th:text="${usersPercentageChange}"></span>
-                  </h6>
-                </div>
-              </div>
-              <div class="col-4 text-end">
-                <a th:href="@{/allUsers}">
-                  <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                    <i class="fa fa-user-plus text-lg opacity-10" aria-hidden="true"></i>
-                  </div>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-        <div class="card">
-          <div class="card-body p-3">
-            <div class="row">
-              <div class="col-8">
-                <div class="numbers">
-                  <p class="text-sm mb-0 text-capitalize font-weight-bold">Total Users</p>
-                  <h4 class="font-weight-bolder mb-0">
-                    [[${totalUsersCount}]]
-                  </h4>
-                </div>
-              </div>
-              <div class="col-4 text-end">
-                <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                  <i class="fa fa-users text-lg opacity-10" aria-hidden="true"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-xl-3 col-sm-6">
-        <div class="card">
-          <div class="card-body p-3">
-            <div class="row">
-              <div class="col-8">
-                <div class="numbers">
-                  <p class="text-sm mb-0 text-capitalize font-weight-bold">Total Blogs</p>
-                  <h4 class="font-weight-bolder mb-0">
-                    [[${totalPostsCount}]]
-                  </h4>
-                </div>
-              </div>
-              <div class="col-4 text-end">
-                <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                  <i class="fa fa-book text-lg opacity-10" aria-hidden="true"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <!-- Insert a row after every 2 cards -->
+        <div th:if="${iterStat.count % 2 == 0}" class="w-100"></div>
       </div>
     </div>
-
-
-    <!-- Add a section for the bar chart -->
-    <div class="row mt-4">
-      <div class="col-6">
-        <div class="card">
-          <div class="card-body">
-            <h6 class="font-weight-bolder mb-0">Blog Views Statistics</h6>
-            <canvas id="blogViewsChart"></canvas>
-            <div class="chart-legend" id="chartLegend"></div>
-          </div>
-        </div>
-      </div>
-      <div class="col-6">
-        <div class="card">
-          <div class="card-body">
-            <h6 class="font-weight-bolder mb-0">Most Viewed Blog Tags</h6>
-            <canvas id="tagViewsChart"></canvas>
-            <div class="chart-legend" id="tagChartLegend"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
 
 
     <footer class="footer pt-3  ">
@@ -549,8 +529,8 @@
           <div class="col-lg-6 mb-lg-0 mb-4">
             <div class="copyright text-center text-sm text-muted text-lg-start">
               © <script>
-                  document.write(new Date().getFullYear())
-                </script>,
+              document.write(new Date().getFullYear())
+            </script>,
               made with <i class="fa fa-heart"></i> by
               <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">Creative Tim</a>
               for a better web.
@@ -630,116 +610,193 @@
     </div>
   </div>
 </div>
-<!--   Core JS Files   -->
+<!-- Core JS Files -->
 <script src="js/core/popper.min.js"></script>
 <script src="js/core/bootstrap.min.js"></script>
 <script src="js/plugins/perfect-scrollbar.min.js"></script>
 <script src="js/plugins/smooth-scrollbar.min.js"></script>
 <script src="js/plugins/chartjs.min.js"></script>
-<script th:inline="javascript">
-    /*<![CDATA[*/
-    document.addEventListener('DOMContentLoaded', function () {
-        // Blog Views Chart
-        var ctx = document.getElementById('blogViewsChart').getContext('2d');
-        var blogViewsData = /*[[${blogViewsData}]]*/ '[]';
-
-        blogViewsData = JSON.parse(blogViewsData); // Parse the JSON string to JavaScript object
-
-        var labels = blogViewsData.map(item => {
-            if (item.title.length > 15) {
-                return item.title.substring(0, 12) + '...';
-            }
-            return item.title;
-        });
-        var data = blogViewsData.map(item => item.views);
-
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: labels,
-                datasets: [{
-                    label: 'Blog Views',
-                    data: data,
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-
-        // Create legend
-        var legendHtml = '<ul>';
-        blogViewsData.forEach(item => {
-            legendHtml += '<li>' + item.title + '</li>';
-        });
-        legendHtml += '</ul>';
-        document.getElementById('chartLegend').innerHTML = legendHtml;
-
-        // Tag Views Chart
-        var tagCtx = document.getElementById('tagViewsChart').getContext('2d');
-        var tagViewCounts = /*[[${tagViewCounts}]]*/ '{}';
-
-        tagViewCounts = JSON.parse(tagViewCounts); // Parse the JSON string to JavaScript object
-
-        var tagLabels = Object.keys(tagViewCounts).map(tag => {
-            if (tag.length > 15) {
-                return tag.substring(0, 12) + '...';
-            }
-            return tag;
-        });
-        var tagData = Object.values(tagViewCounts);
-
-        new Chart(tagCtx, {
-            type: 'bar',
-            data: {
-                labels: tagLabels,
-                datasets: [{
-                    label: 'Tag Views',
-                    data: tagData,
-                    backgroundColor: 'rgba(153, 102, 255, 0.2)',
-                    borderColor: 'rgba(153, 102, 255, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-
-        // Create legend for tag views chart
-        var tagLegendHtml = '<ul>';
-        Object.keys(tagViewCounts).forEach(tag => {
-            tagLegendHtml += '<li>' + tag + '</li>';
-        });
-        tagLegendHtml += '</ul>';
-        document.getElementById('tagChartLegend').innerHTML = tagLegendHtml;
-    });
-    /*]]>*/
-  </script>
-
 <script>
-    var win = navigator.platform.indexOf('Win') > -1;
-    if (win && document.querySelector('#sidenav-scrollbar')) {
-      var options = {
-        damping: '0.5'
-      }
-      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+  var ctx = document.getElementById("chart-bars").getContext("2d");
+
+  new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+      datasets: [{
+        label: "Sales",
+        tension: 0.4,
+        borderWidth: 0,
+        borderRadius: 4,
+        borderSkipped: false,
+        backgroundColor: "#fff",
+        data: [450, 200, 100, 220, 500, 100, 400, 230, 500],
+        maxBarThickness: 6
+      }, ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          display: false,
+        }
+      },
+      interaction: {
+        intersect: false,
+        mode: 'index',
+      },
+      scales: {
+        y: {
+          grid: {
+            drawBorder: false,
+            display: false,
+            drawOnChartArea: false,
+            drawTicks: false,
+          },
+          ticks: {
+            suggestedMin: 0,
+            suggestedMax: 500,
+            beginAtZero: true,
+            padding: 15,
+            font: {
+              size: 14,
+              family: "Open Sans",
+              style: 'normal',
+              lineHeight: 2
+            },
+            color: "#fff"
+          },
+        },
+        x: {
+          grid: {
+            drawBorder: false,
+            display: false,
+            drawOnChartArea: false,
+            drawTicks: false
+          },
+          ticks: {
+            display: false
+          },
+        },
+      },
+    },
+  });
+
+
+  var ctx2 = document.getElementById("chart-line").getContext("2d");
+
+  var gradientStroke1 = ctx2.createLinearGradient(0, 230, 0, 50);
+
+  gradientStroke1.addColorStop(1, 'rgba(203,12,159,0.2)');
+  gradientStroke1.addColorStop(0.2, 'rgba(72,72,176,0.0)');
+  gradientStroke1.addColorStop(0, 'rgba(203,12,159,0)'); //purple colors
+
+  var gradientStroke2 = ctx2.createLinearGradient(0, 230, 0, 50);
+
+  gradientStroke2.addColorStop(1, 'rgba(20,23,39,0.2)');
+  gradientStroke2.addColorStop(0.2, 'rgba(72,72,176,0.0)');
+  gradientStroke2.addColorStop(0, 'rgba(20,23,39,0)'); //purple colors
+
+  new Chart(ctx2, {
+    type: "line",
+    data: {
+      labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+      datasets: [{
+          label: "Mobile apps",
+          tension: 0.4,
+          borderWidth: 0,
+          pointRadius: 0,
+          borderColor: "#3E8914",
+          borderWidth: 3,
+          backgroundColor: gradientStroke1,
+          fill: true,
+          data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
+          maxBarThickness: 6
+
+        },
+        {
+          label: "Websites",
+          tension: 0.4,
+          borderWidth: 0,
+          pointRadius: 0,
+          borderColor: "#3A416F",
+          borderWidth: 3,
+          backgroundColor: gradientStroke2,
+          fill: true,
+          data: [30, 90, 40, 140, 290, 290, 340, 230, 400],
+          maxBarThickness: 6
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          display: false,
+        }
+      },
+      interaction: {
+        intersect: false,
+        mode: 'index',
+      },
+      scales: {
+        y: {
+          grid: {
+            drawBorder: false,
+            display: true,
+            drawOnChartArea: true,
+            drawTicks: false,
+            borderDash: [5, 5]
+          },
+          ticks: {
+            display: true,
+            padding: 10,
+            color: '#b2b9bf',
+            font: {
+              size: 11,
+              family: "Open Sans",
+              style: 'normal',
+              lineHeight: 2
+            },
+          }
+        },
+        x: {
+          grid: {
+            drawBorder: false,
+            display: false,
+            drawOnChartArea: false,
+            drawTicks: false,
+            borderDash: [5, 5]
+          },
+          ticks: {
+            display: true,
+            color: '#b2b9bf',
+            padding: 20,
+            font: {
+              size: 11,
+              family: "Open Sans",
+              style: 'normal',
+              lineHeight: 2
+            },
+          }
+        },
+      },
+    },
+  });
+</script>
+<script>
+  var win = navigator.platform.indexOf('Win') > -1;
+  if (win && document.querySelector('#sidenav-scrollbar')) {
+    var options = {
+      damping: '0.5'
     }
-  </script>
-<!-- Github buttons -->
-<script async defer src="https://buttons.github.io/buttons.js"></script>
+    Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+  }
+</script>
 <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
 <script src="js/soft-ui-dashboard.min.js?v=1.0.7"></script>
 </body>
+
 </html>

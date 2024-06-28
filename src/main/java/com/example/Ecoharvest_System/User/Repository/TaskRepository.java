@@ -13,4 +13,6 @@ public interface TaskRepository extends JpaRepository<TaskModel, Long> {
     // Method to count tasks grouped by compliance
     @Query("SELECT t.compliance.complianceName, COUNT(t) FROM TaskModel t GROUP BY t.compliance.complianceName")
     List<Object[]> countTasksByCompliance();
+    List<TaskModel> findByComplianceId(Long complianceId);
 }
+

@@ -2,6 +2,7 @@ package com.example.Ecoharvest_System.User.Model;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "compliance")
@@ -28,6 +29,17 @@ public class ComplianceModel {
     @Lob  // Large Object for storing large data
     @Column(columnDefinition = "LONGBLOB")
     private byte[] complianceDocument;
+
+    @OneToMany(mappedBy = "compliance", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<TaskModel> tasks;
+
+    public List<TaskModel> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<TaskModel> tasks) {
+        this.tasks = tasks;
+    }
 
     // Getters and setters
 
