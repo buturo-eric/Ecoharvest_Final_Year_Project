@@ -24,6 +24,13 @@
   <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  <style>
+    .text-truncate {
+overflow: hidden;
+white-space: nowrap;
+text-overflow: ellipsis;
+}
+  </style>
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
@@ -367,7 +374,8 @@
             <tr th:each="communityEducation : ${communityEducations}">
               <td><img th:src="${communityEducation.imageUrl}" class="img-fluid" style="width: 100px; height: auto;" alt="Featured Image"></td>
               <td th:text="${communityEducation.name}">Name</td>
-              <td th:text="${communityEducation.link}">link</td>
+<!--              <td th:text="${communityEducation.link}">link</td>-->
+              <td class="text-truncate" style="max-width: 250px;"th:text="${communityEducation.link}">link</td>
               <td th:text="${communityEducation.description}">Description</td>
               <td th:text="${#temporals.format(communityEducation.date, 'dd-MM-yyyy')}">Date</td>
               <td th:text="${communityEducation.time}">Time</td>

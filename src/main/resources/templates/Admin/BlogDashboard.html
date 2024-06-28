@@ -24,6 +24,13 @@
     <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <style>
+        .text-truncate {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+    </style>
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
@@ -370,7 +377,7 @@
                             <td>
                                 <span th:each="tag : ${post.tags}" th:text="${tag} + ', '">Sustainable Farming</span>
                             </td>
-                            <td th:text="${post.content}">Post Content</td>
+                            <td class="text-truncate" style="max-width: 250px;" th:text="${post.content}">Post Content</td>
                             <td th:text="${#temporals.format(post.createdAt, 'dd-MM-yyyy')}"></td>
                             <td>
                                 <button class="btn p-0 mx-3" title="Edit" th:onclick="|window.location.href='/editBlog/' + ${post.id}|">
