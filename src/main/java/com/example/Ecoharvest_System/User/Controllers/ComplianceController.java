@@ -75,11 +75,6 @@ public class ComplianceController {
         return "User/ComplianceDashboard";
     }
 
-
-
-
-
-
     @GetMapping("/Compliances")
     public String compliances(Model model) {
 
@@ -87,6 +82,15 @@ public class ComplianceController {
         model.addAttribute("compliances", compliances);
 
         return "User/Compliances";
+    }
+
+    @GetMapping("/UserCompliances")
+    public String UserCompliances(Model model) {
+
+        List<ComplianceModel> compliances = complianceService.findAllCompliances();
+        model.addAttribute("compliances", compliances);
+
+        return "User/UserCompliances";
     }
 
     // Get all compliances
