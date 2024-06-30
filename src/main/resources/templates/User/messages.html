@@ -560,7 +560,7 @@
             <div class="reply-content" th:classappend="${reply.user.id == userId} ? 'sent' : 'received'" th:data-message-id="${reply.id}">
               <div class="replied-message-content">
                 <h6 class="user-name" th:text="${message.user.id == userId} ? 'You' : ${message.user.name}"></h6>
-                <p th:text="${message.message}"></p>
+                <i th:text="${message.message}"></i>
               </div>
               <h6 class="user-name" th:text="${reply.user.id == userId} ? 'You' : ${reply.user.name}"></h6>
               <p th:text="${reply.message}"></p>
@@ -575,7 +575,7 @@
               <div class="nested-reply-content" th:classappend="${nestedReply.user.id == userId} ? 'sent' : 'received'" th:data-message-id="${nestedReply.id}">
                 <div class="replied-message-content">
                   <h6 class="user-name" th:text="${reply.user.id == userId} ? 'You' : ${reply.user.name}"></h6>
-                  <p th:text="${reply.message}"></p>
+                  <i th:text="${reply.message}"></i>
                 </div>
                 <h6 class="user-name" th:text="${nestedReply.user.id == userId} ? 'You' : ${nestedReply.user.name}"></h6>
                 <p th:text="${nestedReply.message}"></p>
@@ -590,7 +590,7 @@
                 <div class="nested-reply-content" th:classappend="${nestedNestedReply.user.id == userId} ? 'sent' : 'received'" th:data-message-id="${nestedNestedReply.id}">
                   <div class="replied-message-content">
                     <h6 class="user-name" th:text="${nestedReply.user.id == userId} ? 'You' : ${nestedReply.user.name}"></h6>
-                    <p th:text="${nestedReply.message}"></p>
+                    <i th:text="${nestedReply.message}"></i>
                   </div>
                   <h6 class="user-name" th:text="${nestedNestedReply.user.id == userId} ? 'You' : ${nestedNestedReply.user.name}"></h6>
                   <p th:text="${nestedNestedReply.message}"></p>
@@ -618,39 +618,6 @@
 
 
 
-
-  <footer class="footer pt-3">
-    <div class="container-fluid">
-      <div class="row align-items-center justify-content-lg-between">
-        <div class="col-lg-6 mb-lg-0 mb-4">
-          <div class="copyright text-center text-sm text-muted text-lg-start">
-            © <script>
-              document.write(new Date().getFullYear())
-            </script>,
-            made with <i class="fa fa-heart"></i> by
-            <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">Creative Tim</a>
-            for a better web.
-          </div>
-        </div>
-        <div class="col-lg-6">
-          <ul class="nav nav-footer justify-content-center justify-content-lg-end">
-            <li class="nav-item">
-              <a href="https://www.creative-tim.com" class="nav-link text-muted" target="_blank">Creative Tim</a>
-            </li>
-            <li class="nav-item">
-              <a href="https://www.creative-tim.com/presentation" class="nav-link text-muted" target="_blank">About Us</a>
-            </li>
-            <li class="nav-item">
-              <a href="https://www.creative-tim.com/blog" class="nav-link text-muted" target="_blank">Blog</a>
-            </li>
-            <li class="nav-item">
-              <a href="https://www.creative-tim.com/license" class="nav-link pe-0 text-muted" target="_blank">License</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </footer>
 </main>
 
 <!--   Core JS Files   -->
@@ -659,13 +626,22 @@
 <script src="js/plugins/perfect-scrollbar.min.js"></script>
 <script src="js/plugins/smooth-scrollbar.min.js"></script>
 <script src="js/plugins/chartjs.min.js"></script>
-
 <script>
   function replyToMessage(messageId) {
-    var messageContent = document.querySelector('.message-content[data-message-id="' + messageId + '"] p').innerText;
-    document.getElementById('replyMessageContent').innerText = messageContent;
-    document.getElementById('replyId').value = messageId;
-    document.getElementById('replyPreview').style.display = 'block';
+    var messageElement = document.querySelector(
+      '.message-content[data-message-id="' + messageId + '"] p, ' +
+      '.reply-content[data-message-id="' + messageId + '"] p, ' +
+      '.nested-reply-content[data-message-id="' + messageId + '"] p'
+    );
+
+    if (messageElement) {
+      var messageContent = messageElement.innerText;
+      document.getElementById('replyMessageContent').innerText = messageContent;
+      document.getElementById('replyId').value = messageId;
+      document.getElementById('replyPreview').style.display = 'block';
+    } else {
+      console.error("Message content not found for messageId: " + messageId);
+    }
   }
 
   function cancelReply() {
@@ -674,8 +650,6 @@
     document.getElementById('replyPreview').style.display = 'none';
   }
 </script>
-
-
 <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
 <script src="js/soft-ui-dashboard.min.js?v=1.0.7"></script>
 </body>
