@@ -99,5 +99,8 @@ public class UsersService {
         return usersRepo.count();
     }
 
+    public UsersModel findById(int userId) {
+        return usersRepo.findById(userId).orElse(null);
+    }
 }
 
