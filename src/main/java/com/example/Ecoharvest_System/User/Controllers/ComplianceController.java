@@ -30,6 +30,7 @@ import java.util.List;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 public class ComplianceController {
@@ -85,15 +86,38 @@ public class ComplianceController {
         return "User/Compliances";
     }
 
-    @GetMapping("/UserCompliances")
-    public String UserCompliances(Model model) {
+//    @GetMapping("/UserCompliances")
+//    public String UserCompliances(Model model) {
+//
+//        List<ComplianceModel> compliances = complianceService.findAllCompliances();
+//        model.addAttribute("compliances", compliances);
+//
+//        return "User/UserCompliances";
+//    }
 
+    @GetMapping("/UserCompliances")
+    public String userCompliances(Model model) {
         List<ComplianceModel> compliances = complianceService.findAllCompliances();
-        model.addAttribute("compliances", compliances);
+        LocalDate today = LocalDate.now();
+
+        List<ComplianceModel> todaysCompliances = compliances.stream()
+                .filter(c -> c.getStartDate().equals(today))
+                .collect(Collectors.toList());
+
+        List<ComplianceModel> upcomingCompliances = compliances.stream()
+                .filter(c -> c.getStartDate().isAfter(today))
+                .collect(Collectors.toList());
+
+        List<ComplianceModel> endedCompliances = compliances.stream()
+                .filter(c -> c.getEndDate().isBefore(today))
+                .collect(Collectors.toList());
+
+        model.addAttribute("todaysCompliances", todaysCompliances);
+        model.addAttribute("upcomingCompliances", upcomingCompliances);
+        model.addAttribute("endedCompliances", endedCompliances);
 
         return "User/UserCompliances";
     }
-
     // Get all compliances
     @GetMapping("/compliances")
     public String listCompliances(Model model) {
