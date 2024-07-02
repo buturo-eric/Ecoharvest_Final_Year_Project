@@ -32,6 +32,9 @@ public class MessageModel {
     @OneToMany(mappedBy = "reply", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<MessageModel> replies = new HashSet<>();
 
+    @Column(name = "is_visible", nullable = false)
+    private boolean isVisible;
+
     // Getters and Setters
 
     public Long getId() {
@@ -80,5 +83,13 @@ public class MessageModel {
 
     public void setReplies(Set<MessageModel> replies) {
         this.replies = replies;
+    }
+
+    public boolean isVisible() {
+        return isVisible;
+    }
+
+    public void setVisible(boolean visible) {
+        isVisible = visible;
     }
 }

@@ -568,7 +568,13 @@
         <!-- Main Message -->
         <div class="message-box" th:classappend="${message.user.id == userId} ? 'sent' : 'received'">
           <div class="message-content" th:classappend="${message.user.id == userId} ? 'sent' : 'received'" th:data-message-id="${message.id}">
-            <h5 class="user-name" th:text="${message.user.id == userId} ? 'You' : ${message.user.name}"></h5>
+            <h5 class="user-name">
+              <span th:if="${message.user.role.name() == 'ADMIN'}" th:text="${message.user.name} + ' - Admin'"></span>
+              <span th:if="${message.user.role.name() != 'ADMIN'}">
+                <span th:if="${message.user.id == userId}">You</span>
+                <span th:if="${message.user.id != userId}" th:text="${message.user.name}"></span>
+              </span>
+            </h5>
             <p th:text="${message.message}"></p>
             <p class="text-muted" th:text="${#temporals.format(message.dateTime, 'yyyy/MM/dd HH:mm:ss')}"></p>
             <i class="fas fa-reply reply-button" th:onclick="'replyToMessage(' + ${message.id} + ')'"></i>
@@ -580,10 +586,22 @@
           <div class="reply-box" th:classappend="${reply.user.id == userId} ? 'sent' : 'received'">
             <div class="reply-content" th:classappend="${reply.user.id == userId} ? 'sent' : 'received'" th:data-message-id="${reply.id}">
               <div class="replied-message-content">
-                <h6 class="user-name" th:text="${message.user.id == userId} ? 'You' : ${message.user.name}"></h6>
+                <h6 class="user-name">
+                  <span th:if="${message.user.role.name() == 'ADMIN'}" th:text="${message.user.name} + ' - Admin'"></span>
+                  <span th:if="${message.user.role.name() != 'ADMIN'}">
+                    <span th:if="${message.user.id == userId}">You</span>
+                    <span th:if="${message.user.id != userId}" th:text="${message.user.name}"></span>
+                  </span>
+                </h6>
                 <i th:text="${message.message}"></i>
               </div>
-              <h6 class="user-name" th:text="${reply.user.id == userId} ? 'You' : ${reply.user.name}"></h6>
+              <h6 class="user-name">
+                <span th:if="${reply.user.role.name() == 'ADMIN'}" th:text="${reply.user.name} + ' - Admin'"></span>
+                <span th:if="${reply.user.role.name() != 'ADMIN'}">
+                  <span th:if="${reply.user.id == userId}">You</span>
+                  <span th:if="${reply.user.id != userId}" th:text="${reply.user.name}"></span>
+                </span>
+              </h6>
               <p th:text="${reply.message}"></p>
               <p class="text-muted" th:text="${#temporals.format(reply.dateTime, 'yyyy/MM/dd HH:mm:ss')}"></p>
               <i class="fas fa-reply reply-button" th:onclick="'replyToMessage(' + ${reply.id} + ')'"></i>
@@ -595,10 +613,22 @@
             <div class="nested-reply-box" th:classappend="${nestedReply.user.id == userId} ? 'sent' : 'received'">
               <div class="nested-reply-content" th:classappend="${nestedReply.user.id == userId} ? 'sent' : 'received'" th:data-message-id="${nestedReply.id}">
                 <div class="replied-message-content">
-                  <h6 class="user-name" th:text="${reply.user.id == userId} ? 'You' : ${reply.user.name}"></h6>
+                  <h6 class="user-name">
+                    <span th:if="${reply.user.role.name() == 'ADMIN'}" th:text="${reply.user.name} + ' - Admin'"></span>
+                    <span th:if="${reply.user.role.name() != 'ADMIN'}">
+                      <span th:if="${reply.user.id == userId}">You</span>
+                      <span th:if="${reply.user.id != userId}" th:text="${reply.user.name}"></span>
+                    </span>
+                  </h6>
                   <i th:text="${reply.message}"></i>
                 </div>
-                <h6 class="user-name" th:text="${nestedReply.user.id == userId} ? 'You' : ${nestedReply.user.name}"></h6>
+                <h6 class="user-name">
+                  <span th:if="${nestedReply.user.role.name() == 'ADMIN'}" th:text="${nestedReply.user.name} + ' - Admin'"></span>
+                  <span th:if="${nestedReply.user.role.name() != 'ADMIN'}">
+                    <span th:if="${nestedReply.user.id == userId}">You</span>
+                    <span th:if="${nestedReply.user.id != userId}" th:text="${nestedReply.user.name}"></span>
+                  </span>
+                </h6>
                 <p th:text="${nestedReply.message}"></p>
                 <p class="text-muted" th:text="${#temporals.format(nestedReply.dateTime, 'yyyy/MM/dd HH:mm:ss')}"></p>
                 <i class="fas fa-reply reply-button" th:onclick="'replyToMessage(' + ${nestedReply.id} + ')'"></i>
@@ -610,10 +640,22 @@
               <div class="nested-reply-box" th:classappend="${nestedNestedReply.user.id == userId} ? 'sent' : 'received'">
                 <div class="nested-reply-content" th:classappend="${nestedNestedReply.user.id == userId} ? 'sent' : 'received'" th:data-message-id="${nestedNestedReply.id}">
                   <div class="replied-message-content">
-                    <h6 class="user-name" th:text="${nestedReply.user.id == userId} ? 'You' : ${nestedReply.user.name}"></h6>
+                    <h6 class="user-name">
+                      <span th:if="${nestedReply.user.role.name() == 'ADMIN'}" th:text="${nestedReply.user.name} + ' - Admin'"></span>
+                      <span th:if="${nestedReply.user.role.name() != 'ADMIN'}">
+                        <span th:if="${nestedReply.user.id == userId}">You</span>
+                        <span th:if="${nestedReply.user.id != userId}" th:text="${nestedReply.user.name}"></span>
+                      </span>
+                    </h6>
                     <i th:text="${nestedReply.message}"></i>
                   </div>
-                  <h6 class="user-name" th:text="${nestedNestedReply.user.id == userId} ? 'You' : ${nestedNestedReply.user.name}"></h6>
+                  <h6 class="user-name">
+                    <span th:if="${nestedNestedReply.user.role.name() == 'ADMIN'}" th:text="${nestedNestedReply.user.name} + ' - Admin'"></span>
+                    <span th:if="${nestedNestedReply.user.role.name() != 'ADMIN'}">
+                      <span th:if="${nestedNestedReply.user.id == userId}">You</span>
+                      <span th:if="${nestedNestedReply.user.id != userId}" th:text="${nestedNestedReply.user.name}"></span>
+                    </span>
+                  </h6>
                   <p th:text="${nestedNestedReply.message}"></p>
                   <p class="text-muted" th:text="${#temporals.format(nestedNestedReply.dateTime, 'yyyy/MM/dd HH:mm:ss')}"></p>
                   <i class="fas fa-reply reply-button" th:onclick="'replyToMessage(' + ${nestedNestedReply.id} + ')'"></i>

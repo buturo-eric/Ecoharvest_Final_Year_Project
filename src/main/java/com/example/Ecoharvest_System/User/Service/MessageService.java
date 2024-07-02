@@ -14,10 +14,18 @@ public class MessageService {
     private MessageRepository messageRepository;
 
     public List<MessageModel> findAllMessages() {
-        return messageRepository.findAllByReplyIsNullOrderByDateTimeDesc(); // Fetch only top-level messages
+        return messageRepository.findAllByReplyIsNullAndIsVisibleTrueOrderByDateTimeDesc(); // Fetch only top-level visible messages
+    }
+
+    public List<MessageModel> findAllMessagesForAdmin() {
+        return messageRepository.findAllByReplyIsNullOrderByDateTimeDesc(); // Fetch all top-level messages
     }
 
     public List<MessageModel> findReplies(MessageModel message) {
+        return messageRepository.findAllByReplyAndIsVisibleTrueOrderByDateTimeAsc(message);
+    }
+
+    public List<MessageModel> findRepliesForAdmin(MessageModel message) {
         return messageRepository.findAllByReplyOrderByDateTimeAsc(message);
     }
 
@@ -28,4 +36,13 @@ public class MessageService {
     public MessageModel findById(Long id) {
         return messageRepository.findById(id).orElse(null);
     }
+
+    public void updateMessageVisibility(Long id, boolean isVisible) {
+        MessageModel message = findById(id);
+        if (message != null) {
+            message.setVisible(isVisible);
+            messageRepository.save(message);
+        }
+    }
 }
+

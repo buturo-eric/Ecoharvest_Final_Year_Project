@@ -29,6 +29,7 @@ public class MessageController {
         UsersModel loggedInUser = (UsersModel) session.getAttribute("loggedInUser");
         if (loggedInUser != null) {
             model.addAttribute("userId", loggedInUser.getId());
+            model.addAttribute("role", loggedInUser.getRole());
         } else {
             return "redirect:/login";
         }

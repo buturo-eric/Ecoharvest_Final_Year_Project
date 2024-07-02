@@ -3,88 +3,217 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="apple-touch-icon" sizes="76x76" href="img/apple-icon.png">
   <link rel="icon" type="image/png" href="img/favicon.png">
   <title>
     ECOHARVEST
   </title>
-  <!--     Fonts and icons     -->
+  <!-- Fonts and icons -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
   <!-- Nucleo Icons -->
   <link href="css/nucleo-icons.css" rel="stylesheet" />
-  <link href="css/theme.css" rel="stylesheet" />
   <link href="css/nucleo-svg.css" rel="stylesheet" />
   <!-- Font Awesome Icons -->
   <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
   <link href="css/nucleo-svg.css" rel="stylesheet" />
   <!-- CSS Files -->
   <link id="pagestyle" href="css/soft-ui-dashboard.css?v=1.0.7" rel="stylesheet" />
+  <style>
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .col {
+      flex: 1 1 30%;
+      margin: 10px;
+    }
+
+    .card {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+    }
+
+    .card-body {
+      padding: 15px;
+    }
+
+    .card-title {
+      font-size: 1.25rem;
+      margin-bottom: 10px;
+    }
+
+    .card-footer {
+      padding: 10px 15px;
+      background-color: #f8f9fa;
+      border-top: 1px solid #ddd;
+    }
+
+    .col-6 {
+      margin-bottom: 35px;
+    }
+
+    .message-container {
+      display: flex;
+      flex-direction: column-reverse;
+      height: 70vh;
+      overflow-y: auto;
+      margin-bottom: 1rem;
+    }
+
+    .message-box, .reply-box, .nested-reply-box {
+      display: flex;
+      margin-bottom: 1rem;
+    }
+
+    .message-box.sent, .reply-box.sent, .nested-reply-box.sent {
+      justify-content: flex-end;
+    }
+
+    .message-box.received, .reply-box.received, .nested-reply-box.received {
+      justify-content: flex-start;
+    }
+
+    .message-content, .reply-content, .nested-reply-content {
+      max-width: 60%;
+      padding: 10px;
+      border-radius: 15px;
+    }
+
+    .message-content.sent {
+      background-color: #dcf8c6;
+      align-self: flex-end;
+      width: 600px;
+    }
+
+    .message-content.received {
+      background-color: #2198ff70;
+      align-self: flex-start;
+      border: 1px solid #ddd;
+      width: 600px;
+    }
+
+    .reply-content.sent {
+      background-color: #e2f4fc;
+      align-self: flex-end;
+      width: 600px;
+    }
+
+    .reply-content.received {
+      background-color: #dbfbea;
+      align-self: flex-start;
+      border: 1px solid #ddd;
+      width: 600px;
+    }
+
+    .nested-reply-content.sent {
+      background-color: #e2e2ff;
+      align-self: flex-end;
+      width: 600px;
+    }
+
+    .nested-reply-content.received {
+      background-color: #f8f8ff;
+      align-self: flex-start;
+      border: 1px solid #ddd;
+      width: 600px;
+    }
+
+    .user-name {
+      font-size: 0.9rem;
+      color: #3E8914;
+      margin-bottom: 5px;
+    }
+
+    .text-muted {
+      font-size: 0.8rem;
+      margin-top: 5px;
+    }
+
+    .replied-message-content {
+      padding: 5px;
+      border-radius: 10px;
+      background-color: #f0f0f0;
+      font-size: 0.9rem;
+      margin-bottom: 5px;
+    }
+
+    .message-form {
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+
+    .message-input {
+      flex: 1;
+      padding: 10px;
+      border-radius: 20px;
+      border: 1px solid #ddd;
+      margin-right: 10px;
+    }
+
+    .send-button {
+      background-color: #3E8914;
+      border: none;
+      color: white;
+      padding: 10px;
+      border-radius: 20px;
+      cursor: pointer;
+    }
+
+    .reply-button {
+      cursor: pointer;
+      margin-left: 10px;
+      color: #2196F3;
+    }
+
+    .vis-button {
+      cursor: pointer;
+      margin-left: 10px;
+      color: #FF0000;
+    }
+
+    .hidden-message {
+      background-color: #ffcccc;
+      border: 1px solid #ff0000;
+    }
+
+    .reply-preview {
+      position: absolute;
+      bottom: 72px;
+      left: 0;
+      right: 0;
+      background-color: #99cffcd4;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      display: none;
+      width: 860px;
+    }
+
+    .reply-preview p {
+      margin: 0;
+    }
+    .hidden-message {
+    color: red;
+    }
+  </style>
   <!-- Nepcha Analytics (nepcha.com) -->
   <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
   <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
-  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
 </head>
-<style>
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.row {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.col {
-    flex: 1 1 30%;
-    margin: 10px;
-}
-
-.card {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s;
-}
-
-.card:hover {
-    transform: scale(1.05);
-}
-
-.card img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-}
-
-.card-body {
-    padding: 15px;
-}
-
-.card-title {
-    font-size: 1.25rem;
-    margin-bottom: 10px;
-}
-
-.card-footer {
-    padding: 10px 15px;
-    background-color: #f8f9fa;
-    border-top: 1px solid #ddd;
-}
-.col-6 {
-    margin-bottom: 35px
-}
-
-.chart-legend {
-    margin-top: 20px;
-    font-size: 14px;
-}
-</style>
 <body class="g-sidenav-show  bg-gray-100">
 <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 " id="sidenav-main">
   <div class="sidenav-header">
@@ -98,7 +227,7 @@
   <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link  active" th:href="@{/adminDashboard}">
+        <a class="nav-link " th:href="@{/adminDashboard}">
           <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
             <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
               <title>shop </title>
@@ -153,7 +282,7 @@
       <li class="nav-item">
         <a class="nav-link " th:href="@{/ComplianceTasks}">
           <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-            <svg width="12px" height="12px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <svg width="12px" height="12px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/1999/xlink">
               <title>box-3d-50</title>
               <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                 <g transform="translate(-2319.000000, -291.000000)" fill="#FFFFFF" fill-rule="nonzero">
@@ -174,7 +303,7 @@
       <li class="nav-item">
         <a class="nav-link " th:href="@{/createCompliance}">
           <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-            <svg width="12px" height="12px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <svg width="12px" height="12px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/1999/xlink">
               <title>box-3d-50</title>
               <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                 <g transform="translate(-2319.000000, -291.000000)" fill="#FFFFFF" fill-rule="nonzero">
@@ -259,7 +388,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" th:href="@{/manageMessages}">
+        <a class="nav-link active" th:href="@{/manageMessages}">
           <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
             <svg width="12px" height="12px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/1999/xlink">
               <title>box-3d-50</title>
@@ -333,9 +462,9 @@
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
           <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li>
-          <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Admin Dashboard</li>
+          <li class="breadcrumb-item text-sm text-dark active" aria-current="page">User Dashboard</li>
         </ol>
-        <h6 class="font-weight-bolder mb-0" th:text="${userName}">Admin Dashboard</h6>
+        <h6 class="font-weight-bolder mb-0" th:text="${userName}">User Dashboard</h6>
       </nav>
       <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
         <div class="ms-md-auto pe-md-3 d-flex align-items-center">
@@ -410,7 +539,7 @@
                 <a class="dropdown-item border-radius-md" href="javascript:;">
                   <div class="d-flex py-1">
                     <div class="avatar avatar-sm bg-gradient-secondary  me-3  my-auto">
-                      <svg width="12px" height="12px" viewBox="0 0 43 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                      <svg width="12px" height="12px" viewBox="0 0 43 36" version="1.1" xmlns="http://www.w3.org/1999/xlink" xmlns:xlink="http://www.w3.org/1999/xlink">
                         <title>credit-card</title>
                         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                           <g transform="translate(-2169.000000, -745.000000)" fill="#FFFFFF" fill-rule="nonzero">
@@ -443,131 +572,113 @@
     </div>
   </nav>
   <!-- End Navbar -->
-  <div id="reportContent" class="container-fluid py-4">
-    <!-- Displaying counts and percentage changes -->
-    <div class="row">
-      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-        <div class="card">
-          <div class="card-body p-3">
-            <div class="row">
-              <div class="col-8">
-                <div class="numbers">
-                  <p class="text-sm mb-0 text-capitalize font-weight-bold">Today's Blog Posts</p>
-                  <h4 class="font-weight-bolder mb-0">
-                    [[${todayPostsCount}]]
-                  </h4>
-                  <h6>
-                    <span class="text-success text-sm font-weight-bolder" th:text="${postsPercentageChange}"></span>
-                  </h6>
-                </div>
-              </div>
-              <div class="col-4 text-end">
-                <a th:href="@{/blogDashboard}">
-                  <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                    <i class="fa fa-book text-lg opacity-10" aria-hidden="true"></i>
-                  </div>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-        <div class="card">
-          <div class="card-body p-3">
-            <div class="row">
-              <div class="col-8">
-                <div class="numbers">
-                  <p class="text-sm mb-0 text-capitalize font-weight-bold">Today's Users</p>
-                  <h4 class="font-weight-bolder mb-0">
-                    [[${todayUsersCount}]]
-                  </h4>
-                  <h6>
-                    <span class="text-success text-sm font-weight-bolder" th:text="${usersPercentageChange}"></span>
-                  </h6>
-                </div>
-              </div>
-              <div class="col-4 text-end">
-                <a th:href="@{/allUsers}">
-                  <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                    <i class="fa fa-user-plus text-lg opacity-10" aria-hidden="true"></i>
-                  </div>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-        <div class="card">
-          <div class="card-body p-3">
-            <div class="row">
-              <div class="col-8">
-                <div class="numbers">
-                  <p class="text-sm mb-0 text-capitalize font-weight-bold">Total Users</p>
-                  <h4 class="font-weight-bolder mb-0">
-                    [[${totalUsersCount}]]
-                  </h4>
-                </div>
-              </div>
-              <div class="col-4 text-end">
-                <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                  <i class="fa fa-users text-lg opacity-10" aria-hidden="true"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-xl-3 col-sm-6">
-        <div class="card">
-          <div class="card-body p-3">
-            <div class="row">
-              <div class="col-8">
-                <div class="numbers">
-                  <p class="text-sm mb-0 text-capitalize font-weight-bold">Total Blogs</p>
-                  <h4 class="font-weight-bolder mb-0">
-                    [[${totalPostsCount}]]
-                  </h4>
-                </div>
-              </div>
-              <div class="col-4 text-end">
-                <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                  <i class="fa fa-book text-lg opacity-10" aria-hidden="true"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <!-- Add a section for the bar chart -->
-    <div class="row mt-4">
-      <div class="col-6">
-        <div class="card">
-          <div class="card-body">
-            <h6 class="font-weight-bolder mb-0">Blog Views Statistics</h6>
-            <canvas id="blogViewsChart"></canvas>
-            <div class="chart-legend" id="chartLegend"></div>
+  <!-- Displaying Messages -->
+  <div class="container">
+    <h1 class="mt-4">Messages</h1>
+    <div class="message-container">
+      <div th:each="message : ${messages}">
+        <!-- Main Message -->
+        <div class="message-box" th:classappend="${message.user.id == userId} ? 'sent' : 'received'">
+          <div class="message-content"
+               th:classappend="${message.user.id == userId} ? 'sent' : 'received' + (!message.visible ? ' hidden-message' : '')"
+               th:data-message-id="${message.id}">
+            <h5 class="user-name" th:text="${message.user.id == userId} ? 'You' : ${message.user.name}"></h5>
+            <p th:text="${message.message}"></p>
+            <p class="text-muted" th:text="${#temporals.format(message.dateTime, 'yyyy/MM/dd HH:mm:ss')}"></p>
+            <i class="fas fa-reply reply-button" th:onclick="'replyToMessage(' + ${message.id} + ')'"></i>
+            <!-- Visibility toggle buttons for admin -->
+            <i class="fas fa-eye-slash vis-button" th:if="${message.visible}" th:onclick="'toggleVisibility(' + ${message.id} + ', false)'"></i>
+            <i class="fas fa-eye vis-button" th:if="${!message.visible}" th:onclick="'toggleVisibility(' + ${message.id} + ', true)'"></i>
           </div>
         </div>
-      </div>
-      <div class="col-6">
-        <div class="card">
-          <div class="card-body">
-            <h6 class="font-weight-bolder mb-0">Most Viewed Blog Tags</h6>
-            <canvas id="tagViewsChart"></canvas>
-            <div class="chart-legend" id="tagChartLegend"></div>
+
+        <!-- Display replies -->
+        <div th:if="${message.replies != null and #lists.size(message.replies) > 0}" th:each="reply : ${message.replies}">
+          <div class="reply-box" th:classappend="${reply.user.id == userId} ? 'sent' : 'received'">
+            <div class="reply-content"
+                 th:classappend="${reply.user.id == userId} ? 'sent' : 'received' + (!reply.visible ? ' hidden-message' : '')"
+                 th:data-message-id="${reply.id}">
+              <div class="replied-message-content">
+                <h6 class="user-name" th:text="${message.user.id == userId} ? 'You' : ${message.user.name}"></h6>
+                <i th:text="${message.message}"></i>
+              </div>
+              <h6 class="user-name" th:text="${reply.user.id == userId} ? 'You' : ${reply.user.name}"></h6>
+              <p th:text="${reply.message}"></p>
+              <p class="text-muted" th:text="${#temporals.format(reply.dateTime, 'yyyy/MM/dd HH:mm:ss')}"></p>
+              <i class="fas fa-reply reply-button" th:onclick="'replyToMessage(' + ${reply.id} + ')'"></i>
+              <!-- Visibility toggle buttons for admin -->
+              <i class="fas fa-eye-slash vis-button" th:if="${reply.visible}" th:onclick="'toggleVisibility(' + ${reply.id} + ', false)'"></i>
+              <i class="fas fa-eye vis-button" th:if="${!reply.visible}" th:onclick="'toggleVisibility(' + ${reply.id} + ', true)'"></i>
+            </div>
+          </div>
+
+          <!-- Nested replies -->
+          <div th:if="${reply.replies != null and #lists.size(reply.replies) > 0}" th:each="nestedReply : ${reply.replies}">
+            <div class="nested-reply-box" th:classappend="${nestedReply.user.id == userId} ? 'sent' : 'received'">
+              <div class="nested-reply-content"
+                   th:classappend="${nestedReply.user.id == userId} ? 'sent' : 'received' + (!nestedReply.visible ? ' hidden-message' : '')"
+                   th:data-message-id="${nestedReply.id}">
+                <div class="replied-message-content">
+                  <h6 class="user-name" th:text="${reply.user.id == userId} ? 'You' : ${reply.user.name}"></h6>
+                  <i th:text="${reply.message}"></i>
+                </div>
+                <h6 class="user-name" th:text="${nestedReply.user.id == userId} ? 'You' : ${nestedReply.user.name}"></h6>
+                <p th:text="${nestedReply.message}"></p>
+                <p class="text-muted" th:text="${#temporals.format(nestedReply.dateTime, 'yyyy/MM/dd HH:mm:ss')}"></p>
+                <i class="fas fa-reply reply-button" th:onclick="'replyToMessage(' + ${nestedReply.id} + ')'"></i>
+                <!-- Visibility toggle buttons for admin -->
+                <i class="fas fa-eye-slash vis-button" th:if="${nestedReply.visible}" th:onclick="'toggleVisibility(' + ${nestedReply.id} + ', false)'"></i>
+                <i class="fas fa-eye vis-button" th:if="${!nestedReply.visible}" th:onclick="'toggleVisibility(' + ${nestedReply.id} + ', true)'"></i>
+              </div>
+            </div>
+
+            <!-- Recursive nested replies -->
+            <div th:if="${nestedReply.replies != null and #lists.size(nestedReply.replies) > 0}" th:each="nestedNestedReply : ${nestedReply.replies}">
+              <div class="nested-reply-box" th:classappend="${nestedNestedReply.user.id == userId} ? 'sent' : 'received'">
+                <div class="nested-reply-content"
+                     th:classappend="${nestedNestedReply.user.id == userId} ? 'sent' : 'received' + (!nestedNestedReply.visible ? ' hidden-message' : '')"
+                     th:data-message-id="${nestedNestedReply.id}">
+                  <div class="replied-message-content">
+                    <h6 class="user-name" th:text="${nestedReply.user.id == userId} ? 'You' : ${nestedReply.user.name}"></h6>
+                    <i th:text="${nestedReply.message}"></i>
+                  </div>
+                  <h6 class="user-name" th:text="${nestedNestedReply.user.id == userId} ? 'You' : ${nestedNestedReply.user.name}"></h6>
+                  <p th:text="${nestedNestedReply.message}"></p>
+                  <p class="text-muted" th:text="${#temporals.format(nestedNestedReply.dateTime, 'yyyy/MM/dd HH:mm:ss')}"></p>
+                  <i class="fas fa-reply reply-button" th:onclick="'replyToMessage(' + ${nestedNestedReply.id} + ')'"></i>
+                  <!-- Visibility toggle buttons for admin -->
+                  <i class="fas fa-eye-slash vis-button" th:if="${nestedNestedReply.visible}" th:onclick="'toggleVisibility(' + ${nestedNestedReply.id} + ', false)'"></i>
+                  <i class="fas fa-eye vis-button" th:if="${!nestedNestedReply.visible}" th:onclick="'toggleVisibility(' + ${nestedNestedReply.id} + ', true)'"></i>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
+    <form th:action="@{/messages/post}" method="post" class="message-form">
+      <div id="replyPreview" class="reply-preview" style="display: none;">
+        <strong>Reply to:</strong>
+        <p id="replyMessageContent"></p>
+        <button type="button" class="btn btn-sm btn-secondary" onclick="cancelReply()">Cancel</button>
+      </div>
+      <input type="hidden" name="userId" th:value="${userId}" />
+      <input type="hidden" name="replyId" id="replyId" />
+      <textarea name="message" class="message-input" placeholder="Enter your message"></textarea>
+      <button type="submit" class="send-button"><i class="fa fa-paper-plane"></i></button>
+    </form>
   </div>
-  <div class="centered-btn">
-    <button id="downloadBtn" class="btn btn-outline-success">Download Report</button>
-  </div>
+
+
 </main>
+
+<!-- Add CSS for hidden messages -->
+<style>
+    .hidden-message {
+        color: red;
+    }
+</style>
 
 <!--   Core JS Files   -->
 <script src="js/core/popper.min.js"></script>
@@ -575,128 +686,53 @@
 <script src="js/plugins/perfect-scrollbar.min.js"></script>
 <script src="js/plugins/smooth-scrollbar.min.js"></script>
 <script src="js/plugins/chartjs.min.js"></script>
-<script th:inline="javascript">
-    /*<![CDATA[*/
-    document.addEventListener('DOMContentLoaded', function () {
-        // Blog Views Chart
-        var ctx = document.getElementById('blogViewsChart').getContext('2d');
-        var blogViewsData = /*[[${blogViewsData}]]*/ '[]';
-
-        blogViewsData = JSON.parse(blogViewsData); // Parse the JSON string to JavaScript object
-
-        var labels = blogViewsData.map(item => {
-            if (item.title.length > 15) {
-                return item.title.substring(0, 12) + '...';
-            }
-            return item.title;
-        });
-        var data = blogViewsData.map(item => item.views);
-
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: labels,
-                datasets: [{
-                    label: 'Blog Views',
-                    data: data,
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-
-        // Create legend
-        var legendHtml = '<ul>';
-        blogViewsData.forEach(item => {
-            legendHtml += '<li>' + item.title + '</li>';
-        });
-        legendHtml += '</ul>';
-        document.getElementById('chartLegend').innerHTML = legendHtml;
-
-        // Tag Views Chart
-        var tagCtx = document.getElementById('tagViewsChart').getContext('2d');
-        var tagViewCounts = /*[[${tagViewCounts}]]*/ '{}';
-
-        tagViewCounts = JSON.parse(tagViewCounts); // Parse the JSON string to JavaScript object
-
-        var tagLabels = Object.keys(tagViewCounts).map(tag => {
-            if (tag.length > 15) {
-                return tag.substring(0, 12) + '...';
-            }
-            return tag;
-        });
-        var tagData = Object.values(tagViewCounts);
-
-        new Chart(tagCtx, {
-            type: 'bar',
-            data: {
-                labels: tagLabels,
-                datasets: [{
-                    label: 'Tag Views',
-                    data: tagData,
-                    backgroundColor: 'rgba(153, 102, 255, 0.2)',
-                    borderColor: 'rgba(153, 102, 255, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-
-        // Create legend for tag views chart
-        var tagLegendHtml = '<ul>';
-        Object.keys(tagViewCounts).forEach(tag => {
-            tagLegendHtml += '<li>' + tag + '</li>';
-        });
-        tagLegendHtml += '</ul>';
-        document.getElementById('tagChartLegend').innerHTML = tagLegendHtml;
-    });
-    /*]]>*/
-  </script>
-<!--Script to download pdf-->
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    function downloadPDF() {
-      var element = document.getElementById('reportContent');
-      if (element) {
-        html2canvas(element, {scale: 2}).then(canvas => {
-          const imgData = canvas.toDataURL('image/png');
-          const pdf = new window.jspdf.jsPDF({
-            orientation: "portrait",
-            unit: "px",
-            format: [canvas.width, canvas.height]
-          });
+  function replyToMessage(messageId) {
+    var messageElement = document.querySelector(
+      '.message-content[data-message-id="' + messageId + '"] p, ' +
+      '.reply-content[data-message-id="' + messageId + '"] p, ' +
+      '.nested-reply-content[data-message-id="' + messageId + '"] p'
+    );
 
-          pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
-          pdf.save("dashboard-report.pdf");
-        }).catch(error => {
-          console.error("Error in PDF generation:", error);
-        });
-      } else {
-        console.error("Element not found. Check the ID used in getElementById.");
-      }
+    if (messageElement) {
+      var messageContent = messageElement.innerText;
+      document.getElementById('replyMessageContent').innerText = messageContent;
+      document.getElementById('replyId').value = messageId;
+      document.getElementById('replyPreview').style.display = 'block';
+    } else {
+      console.error("Message content not found for messageId: " + messageId);
     }
+  }
 
-    var downloadBtn = document.getElementById('downloadBtn');
-    if (downloadBtn) {
-      downloadBtn.addEventListener('click', downloadPDF);
-    }
-  });
+  function cancelReply() {
+    document.getElementById('replyMessageContent').innerText = '';
+    document.getElementById('replyId').value = '';
+    document.getElementById('replyPreview').style.display = 'none';
+  }
+
+  function toggleVisibility(messageId, isVisible) {
+    const form = document.createElement('form');
+    form.method = 'post';
+    form.action = '/manageMessages/updateVisibility';
+
+    const idInput = document.createElement('input');
+    idInput.type = 'hidden';
+    idInput.name = 'id';
+    idInput.value = messageId;
+    form.appendChild(idInput);
+
+    const isVisibleInput = document.createElement('input');
+    isVisibleInput.type = 'hidden';
+    isVisibleInput.name = 'isVisible';
+    isVisibleInput.value = isVisible;
+    form.appendChild(isVisibleInput);
+
+    document.body.appendChild(form);
+    form.submit();
+  }
 </script>
-
+<!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
 <script src="js/soft-ui-dashboard.min.js?v=1.0.7"></script>
 </body>
 </html>
+

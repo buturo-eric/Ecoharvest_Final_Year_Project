@@ -10,8 +10,12 @@ import java.util.List;
 @Repository
 public interface MessageRepository extends JpaRepository<MessageModel, Long> {
     @EntityGraph(attributePaths = {"replies", "replies.user", "replies.replies"})
-    List<MessageModel> findAllByReplyIsNullOrderByDateTimeDesc();
+    List<MessageModel> findAllByReplyIsNullAndIsVisibleTrueOrderByDateTimeDesc();
 
-    List<MessageModel> findAllByReplyOrderByDateTimeAsc(MessageModel reply);
+    List<MessageModel> findAllByReplyAndIsVisibleTrueOrderByDateTimeAsc(MessageModel reply);
+
+    @EntityGraph(attributePaths = {"replies", "replies.user", "replies.replies"})
+    List<MessageModel> findAllByReplyIsNullOrderByDateTimeDesc(); // For admin to see all messages
+
+    List<MessageModel> findAllByReplyOrderByDateTimeAsc(MessageModel reply); // For admin to see all replies
 }
-
