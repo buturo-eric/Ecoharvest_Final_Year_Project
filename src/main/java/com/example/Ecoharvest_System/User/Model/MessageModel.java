@@ -32,8 +32,8 @@ public class MessageModel {
     @OneToMany(mappedBy = "reply", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<MessageModel> replies = new HashSet<>();
 
-    @Column(name = "is_visible", nullable = false)
-    private boolean isVisible;
+    @Column(name = "is_visible", nullable = false, columnDefinition = "BOOLEAN DEFAULT TRUE")
+    private boolean isVisible = true;
 
     // Getters and Setters
 

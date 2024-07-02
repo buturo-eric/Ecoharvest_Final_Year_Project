@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -38,6 +39,20 @@ public class ManageMessagesController {
 
         model.addAttribute("messages", messages);
         return "Admin/ManageMessages";
+    }
+    @PostMapping("/post")
+    public String postMessage(@RequestParam int userId, @RequestParam String message, @RequestParam(required = false) Long replyId) {
+        MessageModel newMessage = new MessageModel();
+        UsersModel user = usersService.findById(userId);
+        newMessage.setUser(user);
+        newMessage.setMessage(message);
+        newMessage.setDateTime(LocalDateTime.now());
+        if (replyId != null) {
+            MessageModel reply = messageService.findById(replyId);
+            newMessage.setReply(reply);
+        }
+        messageService.saveMessage(newMessage);
+        return "redirect:/manageMessages";
     }
     @PostMapping("/updateVisibility")
     public String updateMessageVisibility(@RequestParam("id") Long id, @RequestParam("isVisible") boolean isVisible) {
