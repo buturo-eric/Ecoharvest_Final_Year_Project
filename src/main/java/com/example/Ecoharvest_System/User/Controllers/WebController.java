@@ -48,6 +48,10 @@ public class WebController {
         return "User/signup";
     }
 
+    @GetMapping("/aiAssistance")
+    public String aiAssistance() {
+        return "User/aiAssistance";
+    }
 
     @PostMapping("/createUser")
     public String createUser(UsersModel usersModel) {

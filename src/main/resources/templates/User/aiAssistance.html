@@ -61,6 +61,9 @@
         .card {
           border-left: 5px solid #3E8914; /* Just an example to show border-color usage */
         }
+        .row .col-md-4 {
+            padding-bottom: 15px;
+        }
     </style>
 
     <style>
@@ -123,6 +126,13 @@
         width: 720px;
         margin-left: 100px
       }
+      .result-card {
+            display: none;
+            margin-top: 20px;
+        }
+        .result-card .card-body {
+            padding: 15px;
+        }
     </style>
 </head>
 <body class="g-sidenav-show bg-gray-100">
@@ -240,7 +250,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" th:href="@{/calendar}">
+                <a class="nav-link" th:href="@{/calendar}">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                         <svg width="12px" height="12px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <title>office</title>
@@ -448,24 +458,104 @@
         </div>
     </nav>
     <!-- End Navbar -->
-    <div class="container-fluid py-4">
 
-        <!-- Calendar Section -->
-        <div class="row">
-            <div class="col-md-8 col-lg-6"> <!-- Adjusted column size -->
-                <div class="card crd_design mb-4">
-                    <div class="card-header pb-0">
-                        <h4>Calendar</h4>
+    <div class="container-fluid py-4">
+        <div class="card">
+            <div class="card-body">
+                <h4>Crop Yield Prediction</h4>
+                <form id="yieldForm">
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="rainfall" class="form-label">RainFall (mm)</label>
+                            <input type="number" class="form-control" id="rain_fall" name="RainFall" step="0.0000001" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="fertilizer" class="form-label">Fertilizer</label>
+                            <input type="number" class="form-control" id="fertilizer" name="fertilizer" step="0.0000001" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="temperature" class="form-label">Temperature (C)</label>
+                            <input type="number" class="form-control" id="temperature" name="temperature" step="0.0000001" required>
+                        </div>
                     </div>
-                    <div class="card-body px-0 pt-0 pb-2">
-                        <div id='calendar' style="max-width: 100%; height: auto;"></div> <!-- Adjusted calendar size -->
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="nitrogen" class="form-label">Nitrogen (N)</label>
+                            <input type="number" class="form-control" id="nitrogen" name="nitrogen" step="0.0000001" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="phosphorus" class="form-label">Phosphorus (P)</label>
+                            <input type="number" class="form-control" id="phosphorus" name="phosphorus" step="0.0000001" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="potassium" class="form-label">Potassium (K)</label>
+                            <input type="number" class="form-control" id="potassium" name="potassium" step="0.0000001" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Predict Yield</button>
+                </form>
+                <div class="card result-card" id="yieldResultCard">
+                    <div class="card-body">
+                        <h5 class="card-title">Yield Prediction Result</h5>
+                        <p class="card-text" id="yieldResult"></p>
+                        <p class="card-text">This prediction provides an estimate of the crop yield based on the given input parameters. Ensure that the input values are accurate for the most reliable results.</p>
                     </div>
                 </div>
             </div>
         </div>
-
-
+        <div class="card mt-4">
+            <div class="card-body">
+                <h4>Crop Recommendation</h4>
+                <form id="recommendForm">
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="Nitrogen" class="form-label">Nitrogen (N)</label>
+                            <input type="number" class="form-control" id="Nitrogen" name="n" step="0.0000001" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="Phosphorus" class="form-label">Phosphorus (P)</label>
+                            <input type="number" class="form-control" id="phosphorus" name="p" step="0.0000001" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="Potassium" class="form-label">Potassium (K)</label>
+                            <input type="number" class="form-control" id="potassium" name="k" step="0.0000001" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="Temperature" class="form-label">Temperature (C)</label>
+                            <input type="number" class="form-control" id="temperature" name="temperature" step="0.0000001" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="Humidity" class="form-label">Humidity</label>
+                            <input type="number" class="form-control" id="Humidity" name="humidity" step="0.0000001" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="pH" class="form-label">pH</label>
+                            <input type="number" class="form-control" id="pH" name="ph" step="0.0000001" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="Rainfall" class="form-label">RainFall (mm)</label>
+                            <input type="number" class="form-control" id="Rainfall" name="rainfall" step="0.0000001" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Recommend Crop</button>
+                </form>
+                <div class="card result-card" id="recommendResultCard">
+                    <div class="card-body">
+                        <h5 class="card-title">Crop Recommendation Result</h5>
+                        <p class="card-text" id="recommendResult"></p>
+                        <p class="card-text">This recommendation suggests the most suitable crop based on the provided environmental conditions and soil properties. Ensure to use precise input values for the best recommendation.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
+
+
 </main>
 
 <!-- Core JS Files -->
@@ -476,42 +566,58 @@
 <script src="js/plugins/chartjs.min.js"></script>
 <!-- FullCalendar JS -->
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js'></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('calendar');
-        var eventsList = /*[[${eventsJson}]]*/ '[(${eventsJson})]';
-        eventsList = JSON.parse(eventsList.replace(/&quot;/g, '"')); // Ensure proper JSON format
-
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth',
-            events: eventsList, // Use the parsed events list directly
-            headerToolbar: {
-                left: 'prev,next today',
-                center: 'title',
-                right: 'dayGridMonth,timeGridWeek,timeGridDay'
-            },
-            eventClick: function(info) {
-                info.jsEvent.preventDefault(); // Prevent default navigation
-                if (info.event.url) {
-                    window.open(info.event.url); // Open the URL in a new tab
-                }
-            },
-            eventContent: function(arg) {
-                let arrayOfDomNodes = [];
-                let titleEvent = arg.event.title;
-                let titleEventDom = document.createElement('div');
-                titleEventDom.innerHTML = titleEvent;
-                titleEventDom.classList = "fc-event-title";
-                arrayOfDomNodes = [titleEventDom];
-                return { domNodes: arrayOfDomNodes };
-            }
-        });
-
-        calendar.render();
-    });
-</script>
-
 <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
 <script src="js/soft-ui-dashboard.min.js?v=1.0.7"></script>
+<script>
+document.getElementById('yieldForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    var formData = new FormData(event.target);
+    var jsonData = {
+        rain_fall: formData.get('rain_fall'),
+        fertilizer: formData.get('fertilizer'),
+        temperature: formData.get('temperature'),
+        nitrogen: formData.get('nitrogen'),
+        phosphorus: formData.get('phosphorus'),
+        potassium: formData.get('potassium')
+    };
+    fetch('/api/predictYield', {
+        method: 'POST',
+        body: JSON.stringify(jsonData),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(response => response.json())
+      .then(data => {
+          document.getElementById('yieldResult').innerText = 'Predicted Yield: ' + data;
+          document.getElementById('yieldResultCard').style.display = 'block';
+      });
+});
+
+document.getElementById('recommendForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    var formData = new FormData(event.target);
+    var jsonData = {
+        n: formData.get('n'),
+        p: formData.get('p'),
+        k: formData.get('k'),
+        temperature: formData.get('temperature'),
+        humidity: formData.get('humidity'),
+        ph: formData.get('ph'),
+        rainfall: formData.get('rainfall')
+    };
+    fetch('/api/recommendCrop', {
+        method: 'POST',
+        body: JSON.stringify(jsonData),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(response => response.json())
+      .then(data => {
+          document.getElementById('recommendResult').innerText = 'Recommended Crop: ' + data;
+          document.getElementById('recommendResultCard').style.display = 'block';
+      });
+});
+
+</script>
 </body>
 </html>
