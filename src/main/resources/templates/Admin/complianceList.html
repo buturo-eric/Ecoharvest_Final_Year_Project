@@ -408,7 +408,8 @@
                         <tr th:each="compliance : ${compliances}">
                             <td><img th:src="${compliance.featuredImage}" class="img-fluid" style="width: 100px; height: auto;" th:if="${compliance.featuredImage != null}" alt="Featured Image"></td>
                             <td th:text="${compliance.complianceName}">Compliance Name</td>
-                            <td th:text="${compliance.description}">Description</td>
+<!--                            <td th:text="${compliance.description}">Description</td>-->
+                            <td class="text-truncate" style="max-width: 250px;" th:text="${compliance.description}">Description</td>
                             <td th:text="${#temporals.format(compliance.startDate, 'dd-MM-yyyy')}">Start Date</td>
                             <td th:text="${#temporals.format(compliance.endDate, 'dd-MM-yyyy')}">End Date</td>
                             <td>
