@@ -543,10 +543,18 @@
                     </div>
                     <button type="submit" class="btn btn-primary">Recommend Crop</button>
                 </form>
-                <div class="card result-card" id="recommendResultCard">
+<!--                <div class="card result-card" id="recommendResultCard">-->
+<!--                    <div class="card-body">-->
+<!--                        <h5 class="card-title">Crop Recommendation Result</h5>-->
+<!--                        <p class="card-text" id="recommendResult"></p>-->
+<!--                        <p class="card-text">This recommendation suggests the most suitable crop based on the provided environmental conditions and soil properties. Ensure to use precise input values for the best recommendation.</p>-->
+<!--                    </div>-->
+<!--                </div>-->
+                <div class="card result-card" id="recommendResultCard" style="display: none;">
                     <div class="card-body">
                         <h5 class="card-title">Crop Recommendation Result</h5>
                         <p class="card-text" id="recommendResult"></p>
+                        <img id="recommendCropImage" src="" alt="Recommended Crop Image" style="max-width: 100%; display: none;">
                         <p class="card-text">This recommendation suggests the most suitable crop based on the provided environmental conditions and soil properties. Ensure to use precise input values for the best recommendation.</p>
                     </div>
                 </div>
@@ -590,7 +598,7 @@ document.getElementById('yieldForm').addEventListener('submit', function(event) 
       });
 });
 
-document.getElementById('recommendForm').addEventListener('submit', function(event) {
+    document.getElementById('recommendForm').addEventListener('submit', function(event) {
     event.preventDefault();
     var formData = new FormData(event.target);
     var jsonData = {
@@ -610,11 +618,42 @@ document.getElementById('recommendForm').addEventListener('submit', function(eve
         }
     }).then(response => response.json())
       .then(data => {
-          document.getElementById('recommendResult').innerText = 'Recommended Crop: ' + data;
+          var recommendedCrop = data.recommended_crop;
+          document.getElementById('recommendResult').innerText = 'Recommended Crop: ' + recommendedCrop;
           document.getElementById('recommendResultCard').style.display = 'block';
+
+          var imagePath = 'img' + recommendedCrop + '.jpg'; // Update with your actual images folder path
+          var cropImage = document.getElementById('recommendCropImage');
+          cropImage.src = imagePath;
+          cropImage.style.display = 'block';
       });
 });
-
 </script>
+
+
+<!--document.getElementById('recommendForm').addEventListener('submit', function(event) {-->
+<!--    event.preventDefault();-->
+<!--    var formData = new FormData(event.target);-->
+<!--    var jsonData = {-->
+<!--        n: formData.get('n'),-->
+<!--        p: formData.get('p'),-->
+<!--        k: formData.get('k'),-->
+<!--        temperature: formData.get('temperature'),-->
+<!--        humidity: formData.get('humidity'),-->
+<!--        ph: formData.get('ph'),-->
+<!--        rainfall: formData.get('rainfall')-->
+<!--    };-->
+<!--    fetch('/api/recommendCrop', {-->
+<!--        method: 'POST',-->
+<!--        body: JSON.stringify(jsonData),-->
+<!--        headers: {-->
+<!--            'Content-Type': 'application/json'-->
+<!--        }-->
+<!--    }).then(response => response.json())-->
+<!--      .then(data => {-->
+<!--          document.getElementById('recommendResult').innerText = 'Recommended Crop: ' + data;-->
+<!--          document.getElementById('recommendResultCard').style.display = 'block';-->
+<!--      });-->
+<!--});-->
 </body>
 </html>
