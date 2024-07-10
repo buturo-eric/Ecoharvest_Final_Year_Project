@@ -95,7 +95,6 @@
         }
 
         .card img {
-          width: 100%;
           height: 200px;
           object-fit: cover;
         }
@@ -499,6 +498,8 @@
                         <h5 class="card-title">Yield Prediction Result Per Acre</h5>
                         <p class="card-text" id="yieldResult"></p>
                         <p class="card-text">This prediction provides an estimate of the crop yield based on the given input parameters. Ensure that the input values are accurate for the most reliable results.</p>
+                        <h6 class="card-title">Kinyarwanda</h6>
+                        <p class="card-text">Ubuhanuzi butanga ikigereranyo cyumusaruro wibihingwa ukurikije ibipimo byatanzwe. Menya neza ko ibyinjijwe bifite agaciro kubisubizo byizewe.</p>
                     </div>
                 </div>
             </div>
@@ -543,19 +544,15 @@
                     </div>
                     <button type="submit" class="btn btn-primary">Recommend Crop</button>
                 </form>
-<!--                <div class="card result-card" id="recommendResultCard">-->
-<!--                    <div class="card-body">-->
-<!--                        <h5 class="card-title">Crop Recommendation Result</h5>-->
-<!--                        <p class="card-text" id="recommendResult"></p>-->
-<!--                        <p class="card-text">This recommendation suggests the most suitable crop based on the provided environmental conditions and soil properties. Ensure to use precise input values for the best recommendation.</p>-->
-<!--                    </div>-->
-<!--                </div>-->
                 <div class="card result-card" id="recommendResultCard" style="display: none;">
                     <div class="card-body">
                         <h5 class="card-title">Crop Recommendation Result</h5>
                         <p class="card-text" id="recommendResult"></p>
                         <img id="recommendCropImage" src="" alt="Recommended Crop Image" style="max-width: 100%; display: none;">
+                        <h6 class="card-title">English</h6>
                         <p class="card-text">This recommendation suggests the most suitable crop based on the provided environmental conditions and soil properties. Ensure to use precise input values for the best recommendation.</p>
+                        <h6 class="card-title">Kinyarwanda</h6>
+                        <p class="card-text">Iki cyifuzo cyerekana igihingwa kibereye hashingiwe ku bidukikije byatanzwe hamwe nubutaka bwubutaka. Wemeze gukoresha indangagaciro zuzuye zibyifuzo byiza.</p>
                     </div>
                 </div>
             </div>
@@ -598,7 +595,7 @@ document.getElementById('yieldForm').addEventListener('submit', function(event) 
       });
 });
 
-    document.getElementById('recommendForm').addEventListener('submit', function(event) {
+document.getElementById('recommendForm').addEventListener('submit', function(event) {
     event.preventDefault();
     var formData = new FormData(event.target);
     var jsonData = {
@@ -618,42 +615,14 @@ document.getElementById('yieldForm').addEventListener('submit', function(event) 
         }
     }).then(response => response.json())
       .then(data => {
-          var recommendedCrop = data.recommended_crop;
-          document.getElementById('recommendResult').innerText = 'Recommended Crop: ' + recommendedCrop;
-          document.getElementById('recommendResultCard').style.display = 'block';
-
-          var imagePath = 'img' + recommendedCrop + '.jpg'; // Update with your actual images folder path
+          document.getElementById('recommendResult').innerText = 'Recommended Crop: ' + data;
           var cropImage = document.getElementById('recommendCropImage');
-          cropImage.src = imagePath;
+          cropImage.src = 'img/' + data + '.png'; // Assuming images are .jpg format
           cropImage.style.display = 'block';
+          document.getElementById('recommendResultCard').style.display = 'block';
       });
 });
 </script>
 
-
-<!--document.getElementById('recommendForm').addEventListener('submit', function(event) {-->
-<!--    event.preventDefault();-->
-<!--    var formData = new FormData(event.target);-->
-<!--    var jsonData = {-->
-<!--        n: formData.get('n'),-->
-<!--        p: formData.get('p'),-->
-<!--        k: formData.get('k'),-->
-<!--        temperature: formData.get('temperature'),-->
-<!--        humidity: formData.get('humidity'),-->
-<!--        ph: formData.get('ph'),-->
-<!--        rainfall: formData.get('rainfall')-->
-<!--    };-->
-<!--    fetch('/api/recommendCrop', {-->
-<!--        method: 'POST',-->
-<!--        body: JSON.stringify(jsonData),-->
-<!--        headers: {-->
-<!--            'Content-Type': 'application/json'-->
-<!--        }-->
-<!--    }).then(response => response.json())-->
-<!--      .then(data => {-->
-<!--          document.getElementById('recommendResult').innerText = 'Recommended Crop: ' + data;-->
-<!--          document.getElementById('recommendResultCard').style.display = 'block';-->
-<!--      });-->
-<!--});-->
 </body>
 </html>
