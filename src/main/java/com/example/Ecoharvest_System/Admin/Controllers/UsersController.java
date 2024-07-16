@@ -110,9 +110,6 @@ public class UsersController {
         return "Admin/dashboard";
     }
 
-
-
-
     @GetMapping("/addUser")
     public String showAddUserForm(Model model) {
         model.addAttribute("user", new UsersModel());
@@ -184,6 +181,9 @@ public class UsersController {
                 break;
             case "3month":
                 users = usersService.getUsersFromLastDays(90);
+                break;
+            case "6month":
+                users = usersService.getUsersFromLastDays(183);
                 break;
             case "today":
             default:
