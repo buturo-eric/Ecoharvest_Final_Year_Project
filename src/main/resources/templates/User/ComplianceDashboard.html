@@ -133,6 +133,9 @@
   .nav-link .icon {
     margin-right: 10px; /* Adjust as needed */
   }
+  .dropdown-menu.show{
+    background-color: #a1cca5 !important;
+  }
 </style>
 <body class="g-sidenav-show  bg-gray-100">
 <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 " id="sidenav-main">
@@ -341,6 +344,16 @@
                 <div class="card">
                     <div class="card-body">
                         <h6 class="font-weight-bolder mb-0">Task Statuses</h6>
+                        <div class="btn-group">
+                            <button class="btn btn-icon btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa fa-download"></i>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#" onclick="downloadChart('taskStatusChart', 'png')">PNG</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="downloadChart('taskStatusChart', 'jpeg')">JPEG</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="downloadChart('taskStatusChart', 'webp')">WEBP</a></li>
+                            </ul>
+                        </div>
                         <canvas id="taskStatusChart" width="400" height="200"></canvas>
                     </div>
                 </div>
@@ -349,6 +362,16 @@
                 <div class="card">
                     <div class="card-body">
                         <h6 class="font-weight-bolder mb-0">Tasks by Compliance</h6>
+                        <div class="btn-group">
+                            <button class="btn btn-icon btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa fa-download"></i>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#" onclick="downloadChart('tasksByComplianceChart', 'png')">PNG</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="downloadChart('tasksByComplianceChart', 'jpeg')">JPEG</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="downloadChart('tasksByComplianceChart', 'webp')">WEBP</a></li>
+                            </ul>
+                        </div>
                         <canvas id="tasksByComplianceChart" width="400" height="200"></canvas>
                     </div>
                 </div>
@@ -359,6 +382,16 @@
                 <div class="card">
                     <div class="card-body">
                         <h6 class="font-weight-bolder mb-0">Task Occurrences</h6>
+                        <div class="btn-group">
+                            <button class="btn btn-icon btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa fa-download"></i>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#" onclick="downloadChart('taskOccurrencesChart', 'png')">PNG</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="downloadChart('taskOccurrencesChart', 'jpeg')">JPEG</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="downloadChart('taskOccurrencesChart', 'webp')">WEBP</a></li>
+                            </ul>
+                        </div>
                         <canvas id="taskOccurrencesChart" width="400" height="200"></canvas>
                     </div>
                 </div>
@@ -522,6 +555,29 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
 </script>
+<script th:inline="javascript">
+    function downloadChart(chartId, format) {
+        const chart = document.getElementById(chartId);
+        const link = document.createElement('a');
+
+        if (format === 'jpeg' || format === 'webp') {
+            const tempCanvas = document.createElement('canvas');
+            const context = tempCanvas.getContext('2d');
+            tempCanvas.width = chart.width;
+            tempCanvas.height = chart.height;
+            context.fillStyle = '#fff'; // Set the background to white
+            context.fillRect(0, 0, chart.width, chart.height);
+            context.drawImage(chart, 0, 0);
+            link.href = tempCanvas.toDataURL(`image/${format}`);
+        } else {
+            link.href = chart.toDataURL(`image/${format}`);
+        }
+
+        link.download = `${chartId}.${format}`;
+        link.click();
+    }
+</script>
+
 
 <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
 <script src="js/soft-ui-dashboard.min.js?v=1.0.7"></script>
