@@ -48,6 +48,7 @@
 
     .navbar {
       background-color: #2f7309 !important;
+      margin-bottom: 30px;
     }
 
     .navbar-vertical .navbar-nav>.nav-item .nav-link.active {
@@ -344,7 +345,9 @@
               <small class="text-muted" th:text="'Tags: ' + ${blogPost.tags}"></small>
               <small class="text-muted" th:text="${blogPost.createdAt}"></small>
             </div>
-            <div class="card-text content-wrapper" th:utext="${blogPost.content}"></div>
+            <div class="card-text content-wrapper">
+              <p th:each="paragraph : ${paragraphs}" th:text="${paragraph}"></p>
+            </div>
           </div>
           <div class="card-footer text-end">
             <a th:href="@{/userDashboard}" class="btn btn-secondary">Back to Dashboard</a>
@@ -354,23 +357,7 @@
     </div>
   </div>
 
-    <footer class="footer pt-3  ">
-      <div class="container-fluid">
-        <div class="row align-items-center justify-content-lg-between">
-          <div class="col-lg-6 mb-lg-0 mb-4">
-<!--            <div class="copyright text-center text-sm text-muted text-lg-start">-->
-<!--              © <script>-->
-<!--                            document.write(new Date().getFullYear())-->
-<!--                        </script>,-->
-<!--              made with <i class="fa fa-heart"></i> by-->
-<!--              <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">Creative Tim</a>-->
-<!--              for a better web.-->
-<!--            </div>-->
-          </div>
-        </div>
-      </div>
-    </footer>
-  </div>
+
 </main>
 <div class="fixed-plugin">
   <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">

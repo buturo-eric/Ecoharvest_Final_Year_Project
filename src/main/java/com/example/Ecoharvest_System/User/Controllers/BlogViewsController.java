@@ -60,7 +60,10 @@ public class BlogViewsController {
             BlogViewModel blogView = new BlogViewModel(loggedInUser.getId(), id);
             blogViewService.saveBlogView(blogView);
 
-            model.addAttribute("blogPost", blogPost.get());
+            BlogPostModel post = blogPost.get();
+            String[] paragraphs = post.getContent().split("\n");
+            model.addAttribute("blogPost", post);
+            model.addAttribute("paragraphs", paragraphs);
             return "User/Blog"; // Path to the Thymeleaf template for viewing a blog post
         } else {
             // Handle the case where the blog post is not found
