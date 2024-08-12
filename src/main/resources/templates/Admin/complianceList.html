@@ -15,7 +15,7 @@
     <link href="css/theme.css" rel="stylesheet" />
     <link href="css/nucleo-svg.css" rel="stylesheet" />
     <!-- Font Awesome Icons -->
-    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/26ee22418b.js" crossorigin="anonymous"></script>
     <link href="css/nucleo-svg.css" rel="stylesheet" />
     <!-- CSS Files -->
     <link id="pagestyle" href="css/soft-ui-dashboard.css?v=1.0.7" rel="stylesheet" />
@@ -24,6 +24,7 @@
     <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
@@ -243,11 +244,14 @@
         <div class="card">
             <div class="card-header pb-0">
                 <h6>Compliance Records</h6>
-                <a th:href="@{/createCompliance}" class="btn btn-primary">Create New Compliance</a>
+                <div class="card-header d-flex justify-content-between align-items-center pb-0">
+                    <a th:href="@{/createCompliance}" class="btn btn-primary">Create New Compliance</a>
+                    <button onclick="exportTableToExcel('complianceTable', 'compliance-data')" class="btn btn-outline-success">Export to Excel</button>
+                </div>
             </div>
             <div class="card-body px-0 pt-0 pb-2">
                 <div class="table-responsive p-0">
-                    <table class="table align-items-center mb-0">
+                    <table id="complianceTable" class="table align-items-center mb-0">
                         <thead>
                         <tr>
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Featured Image</th>
@@ -290,6 +294,66 @@
 <script src="js/plugins/chartjs.min.js"></script>
 <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
 <script src="js/soft-ui-dashboard.min.js?v=1.0.7"></script>
+
+<!--Download Report as Excel-->
+<script>
+    function exportTableToExcel(tableId, filename = ''){
+        const table = document.getElementById(tableId);
+        const ws = XLSX.utils.table_to_sheet(table, {
+            skipHeader: true  // Ensure header is skipped in processing to handle manually
+        });
+
+        // Removing the first and last columns from each row
+        let range = XLSX.utils.decode_range(ws['!ref']);
+        for(let R = range.s.r; R <= range.e.r; ++R) {
+            for(let C = range.s.c; C <= range.e.c; ++C) {
+                if (C === 0 || C === range.e.c) {  // First column (Featured Image) and last column (Actions)
+                    delete ws[XLSX.utils.encode_cell({r: R, c: C})];
+                } else {
+                    // Shifting cells left to fill the gap from the removed first column
+                    const newC = C - 1; // Shift all columns left by one
+                    if(newC < range.e.c - 1) { // Adjust only if the new column index is within the new range
+                        const cell_address = {c: newC, r: R};
+                        const cell_ref = XLSX.utils.encode_cell(cell_address);
+                        const original_cell_ref = XLSX.utils.encode_cell({c: C, r: R});
+                        ws[cell_ref] = ws[original_cell_ref];
+                        delete ws[original_cell_ref];
+                    }
+                }
+            }
+        }
+
+        // Adjusting the range of the worksheet to exclude the first and last columns
+        range.e.c -= 2;  // Decrease by two to exclude both columns
+        ws['!ref'] = XLSX.utils.encode_range(range);
+
+        // Defining column widths, excluding the first and last columns
+        const wscols = [
+            {wch: 20},
+            {wch: 50},
+            {wch: 15},
+            {wch: 15}
+        ];
+        ws['!cols'] = wscols;
+
+        // Applying styles to header cells
+        for(let C = range.s.c; C <= range.e.c; ++C) {
+            var cell_address = {c:C, r:0};  // Header row is 0
+            var cell_ref = XLSX.utils.encode_cell(cell_address);
+            if(!ws[cell_ref]) continue;
+            ws[cell_ref].s = {
+                fill: { fgColor: {rgb: "CCFFCC"} },
+                font: { bold: true },
+                alignment: { horizontal: "center" }
+            };
+        }
+
+        let wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+        XLSX.writeFile(wb, filename + '.xlsx');
+    }
+</script>
+
 </body>
 
 </html>
