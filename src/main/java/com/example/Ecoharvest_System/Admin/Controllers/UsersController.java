@@ -123,37 +123,30 @@ public class UsersController {
     }
 
     @PostMapping("/loginUser")
-    public String loginUser(@ModelAttribute("userModel") UsersModel usersModel, Model model, HttpSession session){
+    public String loginUser(@ModelAttribute("userModel") UsersModel usersModel, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
         UsersModel loginUser = usersService.userLogin(usersModel);
 
         if (loginUser != null) {
             switch (loginUser.getRole()) {
                 case ADMIN:
-                    model.addAttribute("success", "Admin Logged in");
-                    session.setAttribute("loggedInUser", loginUser); // Corrected attribute name
-                    System.out.println("Admin logged in");
+                    session.setAttribute("loggedInUser", loginUser);
                     return "redirect:/adminDashboard";
                 case USER:
-                    model.addAttribute("success", "User Logged in");
-                    session.setAttribute("loggedInUser", loginUser); // Corrected attribute name
-                    System.out.println("User logged in");
+                    session.setAttribute("loggedInUser", loginUser);
                     return "redirect:/userDashboard";
                 case Compliance:
-                    model.addAttribute("success", "Compliance Logged in");
-                    session.setAttribute("loggedInUser", loginUser); // Corrected attribute name
-                    System.out.println("Compliance logged in");
+                    session.setAttribute("loggedInUser", loginUser);
                     return "redirect:/ComplianceDashboard";
                 default:
-                    model.addAttribute("error", "Role doesn't Exist");
-                    System.out.println("Role doesn't exist");
+                    redirectAttributes.addFlashAttribute("error", "Role doesn't Exist");
                     return "redirect:/login";
             }
         } else {
-            model.addAttribute("error", "Invalid email or password");
-            System.out.println("Invalid email or password");
+            redirectAttributes.addFlashAttribute("error", "Invalid email or password");
             return "redirect:/login";
         }
     }
+
 
     @GetMapping("/logout")
     public String logout(HttpSession session, RedirectAttributes redirectAttributes){
