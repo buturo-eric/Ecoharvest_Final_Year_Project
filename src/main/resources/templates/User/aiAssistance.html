@@ -365,7 +365,7 @@
                 </form>
                 <div class="card result-card" id="yieldResultCard">
                     <div class="card-body">
-                        <h5 class="card-title">Yield Prediction Result Per Acre</h5>
+                        <h5 class="card-title">Yield Prediction Result Per Hectare</h5>
                         <p class="card-text" id="yieldResult"></p>
                         <p class="card-text">This prediction provides an estimate of the crop yield based on the given input parameters. Ensure that the input values are accurate for the most reliable results.</p>
                         <h6 class="card-title">Kinyarwanda</h6>
@@ -460,7 +460,7 @@ document.getElementById('yieldForm').addEventListener('submit', function(event) 
         }
     }).then(response => response.json())
       .then(data => {
-          document.getElementById('yieldResult').innerText = 'Predicted Yield Per Acre: ' + data;
+          document.getElementById('yieldResult').innerText = 'Predicted Yield Per Hectare: ' + data.toFixed(1) + ' Tons';
           document.getElementById('yieldResultCard').style.display = 'block';
       });
 });

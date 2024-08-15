@@ -19,7 +19,7 @@ public class MessageModel {
     @JoinColumn(name = "user_id", nullable = false)
     private UsersModel user;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "LONGTEXT")
     private String message;
 
     @Column(name = "date_time", nullable = false)
